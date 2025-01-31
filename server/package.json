@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Buy ghana server ",
+  "description": "Event.IO server",
   "main": "index.ts",
   "scripts": {
     "build": "tsc",

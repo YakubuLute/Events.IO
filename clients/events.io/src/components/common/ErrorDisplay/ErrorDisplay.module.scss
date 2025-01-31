@@ -1,0 +1,52 @@
+.root {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--mantine-spacing-xl);
+
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.label {
+    text-align: center;
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 1;
+    margin-bottom: calc(1.5 * var(--mantine-spacing-xl));
+    color: var(--tk-color-text);
+
+}
+
+.description {
+    max-width: 500px;
+    margin: var(--mantine-spacing-xl) auto calc(1.5 * var(--mantine-spacing-xl));
+}
+
+.title {
+    font-family:
+            Greycliff CF,
+            var(--mantine-font-family);
+    text-align: center;
+    font-weight: 900;
+    font-size:38px;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--mantine-spacing-xl);
+
+    .link {
+        font-weight: 900;
+        margin: 0 var(--mantine-spacing-xs);
+    }
+}
