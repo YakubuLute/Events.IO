@@ -1,14 +1,14 @@
 import {Button, PasswordInput, TextInput} from "@mantine/core";
 import {hasLength, isEmail, matchesField, useForm} from "@mantine/form";
-import {RegisterAccountRequest} from "../../../../types.ts";
-import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler.tsx";
-import {useRegisterAccount} from "../../../../mutations/useRegisterAccount.ts";
+import {RegisterAccountRequest} from "../../../../types";
+import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler";
+import {useRegisterAccount} from "../../../../mutations/useRegisterAccount";
 import {NavLink, useNavigate} from "react-router-dom";
 import {t, Trans} from "@lingui/macro";
 import {InputGroup} from "../../../common/InputGroup";
 import {Card} from "../../../common/Card";
 import classes from "./Register.module.scss";
-import {getClientLocale} from "../../../../locales.ts";
+import {getClientLocale} from "../../../../locales";
 
 export const Register = () => {
     const navigate = useNavigate();
