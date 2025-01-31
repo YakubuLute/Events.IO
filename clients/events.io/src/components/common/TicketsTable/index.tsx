@@ -13,11 +13,11 @@ import {
 } from '@dnd-kit/core';
 import {SortableContext, verticalListSortingStrategy,} from '@dnd-kit/sortable';
 import {Ticket, Event} from "../../../types";
-import {useSortTickets} from "../../../mutations/useSortTickets.ts";
+import {useSortTickets} from "../../../mutations/useSortTickets";
 import {useParams} from "react-router-dom";
-import {showError, showSuccess} from "../../../utilites/notifications.tsx";
+import {showError, showSuccess} from "../../../utilites/notifications";
 import {SortableTicket} from "./SortableTicket";
-import {useDragItemsHandler} from "../../../hooks/useDragItemsHandler.ts";
+import {useDragItemsHandler} from "../../../hooks/useDragItemsHandler";
 import {Button} from "@mantine/core";
 import {IconPlus} from "@tabler/icons-react";
 

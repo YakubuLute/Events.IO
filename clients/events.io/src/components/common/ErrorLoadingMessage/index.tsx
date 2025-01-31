@@ -1,7 +1,7 @@
 import {t} from "@lingui/macro";
 import {AxiosError} from "axios";
 import {useEffect} from "react";
-import {showError} from "../../../utilites/notifications.tsx";
+import {showError} from "../../../utilites/notifications";
 
 interface ErrorLoadingMessageProps {
     error?: AxiosError;

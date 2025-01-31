@@ -1,17 +1,17 @@
-import {CheckInListRequest, GenericModalProps, IdParam, Ticket} from "../../../types.ts";
+import {CheckInListRequest, GenericModalProps, IdParam, Ticket} from "../../../types";
 import {Modal} from "../../common/Modal";
 import {t} from "@lingui/macro";
 import {CheckInListForm} from "../../forms/CheckInListForm";
 import {useForm} from "@mantine/form";
 import {Alert, Button, Center, Loader} from "@mantine/core";
-import {showSuccess} from "../../../utilites/notifications.tsx";
+import {showSuccess} from "../../../utilites/notifications";
 import {useParams} from "react-router-dom";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
-import {useGetEvent} from "../../../queries/useGetEvent.ts";
-import {useEditCheckInList} from "../../../mutations/useEditCheckInList.ts";
-import {useGetEventCheckInList} from "../../../queries/useGetCheckInList.ts";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useGetEvent} from "../../../queries/useGetEvent";
+import {useEditCheckInList} from "../../../mutations/useEditCheckInList";
+import {useGetEventCheckInList} from "../../../queries/useGetCheckInList";
 import {useEffect} from "react";
-import {utcToTz} from "../../../utilites/dates.ts";
+import {utcToTz} from "../../../utilites/dates";
 
 interface EditCheckInListModalProps {
     checkInListId: IdParam;

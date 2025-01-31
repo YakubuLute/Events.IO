@@ -1,6 +1,6 @@
 import {t} from "@lingui/macro";
 import {Anchor, Badge, Button, Group, Menu, Table as MantineTable, Tooltip} from '@mantine/core';
-import {Event, IdParam, MessageType, Order} from "../../../types.ts";
+import {Event, IdParam, MessageType, Order} from "../../../types";
 import {
     IconCheck,
     IconDotsVertical,
@@ -11,7 +11,7 @@ import {
     IconSend,
     IconTrash
 } from "@tabler/icons-react";
-import {prettyDate, relativeDate} from "../../../utilites/dates.ts";
+import {prettyDate, relativeDate} from "../../../utilites/dates";
 import {ViewOrderModal} from "../../modals/ViewOrderModal";
 import {useDisclosure} from "@mantine/hooks";
 import {useState} from "react";
@@ -24,11 +24,11 @@ import {RefundOrderModal} from "../../modals/RefundOrderModal";
 import classes from "./OrdersTable.module.scss";
 import {Card} from "../Card";
 import {Table, TableHead} from "../Table";
-import {ShowForDesktop, ShowForMobile} from "../Responsive/ShowHideComponents.tsx";
-import {useResendOrderConfirmation} from "../../../mutations/useResendOrderConfirmation.ts";
+import {ShowForDesktop, ShowForMobile} from "../Responsive/ShowHideComponents";
+import {useResendOrderConfirmation} from "../../../mutations/useResendOrderConfirmation";
 import {OrderStatusBadge} from "../OrderStatusBadge";
-import {formatNumber} from "../../../utilites/helpers.ts";
-import {useUrlHash} from "../../../hooks/useUrlHash.ts";
+import {formatNumber} from "../../../utilites/helpers";
+import {useUrlHash} from "../../../hooks/useUrlHash";
 
 interface OrdersTableProps {
     event: Event,
