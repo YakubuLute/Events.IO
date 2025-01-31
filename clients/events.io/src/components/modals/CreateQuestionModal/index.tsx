@@ -1,16 +1,16 @@
 import {Button} from "@mantine/core";
-import {GenericModalProps, Question, QuestionRequestData, QuestionType} from "../../../types.ts";
+import {GenericModalProps, Question, QuestionRequestData, QuestionType} from "../../../types";
 import {useForm} from "@mantine/form";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {notifications} from "@mantine/notifications";
 import {useParams} from "react-router-dom";
-import {questionClient} from "../../../api/question.client.ts";
-import {useGetEvent} from "../../../queries/useGetEvent.ts";
-import {GET_EVENT_QUESTIONS_QUERY_KEY} from "../../../queries/useGetEventQuestions.ts";
+import {questionClient} from "../../../api/question.client";
+import {useGetEvent} from "../../../queries/useGetEvent";
+import {GET_EVENT_QUESTIONS_QUERY_KEY} from "../../../queries/useGetEventQuestions";
 import {Modal} from "../../common/Modal";
 import {t} from "@lingui/macro";
 import {QuestionForm} from "../../forms/QuestionForm";
-import {showError} from "../../../utilites/notifications.tsx";
+import {showError} from "../../../utilites/notifications";
 
 interface CreateQuestionModalProps extends GenericModalProps {
     onCompleted: (question: Question) => void;

@@ -1,14 +1,14 @@
-import {CheckInListRequest, GenericModalProps, Ticket} from "../../../types.ts";
+import {CheckInListRequest, GenericModalProps, Ticket} from "../../../types";
 import {Modal} from "../../common/Modal";
 import {t} from "@lingui/macro";
 import {CheckInListForm} from "../../forms/CheckInListForm";
 import {useForm} from "@mantine/form";
 import {Button} from "@mantine/core";
-import {useCreateCheckInList} from "../../../mutations/useCreateCheckInList.ts";
-import {showSuccess} from "../../../utilites/notifications.tsx";
+import {useCreateCheckInList} from "../../../mutations/useCreateCheckInList";
+import {showSuccess} from "../../../utilites/notifications";
 import {useParams} from "react-router-dom";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
-import {useGetEvent} from "../../../queries/useGetEvent.ts";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useGetEvent} from "../../../queries/useGetEvent";
 import {NoResultsSplash} from "../../common/NoResultsSplash";
 import {IconPlus} from "@tabler/icons-react";
 

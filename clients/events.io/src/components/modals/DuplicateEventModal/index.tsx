@@ -1,17 +1,17 @@
 import {t} from "@lingui/macro";
-import {EventDuplicatePayload, GenericModalProps, IdParam} from "../../../types.ts";
+import {EventDuplicatePayload, GenericModalProps, IdParam} from "../../../types";
 import {Button, Switch, TextInput} from "@mantine/core";
 import {Modal} from "../../common/Modal";
 import {useForm} from "@mantine/form";
-import {useDuplicateEvent} from "../../../mutations/useDuplicateEvent.ts";
+import {useDuplicateEvent} from "../../../mutations/useDuplicateEvent";
 import {Editor} from "../../common/Editor";
 import {InputGroup} from "../../common/InputGroup";
-import {useGetEvent} from "../../../queries/useGetEvent.ts";
+import {useGetEvent} from "../../../queries/useGetEvent";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {utcToTz} from "../../../utilites/dates.ts";
-import {showSuccess} from "../../../utilites/notifications.tsx";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
+import {utcToTz} from "../../../utilites/dates";
+import {showSuccess} from "../../../utilites/notifications";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
 import {Card} from "../../common/Card";
 
 interface DuplicateEventModalProps extends GenericModalProps {

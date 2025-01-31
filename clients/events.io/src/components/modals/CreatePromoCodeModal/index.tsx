@@ -1,12 +1,12 @@
-import {GenericModalProps, PromoCode, PromoCodeDiscountType} from "../../../types.ts";
+import {GenericModalProps, PromoCode, PromoCodeDiscountType} from "../../../types";
 import {hasLength, useForm} from "@mantine/form";
 import {useParams} from "react-router-dom";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
 import {PromoCodeForm} from "../../forms/PromoCodeForm";
 import {Modal} from "../../common/Modal";
 import {Button} from "../../common/Button";
-import {useCreatePromoCode} from "../../../mutations/useCreatePromoCode.ts";
-import {showSuccess} from "../../../utilites/notifications.tsx";
+import {useCreatePromoCode} from "../../../mutations/useCreatePromoCode";
+import {showSuccess} from "../../../utilites/notifications";
 import {t} from "@lingui/macro";
 
 export const CreatePromoCodeModal = ({onClose}: GenericModalProps) => {
