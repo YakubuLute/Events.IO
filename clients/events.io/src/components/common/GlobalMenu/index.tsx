@@ -1,13 +1,13 @@
 import {Avatar, Menu, UnstyledButton} from "@mantine/core";
-import {getInitials} from "../../../utilites/helpers.ts";
+import {getInitials} from "../../../utilites/helpers";
 import {IconLifebuoy, IconLogout, IconSettingsCog, IconUser,} from "@tabler/icons-react";
-import {useGetMe} from "../../../queries/useGetMe.ts";
+import {useGetMe} from "../../../queries/useGetMe";
 import {NavLink} from "react-router-dom";
 import {t} from "@lingui/macro";
-import {authClient} from "../../../api/auth.client.ts";
+import {authClient} from "../../../api/auth.client";
 import {useDisclosure} from "@mantine/hooks";
-import {AboutModal} from "../../modals/AboutModal/index.tsx";
-import {getConfig} from "../../../utilites/config.ts";
+import {AboutModal} from "../../modals/AboutModal/index";
+import {getConfig} from "../../../utilites/config";
 
 interface Link {
     label: string;

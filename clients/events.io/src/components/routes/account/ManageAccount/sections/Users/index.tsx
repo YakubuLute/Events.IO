@@ -1,20 +1,20 @@
-import {useGetUsers} from "../../../../../../queries/useGetUsers.ts";
+import {useGetUsers} from "../../../../../../queries/useGetUsers";
 import {Avatar, Badge, Button, Group, Menu, Table, Text} from "@mantine/core";
 import classes from "./Users.module.scss";
 import {IconDotsVertical, IconEye, IconSend, IconUser, IconUserShield} from "@tabler/icons-react";
-import {getInitials} from "../../../../../../utilites/helpers.ts";
+import {getInitials} from "../../../../../../utilites/helpers";
 import {t} from "@lingui/macro";
 import {Card} from "../../../../../common/Card";
 import {HeadingCard} from "../../../../../common/HeadingCard";
-import {relativeDate} from "../../../../../../utilites/dates.ts";
+import {relativeDate} from "../../../../../../utilites/dates";
 import {useDisclosure} from "@mantine/hooks";
 import {InviteUserModal} from "../../../../../modals/InviteUserModal";
 import {EditUserModal} from "../../../../../modals/EditUserModal";
-import {User} from "../../../../../../types.ts";
+import {User} from "../../../../../../types";
 import {useState} from "react";
-import {useResendUserInvitation} from "../../../../../../mutations/useResendUserInvitation.ts";
-import {showError, showSuccess} from "../../../../../../utilites/notifications.tsx";
-import {useDeleteUserInvitation} from "../../../../../../mutations/useDeleteUserInvitation.ts";
+import {useResendUserInvitation} from "../../../../../../mutations/useResendUserInvitation";
+import {showError, showSuccess} from "../../../../../../utilites/notifications";
+import {useDeleteUserInvitation} from "../../../../../../mutations/useDeleteUserInvitation";
 import {LoadingMask} from "../../../../../common/LoadingMask";
 
 const Users = () => {

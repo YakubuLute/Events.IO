@@ -1,5 +1,5 @@
 import {ActionIcon, Button,} from '@mantine/core';
-import {Event, IdParam} from "../../../types.ts";
+import {Event, IdParam} from "../../../types";
 import classes from "./EventCard.module.scss";
 import {Card} from "../Card";
 import {NavLink, useNavigate} from "react-router-dom";
@@ -16,18 +16,18 @@ import {
     IconWorld,
 } from "@tabler/icons-react";
 import {t} from "@lingui/macro"
-import {eventHomepagePath} from "../../../utilites/urlHelper.ts";
+import {eventHomepagePath} from "../../../utilites/urlHelper";
 import {EventStatusBadge} from "../EventStatusBadge";
 import {useDisclosure} from "@mantine/hooks";
 import {DuplicateEventModal} from "../../modals/DuplicateEventModal";
 import {useState} from "react";
-import {ActionMenu, MenuItem} from '../ActionMenu/index.tsx';
-import {confirmationDialog} from "../../../utilites/confirmationDialog.tsx";
-import {showError, showSuccess} from "../../../utilites/notifications.tsx";
-import {useUpdateEventStatus} from "../../../mutations/useUpdateEventStatus.ts";
-import {formatCurrency} from "../../../utilites/currency.ts";
-import {formatNumber} from "../../../utilites/helpers.ts";
-import {formatDate} from "../../../utilites/dates.ts";
+import {ActionMenu, MenuItem} from '../ActionMenu/index';
+import {confirmationDialog} from "../../../utilites/confirmationDialog";
+import {showError, showSuccess} from "../../../utilites/notifications";
+import {useUpdateEventStatus} from "../../../mutations/useUpdateEventStatus";
+import {formatCurrency} from "../../../utilites/currency";
+import {formatNumber} from "../../../utilites/helpers";
+import {formatDate} from "../../../utilites/dates";
 
 const NUMBER_OF_THUMBNAILS = 10;
 

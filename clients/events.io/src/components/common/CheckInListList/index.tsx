@@ -21,8 +21,8 @@ import {ActionMenu} from "../ActionMenu";
 import {useDisclosure} from "@mantine/hooks";
 import {EditCheckInListModal} from "../../modals/EditCheckInListModal";
 import {useDeleteCheckInList} from "../../../mutations/useDeleteCheckInList";
-import {showError, showSuccess} from "../../../utilites/notifications.tsx";
-import {confirmationDialog} from "../../../utilites/confirmationDialog.tsx";
+import {showError, showSuccess} from "../../../utilites/notifications";
+import {confirmationDialog} from "../../../utilites/confirmationDialog";
 import { useParams } from "react-router-dom";
 
 interface CheckInListListProps {

@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useGetAttendees} from "../../../queries/useGetAttendees.ts";
+import {useGetAttendees} from "../../../queries/useGetAttendees";
 import {PageTitle} from "../../common/PageTitle";
 import {PageBody} from "../../common/PageBody";
 import {AttendeeTable} from "../../common/AttendeeTable";
@@ -9,15 +9,15 @@ import {Button} from "@mantine/core";
 import {IconDownload, IconPlus} from "@tabler/icons-react";
 import {ToolBar} from "../../common/ToolBar";
 import {TableSkeleton} from "../../common/TableSkeleton";
-import {useFilterQueryParamSync} from "../../../hooks/useFilterQueryParamSync.ts";
-import {IdParam, QueryFilters} from "../../../types.ts";
+import {useFilterQueryParamSync} from "../../../hooks/useFilterQueryParamSync";
+import {IdParam, QueryFilters} from "../../../types";
 import {useDisclosure} from "@mantine/hooks";
 import {CreateAttendeeModal} from "../../modals/CreateAttendeeModal";
-import {downloadBinary} from "../../../utilites/download.ts";
-import {attendeesClient} from "../../../api/attendee.client.ts";
+import {downloadBinary} from "../../../utilites/download";
+import {attendeesClient} from "../../../api/attendee.client";
 import {useState} from "react";
 import {t} from "@lingui/macro";
-import {showError} from "../../../utilites/notifications.tsx";
+import {showError} from "../../../utilites/notifications";
 
 const Attendees = () => {
     const {eventId} = useParams();

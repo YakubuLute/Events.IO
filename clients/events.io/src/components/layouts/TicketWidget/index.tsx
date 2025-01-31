@@ -1,6 +1,6 @@
 import {useLocation, useParams} from "react-router-dom";
 import '../../../styles/widget/default.scss';
-import {useGetEventPublic} from "../../../queries/useGetEventPublic.ts";
+import {useGetEventPublic} from "../../../queries/useGetEventPublic";
 import SelectTickets from "../../routes/ticket-widget/SelectTickets";
 import {useMemo} from "react";
 import {Loader} from "@mantine/core";

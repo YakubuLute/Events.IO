@@ -1,18 +1,18 @@
 import {t} from "@lingui/macro";
-import {Event, PromoCode, PromoCodeDiscountType} from "../../../types.ts";
-import {prettyDate, relativeDate} from "../../../utilites/dates.ts";
+import {Event, PromoCode, PromoCodeDiscountType} from "../../../types";
+import {prettyDate, relativeDate} from "../../../utilites/dates";
 import {Badge, Button, Flex, Group, Menu, Table as MantineTable, Tooltip} from "@mantine/core";
 import {Table, TableHead} from "../Table";
 import {IconCheck, IconCopy, IconDotsVertical, IconPlus, IconSend, IconTrash} from "@tabler/icons-react";
 import {Currency} from "../Currency";
 import {useClipboard, useDisclosure} from "@mantine/hooks";
-import {showSuccess} from "../../../utilites/notifications.tsx";
+import {showSuccess} from "../../../utilites/notifications";
 import {EditPromoCodeModal} from "../../modals/EditPromoCodeModal";
 import {useState} from "react";
 import {NoResultsSplash} from "../NoResultsSplash";
-import {confirmationDialog} from "../../../utilites/confirmationDialog.tsx";
-import {useDeletePromoCode} from "../../../mutations/useDeletePromoCode.ts";
-import {eventHomepageUrl} from "../../../utilites/urlHelper.ts";
+import {confirmationDialog} from "../../../utilites/confirmationDialog";
+import {useDeletePromoCode} from "../../../mutations/useDeletePromoCode";
+import {eventHomepageUrl} from "../../../utilites/urlHelper";
 
 interface PromoCodeTableProps {
     event: Event,

@@ -1,11 +1,11 @@
 import classes from './HomepageDesigner.module.scss';
 import {useParams} from "react-router-dom";
-import {useGetEventSettings} from "../../../../queries/useGetEventSettings.ts";
-import {useUpdateEventSettings} from "../../../../mutations/useUpdateEventSettings.ts";
-import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler.tsx";
+import {useGetEventSettings} from "../../../../queries/useGetEventSettings";
+import {useUpdateEventSettings} from "../../../../mutations/useUpdateEventSettings";
+import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler";
 import {useEffect} from "react";
-import {EventSettings} from "../../../../types.ts";
-import {showSuccess} from "../../../../utilites/notifications.tsx";
+import {EventSettings} from "../../../../types";
+import {showSuccess} from "../../../../utilites/notifications";
 import {t} from "@lingui/macro";
 import {useForm} from "@mantine/form";
 import {Button, ColorInput, Group, TextInput} from "@mantine/core";
@@ -13,10 +13,10 @@ import {CoverUpload} from "./CoverUpload";
 import {IconColorPicker, IconHelp, IconPhoto} from "@tabler/icons-react";
 import {Tooltip} from "../../../common/Tooltip";
 import EventHomepage from "../../../layouts/EventHomepage";
-import {useGetEventPublic} from '../../../../queries/useGetEventPublic.ts';
+import {useGetEventPublic} from '../../../../queries/useGetEventPublic';
 import {LoadingMask} from '../../../common/LoadingMask';
 import {CustomSelect} from "../../../common/CustomSelect";
-import {useGetEventImages} from "../../../../queries/useGetEventImages.ts";
+import {useGetEventImages} from "../../../../queries/useGetEventImages";
 
 const HomepageDesigner = () => {
     const {eventId} = useParams();

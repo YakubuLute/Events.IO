@@ -5,12 +5,12 @@ import {Button} from "@mantine/core";
 import classes from "./GettingStarted.module.scss";
 import {useParams} from "react-router-dom";
 import {IconCheck} from "@tabler/icons-react";
-import {useGetEvent} from "../../../../queries/useGetEvent.ts";
-import {useGetEventImages} from "../../../../queries/useGetEventImages.ts";
+import {useGetEvent} from "../../../../queries/useGetEvent";
+import {useGetEventImages} from "../../../../queries/useGetEventImages";
 import {Tooltip} from "../../../common/Tooltip";
-import {useGetAccount} from "../../../../queries/useGetAccount.ts";
-import {useUpdateEventStatus} from "../../../../mutations/useUpdateEventStatus.ts";
-import {showError, showSuccess} from "../../../../utilites/notifications.tsx";
+import {useGetAccount} from "../../../../queries/useGetAccount";
+import {useUpdateEventStatus} from "../../../../mutations/useUpdateEventStatus";
+import {showError, showSuccess} from "../../../../utilites/notifications";
 
 const GettingStarted = () => {
     const {eventId} = useParams();

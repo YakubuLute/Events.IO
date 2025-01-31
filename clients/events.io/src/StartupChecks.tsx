@@ -1,6 +1,6 @@
-import {useGetMe} from "./queries/useGetMe.ts";
+import {useGetMe} from "./queries/useGetMe";
 import {useEffect} from "react";
-import {dynamicActivateLocale, getClientLocale} from "./locales.ts";
+import {dynamicActivateLocale, getClientLocale} from "./locales";
 
 export const StartupChecks = () => {
     const meQuery = useGetMe();

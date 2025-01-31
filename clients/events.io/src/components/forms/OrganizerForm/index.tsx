@@ -1,16 +1,16 @@
-import {useCreateOrganizer} from "../../../mutations/useCreateOrganizer.ts";
-import {useGetAccount} from "../../../queries/useGetAccount.ts";
+import {useCreateOrganizer} from "../../../mutations/useCreateOrganizer";
+import {useGetAccount} from "../../../queries/useGetAccount";
 import {useForm, UseFormReturnType} from "@mantine/form";
-import {Organizer} from "../../../types.ts";
+import {Organizer} from "../../../types";
 import {useEffect} from "react";
 import {LoadingContainer} from "../../common/LoadingContainer";
 import {t} from "@lingui/macro";
 import {InputGroup} from "../../common/InputGroup";
 import {Button, Group, Select, TextInput} from "@mantine/core";
-import {currencies} from "../../../../data/currencies.ts";
-import {timezones} from "../../../../data/timezones.ts";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
-import {useGetMe} from "../../../queries/useGetMe.ts";
+import {currencies} from "../../../../data/currencies";
+import {timezones} from "../../../../data/timezones";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useGetMe} from "../../../queries/useGetMe";
 
 interface OrganizerFormProps {
     onSuccess?: (organizer: Organizer) => void;

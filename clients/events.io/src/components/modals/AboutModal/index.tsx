@@ -1,5 +1,5 @@
 import {Modal} from "../../common/Modal";
-import {GenericModalProps} from "../../../types.ts";
+import {GenericModalProps} from "../../../types";
 import classes from "./AboutModal.module.scss";
 
 export const AboutModal = ({onClose}: GenericModalProps) => {

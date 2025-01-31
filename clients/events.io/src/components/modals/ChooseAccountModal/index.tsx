@@ -1,6 +1,6 @@
 import {Modal} from "../../common/Modal";
 import {t} from "@lingui/macro";
-import {Account, IdParam} from "../../../types.ts";
+import {Account, IdParam} from "../../../types";
 import classes from "./ChooseAccountModal.module.scss";
 
 interface ChooseAccountModalProps {

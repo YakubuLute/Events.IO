@@ -19,23 +19,23 @@ import {
     TicketFormPayload,
     TicketFormValue,
     TicketPriceQuantityFormValue
-} from "../../../../api/order.client.ts";
+} from "../../../../api/order.client";
 import {useForm} from "@mantine/form";
 import {range, useInputState, useResizeObserver} from "@mantine/hooks";
 import React, {useEffect, useMemo, useRef, useState} from "react";
-import {showError, showInfo, showSuccess} from "../../../../utilites/notifications.tsx";
-import {addQueryStringToUrl, isObjectEmpty, removeQueryStringFromUrl} from "../../../../utilites/helpers.ts";
+import {showError, showInfo, showSuccess} from "../../../../utilites/notifications";
+import {addQueryStringToUrl, isObjectEmpty, removeQueryStringFromUrl} from "../../../../utilites/helpers";
 import {TieredPricing} from "./Prices/Tiered";
 import classNames from 'classnames';
 import '../../../../styles/widget/default.scss';
 import {TicketAvailabilityMessage} from "../../../common/TicketPriceAvailability";
 import {PoweredByFooter} from "../../../common/PoweredByFooter";
-import {Event} from "../../../../types.ts";
-import {eventsClientPublic} from "../../../../api/event.client.ts";
-import {promoCodeClientPublic} from "../../../../api/promo-code.client.ts";
+import {Event} from "../../../../types";
+import {eventsClientPublic} from "../../../../api/event.client";
+import {promoCodeClientPublic} from "../../../../api/promo-code.client";
 import {IconChevronRight, IconX} from "@tabler/icons-react"
-import {getSessionIdentifier} from "../../../../utilites/sessionIdentifier.ts";
-import {Constants} from "../../../../constants.ts";
+import {getSessionIdentifier} from "../../../../utilites/sessionIdentifier";
+import {Constants} from "../../../../constants";
 
 const sendHeightToIframeWidgets = () => {
     const height = document.documentElement.scrollHeight;

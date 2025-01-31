@@ -1,14 +1,14 @@
 import {t} from "@lingui/macro";
 import {useParams} from "react-router-dom";
-import {useFormErrorResponseHandler} from "../../../../../hooks/useFormErrorResponseHandler.tsx";
-import {useGetEventImages} from "../../../../../queries/useGetEventImages.ts";
+import {useFormErrorResponseHandler} from "../../../../../hooks/useFormErrorResponseHandler";
+import {useGetEventImages} from "../../../../../queries/useGetEventImages";
 import {Dropzone, FileWithPath, IMAGE_MIME_TYPE} from '@mantine/dropzone';
 import {Anchor, Image as Img, LoadingOverlay, Tooltip} from '@mantine/core';
 import {useEffect, useState} from "react";
-import {useUploadEventImage} from "../../../../../mutations/useUploadEventImage.ts";
+import {useUploadEventImage} from "../../../../../mutations/useUploadEventImage";
 import {useForm} from "@mantine/form";
-import {showError, showSuccess} from "../../../../../utilites/notifications.tsx";
-import {useDeleteEventImage} from "../../../../../mutations/useDeleteEventImage.ts";
+import {showError, showSuccess} from "../../../../../utilites/notifications";
+import {useDeleteEventImage} from "../../../../../mutations/useDeleteEventImage";
 import classes from "./CoverUpload.module.scss";
 import {IconTrash} from "@tabler/icons-react";
 

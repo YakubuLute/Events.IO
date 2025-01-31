@@ -1,14 +1,14 @@
 import {Alert, Anchor, Button, PasswordInput, Select, Switch, TextInput} from "@mantine/core";
 import {t, Trans} from "@lingui/macro";
-import {timezones} from "../../../../../data/timezones.ts";
+import {timezones} from "../../../../../data/timezones";
 import {useNavigate, useParams} from "react-router-dom";
 import {hasLength, isEmail, matchesField, useForm} from "@mantine/form";
-import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler.tsx";
-import {useGetInvitation} from "../../../../queries/useGetInvitation.ts";
+import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler";
+import {useGetInvitation} from "../../../../queries/useGetInvitation";
 import {useEffect} from "react";
-import {useAcceptInvitation} from "../../../../mutations/useAcceptInvitation.ts";
-import {showError, showSuccess} from "../../../../utilites/notifications.tsx";
-import {AcceptInvitationRequest} from "../../../../types.ts";
+import {useAcceptInvitation} from "../../../../mutations/useAcceptInvitation";
+import {showError, showSuccess} from "../../../../utilites/notifications";
+import {AcceptInvitationRequest} from "../../../../types";
 import {Card} from "../../../common/Card";
 
 const AcceptInvitation = () => {
