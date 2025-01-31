@@ -20,9 +20,9 @@ import '@mantine/tiptap/styles.css'
 import '@mantine/dropzone/styles.css'
 import '@mantine/charts/styles.css'
 import './styles/global.scss'
-import { isSsr } from './utilites/helpers.ts'
+import { isSsr } from './utilites/helpers'
 import { dynamicActivateLocale, getSupportedLocale } from './locales'
-import { StartupChecks } from './StartupChecks.tsx'
+import { StartupChecks } from './StartupChecks'
 
 declare global {
   interface Window {
