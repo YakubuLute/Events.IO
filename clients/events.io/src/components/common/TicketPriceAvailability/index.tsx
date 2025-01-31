@@ -1,7 +1,7 @@
-import {Event, Ticket, TicketPrice} from "../../../types.ts";
+import {Event, Ticket, TicketPrice} from "../../../types";
 import {t} from "@lingui/macro";
 import {Tooltip} from "@mantine/core";
-import {prettyDate, relativeDate} from "../../../utilites/dates.ts";
+import {prettyDate, relativeDate} from "../../../utilites/dates";
 import {IconInfoCircle} from "@tabler/icons-react";
 
 const TicketPriceSaleDateMessage = ({price, event}: { price: TicketPrice, event: Event }) => {

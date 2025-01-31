@@ -1,9 +1,9 @@
 import {Navigate, RouteObject} from "react-router-dom";
-import ErrorPage from "./error-page.tsx";
-import {eventsClientPublic} from "./api/event.client.ts";
-import {promoCodeClientPublic} from "./api/promo-code.client.ts";
+import ErrorPage from "./error-page";
+import {eventsClientPublic} from "./api/event.client";
+import {promoCodeClientPublic} from "./api/promo-code.client";
 import {useEffect, useState} from "react";
-import {useGetMe} from "./queries/useGetMe.ts";
+import {useGetMe} from "./queries/useGetMe";
 
 const Root = () => {
     const [redirectPath, setRedirectPath] = useState<string | null>(null);

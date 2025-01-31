@@ -1,7 +1,7 @@
 import {Anchor, Avatar, Badge, Button, Table as MantineTable,} from '@mantine/core';
-import {Attendee, MessageType} from "../../../types.ts";
+import {Attendee, MessageType} from "../../../types";
 import {IconEye, IconMailForward, IconPencil, IconPlus, IconSend, IconTrash} from "@tabler/icons-react";
-import {getInitials, getTicketFromEvent} from "../../../utilites/helpers.ts";
+import {getInitials, getTicketFromEvent} from "../../../utilites/helpers";
 import {Table, TableHead} from "../Table";
 import {useDisclosure} from "@mantine/hooks";
 import {SendMessageModal} from "../../modals/SendMessageModal";
@@ -9,16 +9,16 @@ import {useState} from "react";
 import {NoResultsSplash} from "../NoResultsSplash";
 import {useParams} from "react-router-dom";
 import {EditAttendeeModal} from "../../modals/EditAttendeeModal";
-import {useGetEvent} from "../../../queries/useGetEvent.ts";
+import {useGetEvent} from "../../../queries/useGetEvent";
 import Truncate from "../Truncate";
 import {notifications} from "@mantine/notifications";
-import {useModifyAttendee} from "../../../mutations/useModifyAttendee.ts";
-import {showError, showSuccess} from "../../../utilites/notifications.tsx";
+import {useModifyAttendee} from "../../../mutations/useModifyAttendee";
+import {showError, showSuccess} from "../../../utilites/notifications";
 import {t, Trans} from "@lingui/macro";
-import {confirmationDialog} from "../../../utilites/confirmationDialog.tsx";
-import {useResendAttendeeTicket} from "../../../mutations/useResendAttendeeTicket.ts";
+import {confirmationDialog} from "../../../utilites/confirmationDialog";
+import {useResendAttendeeTicket} from "../../../mutations/useResendAttendeeTicket";
 import {ViewAttendeeModal} from "../../modals/ViewAttendeeModal";
-import {ActionMenu} from '../ActionMenu/index.tsx';
+import {ActionMenu} from '../ActionMenu/index';
 
 interface AttendeeTableProps {
     attendees: Attendee[];

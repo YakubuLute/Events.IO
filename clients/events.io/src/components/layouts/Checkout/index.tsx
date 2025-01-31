@@ -1,11 +1,11 @@
 import {Outlet, useNavigate, useParams} from "react-router-dom";
-import {useGetEventPublic} from "../../../queries/useGetEventPublic.ts";
+import {useGetEventPublic} from "../../../queries/useGetEventPublic";
 import classes from './Checkout.module.scss';
-import {useGetOrderPublic} from "../../../queries/useGetOrderPublic.ts";
+import {useGetOrderPublic} from "../../../queries/useGetOrderPublic";
 import {t} from "@lingui/macro";
 import {Countdown} from "../../common/Countdown";
-import {showSuccess} from "../../../utilites/notifications.tsx";
-import {Event, Order} from "../../../types.ts";
+import {showSuccess} from "../../../utilites/notifications";
+import {Event, Order} from "../../../types";
 import {CheckoutSidebar} from "./CheckoutSidebar";
 
 const SubTitle = ({order, event}: { order: Order, event: Event }) => {

@@ -5,7 +5,7 @@ import {hydrate} from "@tanstack/react-query";
 import {router} from "./router";
 import {App} from "./App";
 import {queryClient} from "./utilites/queryClient";
-import {getClientLocale} from "./locales.ts";
+import {getClientLocale} from "./locales";
 
 declare global {
     interface Window {

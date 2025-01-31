@@ -1,12 +1,12 @@
 import {useForm} from "@mantine/form";
 import {TaxAndFeeForm} from "../../forms/TaxAndFeeForm";
-import {GenericModalProps, TaxAndFee, TaxAndFeeCalculationType, TaxAndFeeType} from "../../../types.ts";
+import {GenericModalProps, TaxAndFee, TaxAndFeeCalculationType, TaxAndFeeType} from "../../../types";
 import {Modal} from "../../common/Modal";
 import {Button} from "@mantine/core";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
-import {showSuccess} from "../../../utilites/notifications.tsx";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {showSuccess} from "../../../utilites/notifications";
 import {t, Trans} from "@lingui/macro";
-import {useUpdateTaxOrFee} from "../../../mutations/useUpdateTaxOrFee.ts";
+import {useUpdateTaxOrFee} from "../../../mutations/useUpdateTaxOrFee";
 import {useEffect} from "react";
 
 interface EditTaxOrFeeModalProps extends GenericModalProps {

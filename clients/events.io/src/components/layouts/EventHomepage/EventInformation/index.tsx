@@ -1,14 +1,14 @@
 import {IconCalendar, IconExternalLink, IconMapPin} from "@tabler/icons-react";
 import classes from "./EventInformation.module.scss";
-import {prettyDate} from "../../../../utilites/dates.ts";
-import {formatAddress} from "../../../../utilites/formatAddress.tsx";
+import {prettyDate} from "../../../../utilites/dates";
+import {formatAddress} from "../../../../utilites/formatAddress";
 import {t} from "@lingui/macro";
 import {Button} from "@mantine/core";
 import {LoadingMask} from "../../../common/LoadingMask";
 import {ShareComponent} from "../../../common/ShareIcon";
-import {eventCoverImageUrl, eventHomepageUrl} from "../../../../utilites/urlHelper.ts";
+import {eventCoverImageUrl, eventHomepageUrl} from "../../../../utilites/urlHelper";
 import {FC} from "react";
-import {Event} from "../../../../types.ts";
+import {Event} from "../../../../types";
 import {EventDateRange} from "../../../common/EventDateRange";
 
 export const EventInformation: FC<{

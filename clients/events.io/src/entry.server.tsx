@@ -6,7 +6,7 @@ import {createStaticHandler, createStaticRouter, StaticRouterProvider,} from "re
 import {router} from "./router";
 import {App} from "./App";
 import {queryClient} from "./utilites/queryClient";
-import {setAuthToken} from "./utilites/apiClient.ts";
+import {setAuthToken} from "./utilites/apiClient";
 import {i18n} from "@lingui/core";
 
 const helmetContext = {};

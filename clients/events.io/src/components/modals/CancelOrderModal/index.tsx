@@ -1,7 +1,7 @@
-import {GenericModalProps, IdParam,} from "../../../types.ts";
+import {GenericModalProps, IdParam,} from "../../../types";
 import {useParams} from "react-router-dom";
-import {useGetEvent} from "../../../queries/useGetEvent.ts";
-import {useGetOrder} from "../../../queries/useGetOrder.ts";
+import {useGetEvent} from "../../../queries/useGetEvent";
+import {useGetOrder} from "../../../queries/useGetOrder";
 import {Modal} from "../../common/Modal";
 import {Alert, Button, LoadingOverlay} from "@mantine/core";
 import {IconInfoCircle} from "@tabler/icons-react";
@@ -9,8 +9,8 @@ import classes from './CancelOrderModal.module.scss';
 import {OrderDetails} from "../../common/OrderDetails";
 import {AttendeeList} from "../../common/AttendeeList";
 import {t} from "@lingui/macro";
-import {useCancelOrder} from "../../../mutations/useCancelOrder.ts";
-import {showError, showSuccess} from "../../../utilites/notifications.tsx";
+import {useCancelOrder} from "../../../mutations/useCancelOrder";
+import {showError, showSuccess} from "../../../utilites/notifications";
 
 interface RefundOrderModalProps extends GenericModalProps {
     orderId: IdParam,

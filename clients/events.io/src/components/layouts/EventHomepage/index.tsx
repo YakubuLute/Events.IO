@@ -7,8 +7,8 @@ import SelectTickets from "../../routes/ticket-widget/SelectTickets";
 import "../../../styles/widget/default.scss";
 import React from "react";
 import {EventDocumentHead} from "../../common/EventDocumentHead";
-import {eventCoverImageUrl} from "../../../utilites/urlHelper.ts";
-import {Event} from "../../../types.ts";
+import {eventCoverImageUrl} from "../../../utilites/urlHelper";
+import {Event} from "../../../types";
 import {HomepageInfoMessage} from "../../common/HomepageInfoMessage";
 
 interface EventHomepageProps {
