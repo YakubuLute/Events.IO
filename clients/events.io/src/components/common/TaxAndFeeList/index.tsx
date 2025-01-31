@@ -1,15 +1,15 @@
 import {Badge, Button, Group, Menu} from "@mantine/core";
 import classes from './TaxAndFeeList.module.scss';
-import {useGetTaxesAndFees} from "../../../queries/useGetTaxesAndFees";
-import {TaxAndFee, TaxAndFeeCalculationType} from "../../../types";
-import {formatCurrency} from "../../../utilites/currency";
-import {useGetAccount} from "../../../queries/useGetAccount";
+import {useGetTaxesAndFees} from "../../../queries/useGetTaxesAndFees.ts";
+import {TaxAndFee, TaxAndFeeCalculationType} from "../../../types.ts";
+import {formatCurrency} from "../../../utilites/currency.ts";
+import {useGetAccount} from "../../../queries/useGetAccount.ts";
 import {IconDotsVertical, IconPencil, IconTrash} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
 import {EditTaxOrFeeModal} from "../../modals/EditTaxOrFeeModal";
 import {useState} from "react";
-import {useDeleteTaxOrFee} from "../../../mutations/useDeleteTaxOrFee";
-import {showError, showSuccess} from "../../../utilites/notifications";
+import {useDeleteTaxOrFee} from "../../../mutations/useDeleteTaxOrFee.ts";
+import {showError, showSuccess} from "../../../utilites/notifications.tsx";
 import {t} from "@lingui/macro";
 
 export const TaxAndFeeList = () => {

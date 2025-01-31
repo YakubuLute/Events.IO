@@ -1,8 +1,8 @@
 import {Button, TextInput,} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useMutation} from "@tanstack/react-query";
-import {showError} from "../../../../utilites/notifications";
-import {authClient} from "../../../../api/auth.client";
+import {showError} from "../../../../utilites/notifications.tsx";
+import {authClient} from "../../../../api/auth.client.ts";
 import {useState} from "react";
 import {NavLink} from "react-router-dom";
 import {Card} from "../../../common/Card";

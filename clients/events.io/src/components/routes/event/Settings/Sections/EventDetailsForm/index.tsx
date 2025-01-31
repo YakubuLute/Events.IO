@@ -2,18 +2,18 @@ import {t} from "@lingui/macro";
 import {Button, Select, TextInput} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useParams} from "react-router-dom";
-import {useGetEvent} from "../../../../../../queries/useGetEvent";
+import {useGetEvent} from "../../../../../../queries/useGetEvent.ts";
 import {useEffect} from "react";
-import {useUpdateEvent} from "../../../../../../mutations/useUpdateEvent";
-import {Event} from "../../../../../../types";
+import {useUpdateEvent} from "../../../../../../mutations/useUpdateEvent.ts";
+import {Event} from "../../../../../../types.ts";
 import {InputGroup} from "../../../../../common/InputGroup";
 import {Card} from "../../../../../common/Card";
 import {Editor} from "../../../../../common/Editor";
-import {utcToTz} from "../../../../../../utilites/dates";
-import {showSuccess} from "../../../../../../utilites/notifications";
-import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler";
-import {currenciesMap} from "../../../../../../../data/currencies";
-import {timezones} from "../../../../../../../data/timezones";
+import {utcToTz} from "../../../../../../utilites/dates.ts";
+import {showSuccess} from "../../../../../../utilites/notifications.tsx";
+import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler.tsx";
+import {currenciesMap} from "../../../../../../../data/currencies.ts";
+import {timezones} from "../../../../../../../data/timezones.ts";
 import {HeadingWithDescription} from "../../../../../common/Card/CardHeading";
 
 export const EventDetailsForm = () => {

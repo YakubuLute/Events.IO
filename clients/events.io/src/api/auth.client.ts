@@ -5,8 +5,8 @@ import {
     LoginResponse, RegisterAccountRequest,
     ResetPasswordRequest,
     User
-} from "../types";
-import {api} from './client';
+} from "../types.ts";
+import {api} from './client.ts';
 
 export const authClient = {
     refreshAccessTokenFn: async () => {

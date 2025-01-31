@@ -1,12 +1,12 @@
 import {Button, LoadingOverlay, PasswordInput,} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
-import {useResetPassword} from "../../../../mutations/useResetPassword";
-import {useVerifyPasswordResetToken} from "../../../../queries/useVerifyPasswordResetToken";
-import {showError, showSuccess} from "../../../../utilites/notifications";
+import {useResetPassword} from "../../../../mutations/useResetPassword.ts";
+import {useVerifyPasswordResetToken} from "../../../../queries/useVerifyPasswordResetToken.ts";
+import {showError, showSuccess} from "../../../../utilites/notifications.tsx";
 import {useEffect} from "react";
-import {ResetPasswordRequest} from "../../../../types";
-import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler";
+import {ResetPasswordRequest} from "../../../../types.ts";
+import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler.tsx";
 import {t} from "@lingui/macro";
 import {Card} from "../../../common/Card";
 import classes from "./ResetPassword.module.scss";

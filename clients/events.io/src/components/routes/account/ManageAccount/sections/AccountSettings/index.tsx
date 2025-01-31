@@ -1,19 +1,19 @@
 import {Button, Select, TextInput} from "@mantine/core";
-import {currencies} from "../../../../../../../data/currencies";
-import {timezones} from "../../../../../../../data/timezones";
+import {currencies} from "../../../../../../../data/currencies.ts";
+import {timezones} from "../../../../../../../data/timezones.ts";
 import {useForm} from "@mantine/form";
 import classes from "../../ManageAccount.module.scss";
-import {useGetAccount} from "../../../../../../queries/useGetAccount";
+import {useGetAccount} from "../../../../../../queries/useGetAccount.ts";
 import {useEffect} from "react";
 import {t} from "@lingui/macro";
 import {Card} from "../../../../../common/Card";
 import {HeadingCard} from "../../../../../common/HeadingCard";
-import {useUpdateAccount} from "../../../../../../mutations/useUpdateAccount";
-import {showSuccess} from "../../../../../../utilites/notifications";
-import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler";
-import {Account} from "../../../../../../types";
+import {useUpdateAccount} from "../../../../../../mutations/useUpdateAccount.ts";
+import {showSuccess} from "../../../../../../utilites/notifications.tsx";
+import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler.tsx";
+import {Account} from "../../../../../../types.ts";
 import {LoadingMask} from "../../../../../common/LoadingMask";
-import {useIsCurrentUserAdmin} from "../../../../../../hooks/useIsCurrentUserAdmin";
+import {useIsCurrentUserAdmin} from "../../../../../../hooks/useIsCurrentUserAdmin.ts";
 
 const AccountSettings = () => {
     const form = useForm({

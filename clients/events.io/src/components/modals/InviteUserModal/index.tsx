@@ -1,13 +1,13 @@
 import {useForm} from "@mantine/form";
-import {GenericModalProps, InviteUserRequest,} from "../../../types";
+import {GenericModalProps, InviteUserRequest,} from "../../../types.ts";
 import {Modal} from "../../common/Modal";
 import {Button, SimpleGrid, TextInput} from "@mantine/core";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
 import {t, Trans} from "@lingui/macro";
-import {useInviteUser} from "../../../mutations/useInviteUser";
+import {useInviteUser} from "../../../mutations/useInviteUser.ts";
 import {CustomSelect, ItemProps} from "../../common/CustomSelect";
 import {IconUser, IconUserShield} from "@tabler/icons-react";
-import {showSuccess} from "../../../utilites/notifications";
+import {showSuccess} from "../../../utilites/notifications.tsx";
 
 export const InviteUserModal = ({onClose}: GenericModalProps) => {
     const createMutation = useInviteUser();

@@ -1,9 +1,9 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useGetMe} from "../../../../queries/useGetMe";
-import {useConfirmEmailChange} from "../../../../mutations/useConfirmEmailChange";
+import {useGetMe} from "../../../../queries/useGetMe.ts";
+import {useConfirmEmailChange} from "../../../../mutations/useConfirmEmailChange.ts";
 import {Anchor, Button} from "@mantine/core";
 import {Card} from "../../../common/Card";
-import {showError, showSuccess} from "../../../../utilites/notifications";
+import {showError, showSuccess} from "../../../../utilites/notifications.tsx";
 import {t, Trans} from "@lingui/macro";
 
 const MessageCard = ({message, linkText, linkHref}: { message: string, linkText: string, linkHref: string }) => (

@@ -1,7 +1,7 @@
 import {t} from "@lingui/macro";
 import {OrderSummary} from "../../../common/OrderSummary";
 import {LoadingMask} from "../../../common/LoadingMask";
-import {Event, Order} from "../../../../types";
+import {Event, Order} from "../../../../types.ts";
 import classes from './CheckoutSidebar.module.scss';
 import classNames from "classnames";
 

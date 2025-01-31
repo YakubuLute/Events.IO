@@ -1,18 +1,18 @@
-import {GenericModalProps, PromoCode} from "../../../types";
+import {GenericModalProps, PromoCode} from "../../../types.ts";
 import {hasLength, useForm} from "@mantine/form";
 import {useParams} from "react-router-dom";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
 import {PromoCodeForm} from "../../forms/PromoCodeForm";
 import {Modal} from "../../common/Modal";
 import {Button} from "../../common/Button";
-import {useGetPromoCode} from "../../../queries/useGetPromoCode";
+import {useGetPromoCode} from "../../../queries/useGetPromoCode.ts";
 import {useEffect} from "react";
-import {useUpdatePromoCode} from "../../../mutations/useUpdatePromoCode";
-import {showSuccess} from "../../../utilites/notifications";
+import {useUpdatePromoCode} from "../../../mutations/useUpdatePromoCode.ts";
+import {showSuccess} from "../../../utilites/notifications.tsx";
 import {t} from "@lingui/macro";
 import {LoadingMask} from "../../common/LoadingMask";
-import {utcToTz} from "../../../utilites/dates";
-import {useGetEvent} from "../../../queries/useGetEvent";
+import {utcToTz} from "../../../utilites/dates.ts";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
 
 interface EditPromoCodeModalProps {
     promoCodeId: number;

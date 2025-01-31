@@ -1,14 +1,14 @@
 import {Modal} from "../../common/Modal";
-import {GenericModalProps} from "../../../types";
+import {GenericModalProps} from "../../../types.ts";
 import {Button} from "../../common/Button";
 import {useNavigate, useParams} from "react-router-dom";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
 import {useForm} from "@mantine/form";
 import {LoadingOverlay, NumberInput, Select, Switch, TextInput} from "@mantine/core";
-import {useGetEvent} from "../../../queries/useGetEvent";
-import {CreateAttendeeRequest} from "../../../api/attendee.client";
-import {useCreateAttendee} from "../../../mutations/useCreateAttendee";
-import {showSuccess} from "../../../utilites/notifications";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
+import {CreateAttendeeRequest} from "../../../api/attendee.client.ts";
+import {useCreateAttendee} from "../../../mutations/useCreateAttendee.ts";
+import {showSuccess} from "../../../utilites/notifications.tsx";
 import {t, Trans} from "@lingui/macro";
 import {useEffect} from "react";
 import {InputGroup} from "../../common/InputGroup";
@@ -18,7 +18,7 @@ import {
     localeToFlagEmojiMap,
     localeToNameMap,
     SupportedLocales
-} from "../../../locales";
+} from "../../../locales.ts";
 
 export const CreateAttendeeModal = ({onClose}: GenericModalProps) => {
     const {eventId} = useParams();

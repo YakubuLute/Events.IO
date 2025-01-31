@@ -3,12 +3,12 @@ import {Button, Switch, TextInput} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
-import {EventSettings} from "../../../../../../types";
+import {EventSettings} from "../../../../../../types.ts";
 import {Card} from "../../../../../common/Card";
-import {showSuccess} from "../../../../../../utilites/notifications";
-import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler";
-import {useUpdateEventSettings} from "../../../../../../mutations/useUpdateEventSettings";
-import {useGetEventSettings} from "../../../../../../queries/useGetEventSettings";
+import {showSuccess} from "../../../../../../utilites/notifications.tsx";
+import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler.tsx";
+import {useUpdateEventSettings} from "../../../../../../mutations/useUpdateEventSettings.ts";
+import {useGetEventSettings} from "../../../../../../queries/useGetEventSettings.ts";
 import {Editor} from "../../../../../common/Editor";
 import {HeadingWithDescription} from "../../../../../common/Card/CardHeading";
 

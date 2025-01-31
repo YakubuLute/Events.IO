@@ -12,8 +12,8 @@ import {ActionMenu} from "../ActionMenu";
 import {useDisclosure} from "@mantine/hooks";
 import {EditCapacityAssignmentModal} from "../../modals/EditCapacityAssignmentModal";
 import {useDeleteCapacityAssignment} from "../../../mutations/useDeleteCapacityAssignment";
-import {showError, showSuccess} from "../../../utilites/notifications";
-import {confirmationDialog} from "../../../utilites/confirmationDialog";
+import {showError, showSuccess} from "../../../utilites/notifications.tsx";
+import {confirmationDialog} from "../../../utilites/confirmationDialog.tsx";
 
 interface CapacityAssignmentListProps {
     capacityAssignments: CapacityAssignment[];

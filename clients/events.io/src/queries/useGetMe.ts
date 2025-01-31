@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
-import {User} from "../types";
-import {userClient} from "../api/user.client";
+import {User} from "../types.ts";
+import {userClient} from "../api/user.client.ts";
 
 export const GET_ME_QUERY_KEY = 'getGetMe';
 

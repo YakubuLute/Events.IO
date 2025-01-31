@@ -22,13 +22,13 @@ import {useState} from "react";
 import classes from './Event.module.scss';
 import {GlobalMenu} from "../../common/GlobalMenu";
 import {t} from "@lingui/macro";
-import {useGetEvent} from "../../../queries/useGetEvent";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
 import Truncate from "../../common/Truncate";
-import {useUpdateEventStatus} from "../../../mutations/useUpdateEventStatus";
-import {showError, showSuccess} from "../../../utilites/notifications";
+import {useUpdateEventStatus} from "../../../mutations/useUpdateEventStatus.ts";
+import {showError, showSuccess} from "../../../utilites/notifications.tsx";
 import {Tooltip} from "../../common/Tooltip";
-import {confirmationDialog} from "../../../utilites/confirmationDialog";
-import {useGetEventSettings} from "../../../queries/useGetEventSettings";
+import {confirmationDialog} from "../../../utilites/confirmationDialog.tsx";
+import {useGetEventSettings} from "../../../queries/useGetEventSettings.ts";
 import {EventStatusBadge} from "../../common/EventStatusBadge";
 
 const EventLayout = () => {
