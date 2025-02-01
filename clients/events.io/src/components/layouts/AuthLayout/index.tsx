@@ -2,7 +2,6 @@ import { Navigate, Outlet } from 'react-router-dom'
 import classes from './Auth.module.scss'
 import { t } from '@lingui/macro'
 import { useGetMe } from '../../../queries/useGetMe.ts'
-import { PoweredByFooter } from '../../common/PoweredByFooter'
 import { LanguageSwitcher } from '../../common/LanguageSwitcher'
 
 const AuthLayout = () => {
@@ -24,7 +23,6 @@ const AuthLayout = () => {
         </div>
         <div className={classes.wrapper}>
           <Outlet />
-          <PoweredByFooter />
         </div>
       </main>
     </>
