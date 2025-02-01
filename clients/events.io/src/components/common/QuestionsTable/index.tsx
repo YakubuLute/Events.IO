@@ -1,5 +1,5 @@
 import {Button, Group, Menu, Switch, TextInput, Tooltip} from '@mantine/core';
-import {IdParam, Question} from "../../../types";
+import {IdParam, Question} from "../../../types.ts";
 import {
     IconDotsVertical,
     IconEye,
@@ -21,12 +21,12 @@ import {Card} from "../Card";
 import {t} from "@lingui/macro";
 import {useEffect, useState} from "react";
 import {EditQuestionModal} from "../../modals/EditQuestionModal";
-import {useDeleteQuestion} from "../../../mutations/useDeleteQuestion";
+import {useDeleteQuestion} from "../../../mutations/useDeleteQuestion.ts";
 import {useParams} from "react-router-dom";
-import {showError, showSuccess} from "../../../utilites/notifications";
-import {confirmationDialog} from "../../../utilites/confirmationDialog";
+import {showError, showSuccess} from "../../../utilites/notifications.tsx";
+import {confirmationDialog} from "../../../utilites/confirmationDialog.tsx";
 import {InputGroup} from "../InputGroup";
-import {useDragItemsHandler} from "../../../hooks/useDragItemsHandler";
+import {useDragItemsHandler} from "../../../hooks/useDragItemsHandler.ts";
 import {
     closestCenter,
     DndContext,
@@ -38,7 +38,7 @@ import {
 } from "@dnd-kit/core";
 import {SortableContext, useSortable, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import {useSortQuestions} from "../../../mutations/useSortQuestions";
+import {useSortQuestions} from "../../../mutations/useSortQuestions.ts";
 import classNames from "classnames";
 import {Popover} from "../Popover";
 

@@ -1,15 +1,15 @@
-import {CapacityAssignmentRequest, GenericModalProps, IdParam, Ticket} from "../../../types";
+import {CapacityAssignmentRequest, GenericModalProps, IdParam, Ticket} from "../../../types.ts";
 import {Modal} from "../../common/Modal";
 import {t} from "@lingui/macro";
 import {CapacityAssigmentForm} from "../../forms/CapaciyAssigmentForm";
 import {useForm} from "@mantine/form";
 import {Button} from "@mantine/core";
-import {showSuccess} from "../../../utilites/notifications";
+import {showSuccess} from "../../../utilites/notifications.tsx";
 import {useParams} from "react-router-dom";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
-import {useGetEvent} from "../../../queries/useGetEvent";
-import {useEditCapacityAssignment} from "../../../mutations/useEditCapacityAssignment";
-import {useGetEventCapacityAssignment} from "../../../queries/useGetCapacityAssignment";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
+import {useEditCapacityAssignment} from "../../../mutations/useEditCapacityAssignment.ts";
+import {useGetEventCapacityAssignment} from "../../../queries/useGetCapacityAssignment.ts";
 import {useEffect} from "react";
 
 interface EditCapacityAssignmentModalProps {

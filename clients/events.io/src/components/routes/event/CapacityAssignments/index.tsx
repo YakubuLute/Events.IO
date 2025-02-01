@@ -2,8 +2,8 @@ import {PageBody} from "../../../common/PageBody";
 import {PageTitle} from "../../../common/PageTitle";
 import {t} from "@lingui/macro";
 import {useParams} from "react-router-dom";
-import {useGetEventCapacityAssignments} from "../../../../queries/useGetCapacityAssignments";
-import {CapacityAssignmentList} from "../../../common/CapacityAssignmentList/index";
+import {useGetEventCapacityAssignments} from "../../../../queries/useGetCapacityAssignments.ts";
+import {CapacityAssignmentList} from "../../../common/CapacityAssignmentList/index.tsx";
 import {TableSkeleton} from "../../../common/TableSkeleton";
 import {CreateCapacityAssignmentModal} from "../../../modals/CreateCapacityAssignmentModal";
 import {useDisclosure} from "@mantine/hooks";
@@ -11,8 +11,8 @@ import {ToolBar} from "../../../common/ToolBar";
 import {SearchBarWrapper} from "../../../common/SearchBar";
 import {Button} from "@mantine/core";
 import {IconPlus} from "@tabler/icons-react";
-import {useFilterQueryParamSync} from "../../../../hooks/useFilterQueryParamSync";
-import {QueryFilters} from "../../../../types";
+import {useFilterQueryParamSync} from "../../../../hooks/useFilterQueryParamSync.ts";
+import {QueryFilters} from "../../../../types.ts";
 import {Pagination} from "../../../common/Pagination";
 
 const CapacityAssignments = () => {

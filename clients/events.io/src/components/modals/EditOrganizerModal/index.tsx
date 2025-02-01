@@ -1,13 +1,13 @@
-import {GenericModalProps, IdParam, Organizer} from "../../../types";
+import {GenericModalProps, IdParam, Organizer} from "../../../types.ts";
 import {t} from "@lingui/macro";
 import {Modal} from "../../common/Modal";
 import {useForm} from "@mantine/form";
-import {useUpdateOrganizer} from "../../../mutations/useUpdateOrganizer";
+import {useUpdateOrganizer} from "../../../mutations/useUpdateOrganizer.ts";
 import {Button, Group} from "@mantine/core";
 import {OrganizerForm} from "../../forms/OrganizerForm";
-import {useGetOrganizer} from "../../../queries/useGetOrganizer";
+import {useGetOrganizer} from "../../../queries/useGetOrganizer.ts";
 import {useEffect} from "react";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
 
 interface EditOrganizerModalProps extends GenericModalProps {
     organizerId: IdParam;

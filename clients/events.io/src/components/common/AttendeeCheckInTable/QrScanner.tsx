@@ -4,7 +4,7 @@ import {useDebouncedValue} from '@mantine/hooks';
 import classes from './QrScanner.module.scss';
 import {IconBulb, IconBulbOff, IconCameraRotate, IconVolume, IconVolumeOff, IconX} from "@tabler/icons-react";
 import {Anchor, Button, Menu} from "@mantine/core";
-import {showError} from "../../../utilites/notifications";
+import {showError} from "../../../utilites/notifications.tsx";
 import {t, Trans} from "@lingui/macro";
 
 interface QRScannerComponentProps {

@@ -1,13 +1,13 @@
-import {IdParam, MessageType, Ticket, TicketPrice, TicketType} from "../../../../types";
+import {IdParam, MessageType, Ticket, TicketPrice, TicketType} from "../../../../types.ts";
 import {useSortable} from "@dnd-kit/sortable";
 import {useDisclosure} from "@mantine/hooks";
 import {useState} from "react";
-import {useDeleteTicket} from "../../../../mutations/useDeleteTicket";
+import {useDeleteTicket} from "../../../../mutations/useDeleteTicket.ts";
 import {CSS} from "@dnd-kit/utilities";
-import {showError, showSuccess} from "../../../../utilites/notifications";
+import {showError, showSuccess} from "../../../../utilites/notifications.tsx";
 import {t} from "@lingui/macro";
-import {relativeDate} from "../../../../utilites/dates";
-import {formatCurrency} from "../../../../utilites/currency";
+import {relativeDate} from "../../../../utilites/dates.ts";
+import {formatCurrency} from "../../../../utilites/currency.ts";
 import {Card} from "../../Card";
 import classes from "../TicketsTable.module.scss";
 import classNames from "classnames";

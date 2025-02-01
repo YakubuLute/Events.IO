@@ -1,22 +1,22 @@
 import {useParams} from "react-router-dom";
-import {useGetEvent} from "../../../queries/useGetEvent";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
 import {PageTitle} from "../../common/PageTitle";
 import {PageBody} from "../../common/PageBody";
-import {useGetEventOrders} from "../../../queries/useGetEventOrders";
+import {useGetEventOrders} from "../../../queries/useGetEventOrders.ts";
 import {OrdersTable} from "../../common/OrdersTable";
 import {SearchBarWrapper} from "../../common/SearchBar";
 import {Pagination} from "../../common/Pagination";
 import {IconDownload} from "@tabler/icons-react";
 import {ToolBar} from "../../common/ToolBar";
-import {useFilterQueryParamSync} from "../../../hooks/useFilterQueryParamSync";
-import {IdParam, QueryFilters} from "../../../types";
+import {useFilterQueryParamSync} from "../../../hooks/useFilterQueryParamSync.ts";
+import {IdParam, QueryFilters} from "../../../types.ts";
 import {TableSkeleton} from "../../common/TableSkeleton";
-import {orderClient} from "../../../api/order.client";
-import {downloadBinary} from "../../../utilites/download";
+import {orderClient} from "../../../api/order.client.ts";
+import {downloadBinary} from "../../../utilites/download.ts";
 import {useState} from "react";
 import {t} from "@lingui/macro";
 import {Button} from "@mantine/core";
-import {showError} from "../../../utilites/notifications";
+import {showError} from "../../../utilites/notifications.tsx";
 
 export const Orders = () => {
     const {eventId} = useParams();

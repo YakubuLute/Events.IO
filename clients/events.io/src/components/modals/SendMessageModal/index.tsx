@@ -1,18 +1,18 @@
-import {GenericModalProps, IdParam, MessageType} from "../../../types";
+import {GenericModalProps, IdParam, MessageType} from "../../../types.ts";
 import {useParams} from "react-router-dom";
-import {useGetEvent} from "../../../queries/useGetEvent";
-import {useGetOrder} from "../../../queries/useGetOrder";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
+import {useGetOrder} from "../../../queries/useGetOrder.ts";
 import {Modal} from "../../common/Modal";
 import {Alert, Button, ComboboxItemGroup, LoadingOverlay, MultiSelect, Select, Switch, TextInput} from "@mantine/core";
 import {IconAlertCircle, IconSend} from "@tabler/icons-react";
-import {useGetMe} from "../../../queries/useGetMe";
+import {useGetMe} from "../../../queries/useGetMe.ts";
 import {useForm, UseFormReturnType} from "@mantine/form";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
-import {showSuccess} from "../../../utilites/notifications";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
+import {showSuccess} from "../../../utilites/notifications.tsx";
 import {t, Trans} from "@lingui/macro";
 import {Editor} from "../../common/Editor";
-import {useIsAccountVerified} from "../../../hooks/useIsAccountVerified";
-import {useSendEventMessage} from "../../../mutations/useSendEventMessage";
+import {useIsAccountVerified} from "../../../hooks/useIsAccountVerified.ts";
+import {useSendEventMessage} from "../../../mutations/useSendEventMessage.ts";
 
 interface EventMessageModalProps extends GenericModalProps {
     orderId?: IdParam,

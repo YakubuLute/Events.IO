@@ -1,14 +1,14 @@
 import {useForm} from "@mantine/form";
-import {GenericModalProps, User,} from "../../../types";
+import {GenericModalProps, User,} from "../../../types.ts";
 import {Modal} from "../../common/Modal";
 import {Alert, Button, Select, TextInput} from "@mantine/core";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
 import {t, Trans} from "@lingui/macro";
 import {CustomSelect, ItemProps} from "../../common/CustomSelect";
 import {IconUser, IconUserShield} from "@tabler/icons-react";
-import {showSuccess} from "../../../utilites/notifications";
-import {UpdateUserRequest} from "../../../api/user.client";
-import {useEditUser} from "../../../mutations/useEditUser";
+import {showSuccess} from "../../../utilites/notifications.tsx";
+import {UpdateUserRequest} from "../../../api/user.client.ts";
+import {useEditUser} from "../../../mutations/useEditUser.ts";
 import {NavLink} from "react-router-dom";
 import {InputGroup} from "../../common/InputGroup";
 

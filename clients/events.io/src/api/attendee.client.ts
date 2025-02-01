@@ -1,8 +1,8 @@
 import {api} from "./client";
 import {Attendee, GenericDataResponse, GenericPaginatedResponse, IdParam, QueryFilters, TaxAndFee} from "../types";
-import {queryParamsHelper} from "../utilites/queryParamsHelper";
-import {publicApi} from "./public-client";
-import {SupportedLocales} from "../locales";
+import {queryParamsHelper} from "../utilites/queryParamsHelper.ts";
+import {publicApi} from "./public-client.ts";
+import {SupportedLocales} from "../locales.ts";
 
 export interface EditAttendeeRequest {
     first_name: string;

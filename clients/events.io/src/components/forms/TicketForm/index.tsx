@@ -1,6 +1,6 @@
 import {t, Trans} from "@lingui/macro";
 import {UseFormReturnType} from "@mantine/form";
-import {Event, TaxAndFee, TaxAndFeeCalculationType, TaxAndFeeType, Ticket, TicketType} from "../../../types";
+import {Event, TaxAndFee, TaxAndFeeCalculationType, TaxAndFeeType, Ticket, TicketType} from "../../../types.ts";
 import {
     ActionIcon,
     Alert,
@@ -27,15 +27,15 @@ import {useDisclosure} from "@mantine/hooks";
 import {NavLink, useParams} from "react-router-dom";
 import {useEffect} from "react";
 import {CustomSelect, ItemProps} from "../../common/CustomSelect";
-import {formatCurrency, getCurrencySymbol} from "../../../utilites/currency";
-import {useGetEvent} from "../../../queries/useGetEvent";
-import {useGetTaxesAndFees} from "../../../queries/useGetTaxesAndFees";
+import {formatCurrency, getCurrencySymbol} from "../../../utilites/currency.ts";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
+import {useGetTaxesAndFees} from "../../../queries/useGetTaxesAndFees.ts";
 import {Card} from "../../common/Card";
 import classes from './TicketForm.module.scss';
 import {Fieldset} from "../../common/Fieldset";
 import {Editor} from "../../common/Editor";
 import {InputGroup} from "../../common/InputGroup";
-import {showError} from "../../../utilites/notifications";
+import {showError} from "../../../utilites/notifications.tsx";
 import classNames from "classnames";
 import {InputLabelWithHelp} from "../../common/InputLabelWithHelp";
 

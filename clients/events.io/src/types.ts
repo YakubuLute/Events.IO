@@ -1,7 +1,7 @@
 /**
  * @todo - This file needs to be organized better. Split into multiple files.
  */
-import {SupportedLocales} from "./locales";
+import {SupportedLocales} from "./locales.ts";
 
 export type ConfigKeys = 'VITE_FRONTEND_URL'
     | 'VITE_API_URL_CLIENT'

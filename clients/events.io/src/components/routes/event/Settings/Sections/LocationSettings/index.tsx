@@ -3,17 +3,17 @@ import {Button, Select, Switch, TextInput} from "@mantine/core";
 import {useForm} from "@mantine/form";
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
-import {Event} from "../../../../../../types";
+import {Event} from "../../../../../../types.ts";
 import {Card} from "../../../../../common/Card";
-import {showSuccess} from "../../../../../../utilites/notifications";
-import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler";
-import {useUpdateEventSettings} from "../../../../../../mutations/useUpdateEventSettings";
+import {showSuccess} from "../../../../../../utilites/notifications.tsx";
+import {useFormErrorResponseHandler} from "../../../../../../hooks/useFormErrorResponseHandler.tsx";
+import {useUpdateEventSettings} from "../../../../../../mutations/useUpdateEventSettings.ts";
 import countries from "../../../../../../../data/countries.json";
-import {useGetEventSettings} from "../../../../../../queries/useGetEventSettings";
+import {useGetEventSettings} from "../../../../../../queries/useGetEventSettings.ts";
 import {InputGroup} from "../../../../../common/InputGroup";
 import {HeadingWithDescription} from "../../../../../common/Card/CardHeading";
 import {Editor} from "../../../../../common/Editor";
-import {isEmptyHtml} from "../../../../../../utilites/helpers";
+import {isEmptyHtml} from "../../../../../../utilites/helpers.ts";
 
 export const LocationSettings = () => {
     const {eventId} = useParams();

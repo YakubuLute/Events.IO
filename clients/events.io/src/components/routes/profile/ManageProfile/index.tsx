@@ -1,19 +1,19 @@
 import {Card} from "../../../common/Card";
 import {useForm, UseFormReturnType} from "@mantine/form";
-import {useGetMe} from "../../../../queries/useGetMe";
+import {useGetMe} from "../../../../queries/useGetMe.ts";
 import {Alert, Button, PasswordInput, Select, Tabs, TextInput} from "@mantine/core";
 import classes from "./ManageProfile.module.scss";
 import {useEffect, useState} from "react";
 import {IconInfoCircle, IconPassword, IconUser} from "@tabler/icons-react";
-import {timezones} from "../../../../../data/timezones";
-import {useUpdateMe} from "../../../../mutations/useUpdateMe";
-import {showError, showSuccess} from "../../../../utilites/notifications";
-import {UserMeRequest} from "../../../../api/user.client";
-import {useCancelEmailChange} from "../../../../mutations/useCancelEmailChange";
-import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler";
+import {timezones} from "../../../../../data/timezones.ts";
+import {useUpdateMe} from "../../../../mutations/useUpdateMe.ts";
+import {showError, showSuccess} from "../../../../utilites/notifications.tsx";
+import {UserMeRequest} from "../../../../api/user.client.ts";
+import {useCancelEmailChange} from "../../../../mutations/useCancelEmailChange.ts";
+import {useFormErrorResponseHandler} from "../../../../hooks/useFormErrorResponseHandler.tsx";
 import {t, Trans} from "@lingui/macro";
-import {useResendEmailConfirmation} from "../../../../mutations/useResendEmailConfirmation";
-import {getLocaleName, localeToFlagEmojiMap, localeToNameMap, SupportedLocales} from "../../../../locales";
+import {useResendEmailConfirmation} from "../../../../mutations/useResendEmailConfirmation.ts";
+import {getLocaleName, localeToFlagEmojiMap, localeToNameMap, SupportedLocales} from "../../../../locales.ts";
 
 export const ManageProfile = () => {
     const {data: me, isFetching} = useGetMe();

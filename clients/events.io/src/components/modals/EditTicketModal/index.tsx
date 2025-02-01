@@ -1,18 +1,18 @@
 import {Button} from "@mantine/core";
-import {GenericModalProps, IdParam, Ticket, TicketType} from "../../../types";
+import {GenericModalProps, IdParam, Ticket, TicketType} from "../../../types.ts";
 import {useForm} from "@mantine/form";
 import {useParams} from "react-router-dom";
 import {useEffect} from "react";
 import {TicketForm} from "../../forms/TicketForm";
 import {Modal} from "../../common/Modal";
-import {useUpdateTicket} from "../../../mutations/useUpdateTicket";
-import {showSuccess} from "../../../utilites/notifications";
-import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler";
+import {useUpdateTicket} from "../../../mutations/useUpdateTicket.ts";
+import {showSuccess} from "../../../utilites/notifications.tsx";
+import {useFormErrorResponseHandler} from "../../../hooks/useFormErrorResponseHandler.tsx";
 import {t} from "@lingui/macro";
-import {useGetTicket} from "../../../queries/useGetTicket";
+import {useGetTicket} from "../../../queries/useGetTicket.ts";
 import {LoadingMask} from "../../common/LoadingMask";
-import {utcToTz} from "../../../utilites/dates";
-import {useGetEvent} from "../../../queries/useGetEvent";
+import {utcToTz} from "../../../utilites/dates.ts";
+import {useGetEvent} from "../../../queries/useGetEvent.ts";
 
 export const EditTicketModal = ({onClose, ticketId}: GenericModalProps & { ticketId: IdParam }) => {
     const {eventId} = useParams();
