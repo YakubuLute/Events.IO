@@ -7,7 +7,6 @@ import {Order, Ticket} from "../../../../types.ts";
 import {Card} from "../../../common/Card";
 import {AttendeeTicket} from "../../../common/AttendeeTicket";
 import {dateToBrowserTz} from "../../../../utilites/dates.ts";
-import {PoweredByFooter} from "../../../common/PoweredByFooter";
 import {Button, Group} from "@mantine/core";
 import {IconPrinter} from "@tabler/icons-react";
 import {CheckoutContent} from "../../../layouts/Checkout/CheckoutContent";
@@ -107,22 +106,6 @@ export const OrderSummaryAndTickets = () => {
                     );
                 })}
 
-                {
-                    /**
-                     * (c) Hi.Events Ltd 2024
-                     *
-                     * PLEASE NOTE:
-                     *
-                     * Hi.Events is licensed under the GNU Affero General Public License (AGPL) version 3.
-                     *
-                     * You can find the full license text at: https://github.com/HiEventsDev/hi.events/blob/main/LICENCE
-                     *
-                     * In accordance with Section 7(b) of the AGPL, we ask that you retain the "Powered by Hi.Events" notice.
-                     *
-                     * If you wish to remove this notice, a commercial license is available at: https://hi.events/licensing
-                     */
-                }
-                <PoweredByFooter/>
             </CheckoutContent>
             <CheckoutFooter
                 isOrderComplete={true}
