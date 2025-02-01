@@ -2905,9 +2905,6 @@ msgstr ""
 msgid "Post Checkout message"
 msgstr ""
 
-#: src/components/common/PoweredByFooter/index.tsx:28
-msgid "Powered by"
-msgstr ""
 
 #: src/components/common/EventDocumentHead/index.tsx:12
 #~ msgid "Powered By"

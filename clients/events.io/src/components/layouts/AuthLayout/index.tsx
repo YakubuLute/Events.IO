@@ -23,6 +23,7 @@ const AuthLayout = () => {
         </div>
         <div className={classes.wrapper}>
           <Outlet />
+          <PoweredByFooter />
         </div>
       </main>
     </>

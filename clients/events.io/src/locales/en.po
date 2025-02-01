@@ -2909,9 +2909,7 @@ msgstr "Portuguese"
 msgid "Post Checkout message"
 msgstr "Post Checkout message"
 
-#: src/components/common/PoweredByFooter/index.tsx:28
-msgid "Powered by"
-msgstr "Powered by"
+
 
 #: src/components/common/EventDocumentHead/index.tsx:12
 #~ msgid "Powered By"

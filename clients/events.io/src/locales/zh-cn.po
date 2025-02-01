@@ -2513,9 +2513,6 @@ msgstr "葡萄牙语"
 msgid "Post Checkout message"
 msgstr "结账后信息"
 
-#: src/components/common/PoweredByFooter/index.tsx:28
-msgid "Powered by"
-msgstr "技术支持"
 
 #: src/components/forms/StripeCheckoutForm/index.tsx:136
 msgid "Powered by Stripe"
