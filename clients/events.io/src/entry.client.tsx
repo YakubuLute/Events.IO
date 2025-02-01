@@ -19,6 +19,7 @@ if (window.__REHYDRATED_STATE__) {
 
 async function initClientApp() {
     // Determine if any of the initial routes are lazy
+    // this is for optimization purposes to preload the lazy routes
     const lazyMatches = matchRoutes(router, window.location)?.filter(
         (m) => m.route.lazy
     );
