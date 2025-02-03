@@ -98,7 +98,7 @@ const EventHomepage = ({colors, continueButtonText, backgroundType, ...loaderDat
                         </div>
                     </div>
                 </div>
-                {/*<PoweredByFooter/>*/}
+            
             </div>
         </div>
     );

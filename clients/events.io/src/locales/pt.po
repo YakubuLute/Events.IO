@@ -2513,9 +2513,6 @@ msgstr "Português"
 msgid "Post Checkout message"
 msgstr "Mensagem pós-check-out"
 
-#: src/components/common/PoweredByFooter/index.tsx:28
-msgid "Powered by"
-msgstr "Distribuído por"
 
 #: src/components/forms/StripeCheckoutForm/index.tsx:136
 msgid "Powered by Stripe"

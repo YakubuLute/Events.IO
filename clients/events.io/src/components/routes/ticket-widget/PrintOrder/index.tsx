@@ -1,6 +1,5 @@
 import {AttendeeTicket} from "../../../common/AttendeeTicket";
 import {Ticket} from "../../../../types.ts";
-import {PoweredByFooter} from "../../../common/PoweredByFooter";
 import {useParams} from "react-router-dom";
 import {useGetOrderPublic} from "../../../../queries/useGetOrderPublic.ts";
 import {useGetEventPublic} from "../../../../queries/useGetEventPublic.ts";
@@ -22,21 +21,6 @@ export const PrintOrder = () => {
     if (!order || !event) {
         return null;
     }
-
-    /*
-/**
- * (c) Hi.Events Ltd 2024
- *
- * PLEASE NOTE:
- *
- * Hi.Events is licensed under the GNU Affero General Public License (AGPL) version 3.
- *
- * You can find the full license text at: https://github.com/HiEventsDev/hi.events/blob/main/LICENCE
- *
- * In accordance with Section 7(b) of the AGPL, we ask that you retain the "Powered by Hi.Events" notice.
- *
- * If you wish to remove this notice, a commercial license is available at: https://hi.events/licensing
- */
     return (
         <>
             <Container>
@@ -52,8 +36,6 @@ export const PrintOrder = () => {
                         />
                     );
                 })}
-
-                <PoweredByFooter/>
             </Container>
         </>
     );
