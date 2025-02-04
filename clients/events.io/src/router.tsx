@@ -22,7 +22,6 @@
 //   return null
 // }
 
-
 // export const router: RouteObject[] = [
 //   {
 //     path: '',
@@ -501,7 +500,6 @@
 //   }
 // ]
 
-
 import { Navigate, RouteObject } from 'react-router-dom'
 import ErrorPage from './error-page.tsx'
 import { eventsClientPublic } from './api/event.client.ts'
@@ -509,8 +507,6 @@ import { promoCodeClientPublic } from './api/promo-code.client.ts'
 import { useEffect, useState } from 'react'
 import { useGetMe } from './queries/useGetMe.ts'
 import { ProtectedRoute } from './components/routes/route-wrapper/protected-route.tsx'
-
-
 
 // Root Component for Initial Routing
 const Root = () => {
@@ -534,12 +530,22 @@ export const router: RouteObject[] = [
   {
     path: '',
     element: <Root />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: '/',
+    async lazy () {
+      const AuthLayout = await import('./components/layouts/AuthLayout')
+      return { Component: AuthLayout.default }
+    },
     errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
         async lazy () {
-          const HomePage = await import('./components/routes/Landing')
+          const HomePage = await import(
+            './components/routes/Landing/main/index.tsx'
+          )
           return { Component: HomePage.default }
         }
       }
