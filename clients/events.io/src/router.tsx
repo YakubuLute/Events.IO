@@ -35,6 +35,13 @@ export const router: RouteObject[] = [
     errorElement: <ErrorPage />,
     children: [
       {
+        path: '/',
+        async lazy () {
+          const Login = await import('./route')
+          return { Component: Login.default }
+        }
+      },
+      {
         path: 'login',
         async lazy () {
           const Login = await import('./components/routes/auth/Login')
