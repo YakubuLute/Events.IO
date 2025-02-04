@@ -1,0 +1,195 @@
+{
+    "message": "candidate profile retrieved successfully",
+    "successCode": "S0000",
+    "statusCode": 200,
+    "data": {
+        "workDetails": {
+            "yearsOfExperience": "2-4",
+            "availableForHire": false,
+            "monthlySalary": 0,
+            "hourlyRate": 0,
+            "jobTypes": [],
+            "timezones": [],
+            "timezonesCodes": [],
+            "currency": null,
+            "jobTitles": [
+                "3d modeler"
+            ],
+            "locations": [],
+            "workplaceType": null,
+            "experienceLevels": []
+        },
+        "kycVerificationBlockchainRecord": {
+            "transactionHash": null,
+            "address": null,
+            "blockHash": null,
+            "date": null,
+            "explorerUrl": null
+        },
+        "preference": {
+            "communicationMedium": {
+                "email": false,
+                "phoneCall": false,
+                "sms": false
+            },
+            "notifications": {
+                "email": {
+                    "jobMatches": false,
+                    "jobOffers": false,
+                    "jobRequests": false,
+                    "messages": false
+                },
+                "push": {
+                    "jobMatches": false,
+                    "jobOffers": false,
+                    "jobRequests": false,
+                    "messages": false
+                }
+            },
+            "messageRequestFee": 0,
+            "currency": "USD",
+            "lastMessageRequestFeeChangeDate": null
+        },
+        "_id": "67a0d029b1062e6c2566ad88",
+        "summary": null,
+        "authMethod": "GOOGLE_OAUTH",
+        "longlat": [
+            0,
+            0
+        ],
+        "employmentHistory": [],
+        "educationHistory": [],
+        "wasInvitedByOrganization": false,
+        "inviterOrganizationId": null,
+        "signupIp": "44.222.47.201",
+        "signupIpDetails": {
+            "country": "US",
+            "city": "Ashburn",
+            "timezone": "America/New_York",
+            "region": "VA",
+            "ll": [
+                "39.0469",
+                "-77.4903"
+            ]
+        },
+        "signupSource": "organic",
+        "joinReason": "networking",
+        "onboardingBehavior": [
+            {
+                "step": 2,
+                "stepName": "Job Title",
+                "dateCreated": "2025-02-03T14:19:54.560Z"
+            },
+            {
+                "step": 12,
+                "stepName": "Profile Summary",
+                "dateCreated": "2025-02-03T14:20:05.047Z"
+            },
+            {
+                "step": 12,
+                "stepName": "Profile Summary",
+                "dateCreated": "2025-02-03T14:20:05.526Z"
+            },
+            {
+                "step": 13,
+                "stepName": "Profile Setup Completed",
+                "dateCreated": "2025-02-03T14:20:12.876Z"
+            },
+            {
+                "step": 14,
+                "stepName": "Dashboard Access",
+                "dateCreated": "2025-02-03T14:20:20.496Z"
+            }
+        ],
+        "privilege": "none",
+        "identityVerificationTotalAttempts": 0,
+        "identityVerificationStatus": "not_started",
+        "faceVerificationStatus": "not_started",
+        "addressVerificationStatus": "not_started",
+        "faceVerificationTotalAttempts": 0,
+        "addressVerificationTotalAttempts": 0,
+        "identityVerificationSnapshots": [],
+        "faceVerificationErrors": [],
+        "addressVerificationSnapshots": [],
+        "identityDocumentHashUsageCount": 0,
+        "emailVerificationDate": "2025-02-03T14:18:17.227Z",
+        "visibility": [
+            "public"
+        ],
+        "referralUrl": "https://vaur.se/TLsTa",
+        "certifications": [],
+        "googleToken": "ya29.a0AXeO80QdfhV4r4o_fhDRvjf4a0yjDTuOg7TgGPaAbuVtQ2p74P0T-1bY4fFdTdiWu5NrvvwLdBq4rgcz9b9y255pik_MWW-_SGrFICke-H6hZbVTQuXDI4oahx2jA5TA6W1nybXKVrfrgVR1rnjroFEilGRw8IPe9zwjTuy0aCgYKAcUSARASFQHGX2Mi77uKp3g5sm5n25dsuGXjvw0175",
+        "activeStatus": "available",
+        "lastActiveDate": "2025-02-03T14:24:15.037Z",
+        "hasGoogleOauth": true,
+        "availabilityStatus": false,
+        "autoSummaryUsageCount": 0,
+        "awards": [],
+        "skills": [],
+        "addressVerified": false,
+        "accountId": "vau-971wz51097l",
+        "identityVerified": false,
+        "faceVerified": false,
+        "referralUrlId": 4273,
+        "publicProfileUrlId": 2557,
+        "qrCodeUrlId": null,
+        "personalDetails": {
+            "languages": [],
+            "languagesCodes": [],
+            "interests": [],
+            "nationalityCountryIsoCode": null,
+            "publicPhoneNumbers": [
+                "+233200286602"
+            ],
+            "gender": null,
+            "phone": "+233200286602",
+            "phoneVerified": true,
+            "dateOfBirth": null,
+            "firstName": "Yakubu",
+            "lastName": "Lute",
+            "nationality": null,
+            "ageGroup": "UNSPECIFIED",
+            "about": "",
+            "phoneVerificationDate": "2025-02-03T14:19:38.029Z"
+        },
+        "kycVerificationBlockchainUrl": null,
+        "kycLevel": 1,
+        "referralCode": "orxlkjd55v",
+        "referrerReferralCode": null,
+        "socialLinks": [],
+        "receivedSignupReward": false,
+        "totalInvited": 0,
+        "category": "skilled_professional",
+        "username": null,
+        "email": "younlutabey@gmail.com",
+        "emailVerified": true,
+        "profilePhoto": "https://lh3.googleusercontent.com/a/ACg8ocK4O1eBKFsI7tFv7CLHBAIOW_mFyhoie48H_eGTf8xje-4tuQ=s96-c",
+        "profileSetupStep": 14,
+        "dateCreated": "2024-12-10T17:23:38.876Z",
+        "dateUpdated": "2025-02-03T14:20:05.047Z",
+        "analyticsSocialLinks": [],
+        "employerReferralUrl": "https://vaur.se/qGSiv",
+        "employerReferralUrlId": 4274,
+        "institutionReferralUrl": "https://vaur.se/cV1A0",
+        "institutionReferralUrlId": 4275,
+        "publicProfileUrl": "https://vos.me/sFYLu",
+        "qrCodeUrl": "https://api.vaurse.com/links/MsppY8I43i7e9AX",
+        "hasPassword": false,
+        "businessCardSettings": {
+            "securityPinEnabled": false,
+            "contactSharingDisabled": false,
+            "aboutSection": true,
+            "skillsSection": true,
+            "profileSection": true
+        },
+        "haveGivenFeedback": false,
+        "checklist": {
+            "emailVerified": true,
+            "usernameSet": false,
+            "identityVerified": false,
+            "setConnectionRequestFee": false,
+            "invitedAFriend": false
+        },
+        "hasBusinessCardOrders": false
+    }
+}
