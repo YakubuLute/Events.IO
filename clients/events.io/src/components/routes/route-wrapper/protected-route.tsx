@@ -1,5 +1,5 @@
 /* eslint-disable lingui/no-unlocalized-strings */
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { useGetMe } from '../../../queries/useGetMe'
 
 export const ProtectedRoute: React.FC = () => {
