@@ -11,20 +11,32 @@ const Root = () => {
 
   useEffect(() => {
     if (me.isFetched) {
-      setRedirectPath(me.isSuccess ? '/manage/events' : '/auth/login')
+      setRedirectPath(me.isSuccess ? '/manage/events' : '/')
     }
   }, [me.isFetched, me.isSuccess])
 
   if (redirectPath) {
     return <Navigate to={redirectPath} replace={true} />
   }
+
+  return null
 }
+
 
 export const router: RouteObject[] = [
   {
     path: '',
     element: <Root />,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/',
+        async lazy () {
+          const HomePage = await import('./components/routes/Landing')
+          return { Component: HomePage.default }
+        }
+      }
+    ]
   },
   {
     path: 'auth',
@@ -34,13 +46,6 @@ export const router: RouteObject[] = [
     },
     errorElement: <ErrorPage />,
     children: [
-      {
-        path: '/',
-        async lazy () {
-          const Login = await import('./route')
-          return { Component: Login.default }
-        }
-      },
       {
         path: 'login',
         async lazy () {
