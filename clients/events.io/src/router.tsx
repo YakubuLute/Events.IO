@@ -1,3 +1,4 @@
+/* eslint-disable lingui/no-unlocalized-strings */
 // import { Navigate, RouteObject } from 'react-router-dom'
 // import ErrorPage from './error-page.tsx'
 // import { eventsClientPublic } from './api/event.client.ts'
@@ -513,13 +514,20 @@ const Root = () => {
   const [redirectPath, setRedirectPath] = useState<string | null>(null)
   const me = useGetMe()
 
+  console.log('me:', me) // Debugging
+
   useEffect(() => {
     if (me.isFetched) {
       setRedirectPath(me.isSuccess ? '/manage/events' : '/')
     }
   }, [me.isFetched, me.isSuccess])
 
+  if (me.isLoading) {
+    return <div>Loading...</div> // Show a loading spinner
+  }
+
   if (redirectPath) {
+    console.log('Redirecting to:', redirectPath) // Debugging
     return <Navigate to={redirectPath} replace={true} />
   }
 
@@ -535,18 +543,38 @@ export const router: RouteObject[] = [
   {
     path: '/',
     async lazy () {
-      const AuthLayout = await import('./components/layouts/AuthLayout')
-      return { Component: AuthLayout.default }
+      const HomeLayout = await import('./components/layouts/HomeLayout')
+      return { Component: HomeLayout.default }
     },
     errorElement: <ErrorPage />,
     children: [
+      // {
+      //   path: '/home',
+      //   async lazy () {
+      //     const HomePage = await import(
+      //       './components/routes/Landing/main/index.tsx'
+      //     )
+      //     return { Component: HomePage.default }
+      //   }
+      // },
       {
-        path: '/',
+        path: '/home',
+        element: <Navigate to='/' replace />
+      },
+      {
+        path: '/contact-us',
         async lazy () {
-          const HomePage = await import(
-            './components/routes/Landing/main/index.tsx'
+          const ContactUs = await import(
+            './components/routes/Landing/contact-us'
           )
-          return { Component: HomePage.default }
+          return { Component: ContactUs.default }
+        }
+      },
+      {
+        path: '/about-us',
+        async lazy () {
+          const AboutUs = await import('./components/routes/Landing/about-us')
+          return { Component: AboutUs.default }
         }
       }
     ]
