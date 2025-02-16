@@ -1,0 +1,30 @@
+@import '@/scss/main.scss';
+
+.dialog_content {
+  width: 100%;
+  margin: 0 auto;
+  // padding: 1rem 1rem 1.25rem;
+  padding: 0;
+  // overflow-y: visible;
+
+  .input_label {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    color: $auth-primary;
+    padding-bottom: 0.175rem
+  }
+}
+
+.action_btns {
+  gap: 0.5rem;
+  width: 100%;
+  max-width: calc(440px - 24px);
+  margin: 0 auto 1.25rem;
+}
+
+@include media(480px) {
+  .dialog_content {
+    padding: 0 1rem;
+  }
+}

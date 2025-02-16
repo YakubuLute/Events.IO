@@ -16,14 +16,17 @@
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
+    "js-cookie": "^3.0.5",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "sass": "^1.85.0",
     "yup": "^1.6.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -1,0 +1,167 @@
+@import '@/scss/main.scss';
+
+.search_wrapper {
+  color: $placeholder-color;
+  background-color: $input-backg;
+  // background-color: transparent;
+  display: none;
+  width: 100% !important;
+  border-radius: 6px;
+  margin: 0 !important;
+
+  border-radius: 8px;
+  border: 1px solid #ececed;
+  background: #fff;
+
+  svg {
+    color: $primary-color;
+    font-size: 1.125rem;
+    opacity: 0.65;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover .search_icon,
+  &:active .search_icon {
+    transform: rotate(90deg);
+  }
+
+  &:hover .location_icon,
+  &:active .location_icon {
+    transform: translateY(2px);
+  }
+
+  & > div {
+    height: 100%;
+  }
+}
+
+.employee_search,
+.employee_location {
+  font-size: 0.875rem;
+  color: $primary-color;
+
+  input::placeholder {
+    color: $icons-color;
+    opacity: 0.65;
+  }
+}
+
+.search_wrapper.job_search {
+  width: 90%;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 2rem;
+
+  svg {
+    color: $secondary-color;
+    font-size: 1.5rem;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.job_search {
+  font-size: 1rem;
+  color: $primary-color;
+  width: 90%;
+  height: 50px;
+  // border: 1px solid #ddd;
+  // padding-left: 1rem !important;
+
+  input::placeholder {
+    margin: 0 auto;
+    margin-left: -2rem !important;
+  }
+}
+
+.search_wrapper.positions_groups_aside {
+  height: 38px;
+  outline: none;
+  font-size: 0.875rem;
+  background: $input-backg;
+  border: $input-border;
+  border-radius: 0.5rem;
+  box-shadow: none;
+
+  svg {
+    font-size: 1.5rem;
+  }
+
+  input {
+    color: $primary-color;
+    background-color: transparent;
+    // padding-left: 0; // to desable the: paddingLeft: `calc(1em + ${theme.spacing(3)})`,
+  }
+}
+
+.search_wrapper.company_stuff {
+  @include d-flex(space-between, center);
+  flex-direction: row-reverse;
+  height: 40px;
+  outline: none;
+  font-size: 0.875rem;
+  background: $input-backg;
+  border: $input-border;
+  border: 1px solid $btn-cancel; //rgba(0, 0, 0, 0.23);
+  border-radius: 0.5rem;
+  box-shadow: none;
+
+  & > div {
+    position: absolute;
+    right: 1rem; // controll seach icon
+    left: 0rem; // controll input plasehplder
+    justify-content: flex-end;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: $primary-color;
+  }
+
+  svg {
+    font-size: 1.5rem;
+  }
+
+  input {
+    @include d-flex(flex-start, center);
+    color: $primary-color;
+    background-color: transparent;
+    padding-left: 0.75rem;
+
+    &::placeholder {
+      // color: $placeholder-color;
+      font-size: 1rem;
+    }
+  }
+}
+
+.search_wrapper.school_updates {
+  @extend .company_stuff;
+  height: 48px;
+  border-radius: 0.75rem;
+}
+
+
+
+@include media(992px) {
+  .search_wrapper {
+    display: block;
+  }
+}
+
+.search_wrapper.interview_name_email {
+  @extend .positions_groups_aside;
+  height: 50px;
+  border: 1px solid rgb(15, 15, 13);
+  border-radius: 0.625rem;
+  border: solid 1px #d9d8dc;
+  background-color: #f3f3f4;
+}
+
+.interview_name_email {
+  input::placeholder {
+    color: rgba(60, 60, 67, 0.6);
+    opacity: 0.65;
+    font-size: 0.875rem;
+  }
+}
