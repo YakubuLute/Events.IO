@@ -5,8 +5,9 @@ import Classes from '@/components/shared/icons/classes';
 import Logo from '@/components/shared/icons/logo';
 import LogoWithLabel from '@/components/shared/icons/logoWithLabel';
 import HStack from '@/components/shared/stacks/HStack';
-import { useHeaderContext } from '@/contexts/headerContext';
+// import { useHeaderContext } from '@/contexts/headerContext';
 import { getCurrentUser } from '@/utils';
+import { useHeaderContext } from '@/context/headerContext';
 
 interface SearchProps {
   haveSidebar?: boolean;

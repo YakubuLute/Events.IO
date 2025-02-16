@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.14.0",
     "@mantine/core": "^7.16.3",
     "@mantine/hooks": "^7.16.3",
+    "@mui/lab": "^6.0.0-beta.27",
     "@mui/material": "^6.4.4",
     "@tabler/icons-react": "^3.30.0",
     "@tanstack/react-query": "^5.66.0",
@@ -24,6 +25,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-select": "^5.10.0",
+    "react-select-async-paginate": "^0.7.9",
     "sass": "^1.85.0",
     "yup": "^1.6.1",
     "zod": "^3.24.2"
