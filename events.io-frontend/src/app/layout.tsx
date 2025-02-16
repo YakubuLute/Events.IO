@@ -1,33 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
+// import { Geist, Geist_Mono } from 'next/font/google'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
-})
+import '@mantine/core/styles.css'
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin']
-})
+import React from 'react'
+import {
+  ColorSchemeScript,
+  mantineHtmlProps,
+  MantineProvider
+} from '@mantine/core'
+import { theme } from '../../theme'
 
 export const metadata: Metadata = {
   title: 'Events.IO',
   description: 'An event management app built by LtECH'
 }
 
-export default function RootLayout ({
-  children
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout ({ children }: { children: any }) {
   return (
-    <html lang='en'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang='en' {...mantineHtmlProps}>
+      <head>
+        <ColorSchemeScript />
+        <link rel='shortcut icon' href='/favicon.svg' />
+        <meta
+          name='viewport'
+          content='minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no'
+        />
+      </head>
+      <body>
+        <MantineProvider theme={theme}>{children}</MantineProvider>
       </body>
     </html>
   )
