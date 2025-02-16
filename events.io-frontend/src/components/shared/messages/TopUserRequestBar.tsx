@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
-import Image from 'next/image';
-import { IconButton, Typography } from '@mui/material';
+import React, { useContext } from 'react'
+import Image from 'next/image'
+import { IconButton, Typography } from '@mui/material'
 
-import { useHeaderContext } from '@/contexts/headerContext';
-import { MessageContext } from '@/contexts/messageContext';
-import { truncateString } from '@/utils';
-import { CustomButton } from '../Button/Button';
-import CustomDialog from '../dialog/CustomDialog';
-import BackArrowIcon from '../SVG-components/BackArrowIcon';
-import styles from './styles.module.scss';
-import UserRequestDetails from './UserRequestDetails';
+import { useHeaderContext } from '@/contexts/headerContext'
+import { MessageContext } from '@/contexts/messageContext'
+import { truncateString } from '@/utils'
+import { CustomButton } from '../Button/Button'
+import CustomDialog from '../dialog/CustomDialog'
+import BackArrowIcon from '../SVG-components/BackArrowIcon'
+import styles from './styles.module.scss'
+import UserRequestDetails from './UserRequestDetails'
 
 const TopUserRequestBar = () => {
   const { selectedRequest, setSelectedRequest, infoTabOpen, setInfoTabOpen } =
-    useContext(MessageContext);
-  const { screenSize } = useHeaderContext();
+    useContext(MessageContext)
+  const { screenSize } = useHeaderContext()
 
-  const isLargeScreen = screenSize === 'desktop';
+  const isLargeScreen = screenSize === 'desktop'
 
   return (
     <>
@@ -33,7 +33,7 @@ const TopUserRequestBar = () => {
                     selectedRequest?.senderProfilePhoto ||
                     '/assets/images/user-default-image-sq.svg'
                   }
-                  alt="user profile"
+                  alt='user profile'
                   width={50}
                   height={50}
                   className={[styles.profileImg, styles.smallRadius].join('')}
@@ -46,7 +46,7 @@ const TopUserRequestBar = () => {
                     selectedRequest?.senderOrganizationLogo ||
                     '/assets/images/user-default-image-sq.svg'
                   }
-                  alt="user profile"
+                  alt='user profile'
                   width={20}
                   height={20}
                   className={styles.employerLogo}
@@ -60,12 +60,12 @@ const TopUserRequestBar = () => {
                   <div
                     className={[
                       styles.statusBox,
-                      selectedRequest ? styles[selectedRequest.status] : null,
+                      selectedRequest ? styles[selectedRequest.status] : null
                     ].join(' ')}
                   ></div>
                   <Typography
                     className={styles.statusText}
-                    textTransform="capitalize"
+                    textTransform='capitalize'
                   >
                     {selectedRequest?.status.toLowerCase()}
                   </Typography>
@@ -75,10 +75,10 @@ const TopUserRequestBar = () => {
           </div>
         </div>
         <CustomButton
-          label="View Details"
+          label='View Details'
           className={[
             styles.viewBtn,
-            selectedRequest && !infoTabOpen ? styles.show : null,
+            selectedRequest && !infoTabOpen ? styles.show : null
           ].join(' ')}
           onClick={() => setInfoTabOpen(true)}
         />
@@ -87,13 +87,13 @@ const TopUserRequestBar = () => {
         <CustomDialog
           onClose={() => setInfoTabOpen(false)}
           open={infoTabOpen}
-          title="Details"
+          title='Details'
         >
           <UserRequestDetails />
         </CustomDialog>
       ) : null}
     </>
-  );
-};
+  )
+}
 
-export default TopUserRequestBar;
+export default TopUserRequestBar

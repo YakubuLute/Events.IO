@@ -1,20 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Image from 'next/image';
-import { IconButton, Typography } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { IconButton, Typography } from '@mui/material'
 
-import { ChatCloseIcon } from '@/components/ui/icons';
-import useRandomInterval from '@/hooks/shared/useRandomInterval';
-import { socket } from '@/services/socket.service';
-import { useHeaderContext } from '@/contexts/headerContext';
-import { MessageContext } from '@/contexts/messageContext';
-import { truncateString } from '@/utils';
-import { CustomButton } from '../Button/Button';
-import CustomDialog from '../dialog/CustomDialog';
-import BackArrowIcon from '../SVG-components/BackArrowIcon';
-import styles from './styles.module.scss';
-import UserDetails from './UserDetails';
+import { ChatCloseIcon } from '@/components/ui/icons'
+import useRandomInterval from '@/hooks/shared/useRandomInterval'
+import { socket } from '@/services/socket.service'
+import { useHeaderContext } from '@/contexts/headerContext'
+import { MessageContext } from '@/contexts/messageContext'
+import { truncateString } from '@/utils'
+import { CustomButton } from '../Button/Button'
+import CustomDialog from '../dialog/CustomDialog'
+import BackArrowIcon from '../SVG-components/BackArrowIcon'
+import styles from './styles.module.scss'
+import UserDetails from './UserDetails'
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 10
 
 const TopUserBar = () => {
   const {
@@ -23,52 +23,52 @@ const TopUserBar = () => {
     infoTabOpen,
     setInfoTabOpen,
     setShowAttentionModal,
-    setChats,
-  } = useContext(MessageContext);
-  const [isTyping, setTyping] = useState(false);
-  const { screenSize } = useHeaderContext();
-  const [currentPage, setCurrentPage] = useState(1);
+    setChats
+  } = useContext(MessageContext)
+  const [isTyping, setTyping] = useState(false)
+  const { screenSize } = useHeaderContext()
+  const [currentPage, setCurrentPage] = useState(1)
 
-  const isLargeScreen = screenSize === 'desktop';
-  const isSmallScreen = screenSize === 'mobile' || screenSize === 'tablet';
+  const isLargeScreen = screenSize === 'desktop'
+  const isSmallScreen = screenSize === 'mobile' || screenSize === 'tablet'
 
   const onSetTyping = (typing: unknown) => {
-    setTyping(typing ? true : false);
+    setTyping(typing ? true : false)
     setTimeout(() => {
-      setTyping(false);
-    }, 1000);
-  };
+      setTyping(false)
+    }, 1000)
+  }
 
   const fetchChats = async () => {
     try {
       const response = await socket.emitWithAck('messages:chats', {
         page: currentPage,
-        itemsPerPage: ITEMS_PER_PAGE,
-      });
-      const { totalPages, items, currentPage: cp } = response.data;
-      setChats(items);
+        itemsPerPage: ITEMS_PER_PAGE
+      })
+      const { totalPages, items, currentPage: cp } = response.data
+      setChats(items)
       if (cp < totalPages) {
-        setCurrentPage((prev) => prev + 1);
+        setCurrentPage(prev => prev + 1)
       }
     } catch (e) {}
-  };
+  }
 
   useEffect(() => {
-    socket.on('messages:typing', onSetTyping);
-  }, []);
+    socket.on('messages:typing', onSetTyping)
+  }, [])
 
   const onBackBtnClick = () => {
-    fetchChats();
-    setSelectedChat(null);
-  };
+    fetchChats()
+    setSelectedChat(null)
+  }
 
   useRandomInterval(
     async () => {
-      await socket.emitWithAck('activities:status:update', {});
+      await socket.emitWithAck('activities:status:update', {})
     },
     3000,
     10000
-  );
+  )
 
   return (
     <>
@@ -85,7 +85,7 @@ const TopUserBar = () => {
                     selectedChat?.recipientProfilePhoto ||
                     '/assets/images/user-default-image-sq.svg'
                   }
-                  alt="user profile"
+                  alt='user profile'
                   width={50}
                   height={50}
                   className={[styles.profileImg, styles.smallRadius].join('')}
@@ -98,7 +98,7 @@ const TopUserBar = () => {
                     selectedChat?.recipientOrganizationLogo ||
                     '/assets/images/user-default-image-sq.svg'
                   }
-                  alt="user profile"
+                  alt='user profile'
                   width={20}
                   height={20}
                   className={styles.employerLogo}
@@ -119,7 +119,7 @@ const TopUserBar = () => {
                     <div
                       className={[
                         styles.statusBox,
-                        selectedChat ? styles[selectedChat.activeStatus] : null,
+                        selectedChat ? styles[selectedChat.activeStatus] : null
                       ].join(' ')}
                     ></div>
                     <Typography className={styles.statusText}>
@@ -139,10 +139,10 @@ const TopUserBar = () => {
             <ChatCloseIcon />
           </IconButton>
           <CustomButton
-            label="View Details"
+            label='View Details'
             className={[
               styles.viewBtn,
-              selectedChat && !infoTabOpen ? styles.show : null,
+              selectedChat && !infoTabOpen ? styles.show : null
             ].join(' ')}
             onClick={() => setInfoTabOpen(true)}
           />
@@ -152,13 +152,13 @@ const TopUserBar = () => {
         <CustomDialog
           onClose={() => setInfoTabOpen(false)}
           open={infoTabOpen}
-          title="Details"
+          title='Details'
         >
           <UserDetails />
         </CustomDialog>
       ) : null}
     </>
-  );
-};
+  )
+}
 
-export default TopUserBar;
+export default TopUserBar

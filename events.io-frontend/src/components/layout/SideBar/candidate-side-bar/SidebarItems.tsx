@@ -1,129 +1,129 @@
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import {
   IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+  ListItemText
+} from '@mui/material'
 
-import { CustomBadge } from '@/components/shared';
-import { useGetCandidateSidebarStat } from '@/hooks/candidate';
-import { useHeaderContext } from '@/contexts/headerContext';
-import { MenuItem } from '../sideBar.interface';
-import styles from './mainSideBar.module.scss';
+import { CustomBadge } from '@/components/shared'
+import { useGetCandidateSidebarStat } from '@/hooks/candidate'
+import { useHeaderContext } from '@/contexts/headerContext'
+import { MenuItem } from '../sideBar.interface'
+import styles from './mainSideBar.module.scss'
 
 interface Props {
-  sideBarContent: MenuItem[];
+  sideBarContent: MenuItem[]
 }
 
 const SidebarItems = ({ sideBarContent }: Props) => {
-  const { data: candidateSideStatistics } = useGetCandidateSidebarStat();
-  const { sideBarOpen, setSideBarOpen, screenSize } = useHeaderContext();
-  const pathname = usePathname();
-  const [activeLink, setActiveLink] = useState(pathname || ''); // we select the first item as default
-  const isSmallScreen = screenSize === 'mobile' || screenSize === 'tablet';
+  const { data: candidateSideStatistics } = useGetCandidateSidebarStat()
+  const { sideBarOpen, setSideBarOpen, screenSize } = useHeaderContext()
+  const pathname = usePathname()
+  const [activeLink, setActiveLink] = useState(pathname || '') // we select the first item as default
+  const isSmallScreen = screenSize === 'mobile' || screenSize === 'tablet'
 
   const onSetActiveLink = (link: string) => {
-    localStorage.setItem('activeLink', link);
-    setActiveLink(link);
+    localStorage.setItem('activeLink', link)
+    setActiveLink(link)
     if (isSmallScreen) {
-      setSideBarOpen(false);
+      setSideBarOpen(false)
     }
-  };
+  }
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      localStorage.setItem('activeLink', pathname || '');
-      const link = localStorage.getItem('activeLink') as string;
-      setActiveLink(link || pathname || '');
+      localStorage.setItem('activeLink', pathname || '')
+      const link = localStorage.getItem('activeLink') as string
+      setActiveLink(link || pathname || '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  const sideBardata = sideBarContent.map((item) => {
-    const menuList = item.menuList.map((menu) => {
+  const sideBardata = sideBarContent.map(item => {
+    const menuList = item.menuList.map(menu => {
       if (menu.label === 'Calendar') {
         return {
           ...menu,
-          count: candidateSideStatistics?.todayCalendarItems,
-        };
+          count: candidateSideStatistics?.todayCalendarItems
+        }
       }
       if (menu.label === 'Reviews') {
         return {
           ...menu,
-          count: candidateSideStatistics?.reviews,
-        };
+          count: candidateSideStatistics?.reviews
+        }
       }
       if (menu.label === 'Messages') {
         return {
           ...menu,
-          count: candidateSideStatistics?.unreadMessages,
-        };
+          count: candidateSideStatistics?.unreadMessages
+        }
       }
       if (menu.label === 'Favorited') {
         return {
           ...menu,
-          count: candidateSideStatistics?.bookmarks,
-        };
+          count: candidateSideStatistics?.bookmarks
+        }
       }
       if (menu.label === 'recommendations') {
         return {
           ...menu,
-          count: candidateSideStatistics?.recommendations,
-        };
+          count: candidateSideStatistics?.recommendations
+        }
       }
       if (menu.label === 'Shortlisted') {
         return {
           ...menu,
-          count: candidateSideStatistics?.shortlists,
-        };
+          count: candidateSideStatistics?.shortlists
+        }
       }
       if (menu.label === 'Hires') {
         return {
           ...menu,
-          count: candidateSideStatistics?.hires,
-        };
+          count: candidateSideStatistics?.hires
+        }
       }
       if (menu.label === 'Matches') {
         return {
           ...menu,
-          count: candidateSideStatistics?.matches,
-        };
+          count: candidateSideStatistics?.matches
+        }
       }
       if (menu.label === 'Interviews') {
         return {
           ...menu,
-          count: candidateSideStatistics?.pendingInterviews,
-        };
+          count: candidateSideStatistics?.pendingInterviews
+        }
       }
       if (menu.label === 'Offers') {
         return {
           ...menu,
-          count: candidateSideStatistics?.pendingOffers,
-        };
+          count: candidateSideStatistics?.pendingOffers
+        }
       }
       if (menu.label === 'Appointments') {
         return {
           ...menu,
-          count: candidateSideStatistics?.upcomingAppointments,
-        };
+          count: candidateSideStatistics?.upcomingAppointments
+        }
       }
-      return menu;
-    });
+      return menu
+    })
     return {
       ...item,
-      menuList,
-    };
-  });
+      menuList
+    }
+  })
 
   return (
     <>
       {sideBardata?.length > 0 &&
-        sideBardata?.map((data) => (
+        sideBardata?.map(data => (
           <div key={data.groupLabel} className={styles.sideNavGroup}>
             <div className={styles.groupBox}>
               <ListItemText
@@ -170,8 +170,8 @@ const SidebarItems = ({ sideBarContent }: Props) => {
                         <CustomBadge
                           count={item?.count}
                           name={item.label}
-                          iconBtnClass="aside_left_btn"
-                          badgeClass="aside_badge"
+                          iconBtnClass='aside_left_btn'
+                          badgeClass='aside_badge'
                         />
                       )}
                     </ListItemButton>
@@ -182,7 +182,7 @@ const SidebarItems = ({ sideBarContent }: Props) => {
           </div>
         ))}
     </>
-  );
-};
+  )
+}
 
-export default SidebarItems;
+export default SidebarItems

@@ -1,102 +1,102 @@
-import React, { useContext, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { StarRounded } from '@mui/icons-material';
-import { IconButton, Rating, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { StarRounded } from '@mui/icons-material'
+import { IconButton, Rating, Typography } from '@mui/material'
 
-import ShowMoreButton from '@/components/candidate/ob-submit-profile/experience/ShowMoreButton';
-import { useHeaderContext } from '@/contexts/headerContext';
-import { MessageContext } from '@/contexts/messageContext';
-import { TOrganization } from '@/@types/shared/organization';
-import { TUser, UserTypes } from '@/@types/shared/type';
-import { SocialIcons } from '@/constants/shared/shared-constants';
-import { getCurrentUser, truncateString } from '@/utils';
-import { CustomButton } from '../Button/Button';
-import { LocationCircleIcon } from '../SVG-components';
-import EmailAltIcon from '../SVG-components/EmailAltIcon';
-import OfficeIcon from '../SVG-components/OfficeIcon';
-import ReviewIcon from '../SVG-components/ReviewIcon';
-import ShortBackArrowIcon from '../SVG-components/ShortBackArrowIcon';
-import TelephoneIcon from '../SVG-components/TelephoneIcon';
-import UserGroupAltIcon from '../SVG-components/UserGroupAltIcon';
-import ProfileSkeleton from './ProfileSkeleton';
-import styles from './styles.module.scss';
+import ShowMoreButton from '@/components/candidate/ob-submit-profile/experience/ShowMoreButton'
+import { useHeaderContext } from '@/contexts/headerContext'
+import { MessageContext } from '@/contexts/messageContext'
+import { TOrganization } from '@/@types/shared/organization'
+import { TUser, UserTypes } from '@/@types/shared/type'
+import { SocialIcons } from '@/constants/shared/shared-constants'
+import { getCurrentUser, truncateString } from '@/utils'
+import { CustomButton } from '../Button/Button'
+import { LocationCircleIcon } from '../SVG-components'
+import EmailAltIcon from '../SVG-components/EmailAltIcon'
+import OfficeIcon from '../SVG-components/OfficeIcon'
+import ReviewIcon from '../SVG-components/ReviewIcon'
+import ShortBackArrowIcon from '../SVG-components/ShortBackArrowIcon'
+import TelephoneIcon from '../SVG-components/TelephoneIcon'
+import UserGroupAltIcon from '../SVG-components/UserGroupAltIcon'
+import ProfileSkeleton from './ProfileSkeleton'
+import styles from './styles.module.scss'
 
 type Props = {
-  orgProfile: TOrganization | undefined;
-  loading: boolean;
-};
+  orgProfile: TOrganization | undefined
+  loading: boolean
+}
 
 const OrganizationProfile = ({ orgProfile, loading }: Props) => {
-  const [showMore, setShowMore] = useState(false);
-  const activeUser = getCurrentUser();
-  const { selectedChat, setInfoTabOpen } = useContext(MessageContext);
-  const { screenSize } = useHeaderContext();
-  const isLargeScreen = screenSize === 'desktop';
+  const [showMore, setShowMore] = useState(false)
+  const activeUser = getCurrentUser()
+  const { selectedChat, setInfoTabOpen } = useContext(MessageContext)
+  const { screenSize } = useHeaderContext()
+  const isLargeScreen = screenSize === 'desktop'
 
   const getSocialLinks = () => {
-    const socialLinks: React.ReactNode[] = [];
+    const socialLinks: React.ReactNode[] = []
 
     if (orgProfile) {
-      Object.keys(orgProfile.socialLinks).forEach((social) => {
+      Object.keys(orgProfile.socialLinks).forEach(social => {
         const link = (
           <Link
             href={orgProfile.socialLinks[social] || ''}
-            target="_blank"
-            rel="noreferrer"
+            target='_blank'
+            rel='noreferrer'
             key={social}
           >
             <IconButton
               aria-label={`${social} logo`}
-              size="small"
+              size='small'
               className={styles.socialBtn}
             >
               {SocialIcons[social.toUpperCase()]}
             </IconButton>
           </Link>
-        );
-        socialLinks.push(link);
-      });
+        )
+        socialLinks.push(link)
+      })
     }
-    return socialLinks.length ? socialLinks : null;
-  };
+    return socialLinks.length ? socialLinks : null
+  }
 
   const onShowMore = () => {
-    setShowMore((state) => !state);
-  };
+    setShowMore(state => !state)
+  }
 
   const str = (str: string) => {
-    return !showMore ? truncateString(str, 300) : str;
-  };
+    return !showMore ? truncateString(str, 300) : str
+  }
 
   // Function to get the redirect path based on the user type
   const getRedirectPath = (user: TUser, institutionId: string) => {
     switch (user?.userType) {
       case UserTypes.EMPLOYEE:
-        return `/employer/schools?schoolId=${institutionId}`;
+        return `/employer/schools?schoolId=${institutionId}`
       case UserTypes.CANDIDATE:
-        return `/candidate/schools?schoolId=${institutionId}`;
+        return `/candidate/schools?schoolId=${institutionId}`
       case UserTypes.STAFF:
-        return `/university/education?schoolId=${institutionId}`;
+        return `/university/education?schoolId=${institutionId}`
       default:
-        return '/candidate/signin';
+        return '/candidate/signin'
     }
-  };
+  }
 
   if (loading) {
-    return <ProfileSkeleton />;
+    return <ProfileSkeleton />
   }
 
   const renderSocial = (orgProfile: TOrganization) => {
     switch (orgProfile.type) {
       case 'institution':
-        return <div className={styles.socialWrapper}>{getSocialLinks()}</div>;
+        return <div className={styles.socialWrapper}>{getSocialLinks()}</div>
       case 'employer':
-        return null;
+        return null
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   const renderRating = (orgProfile: TOrganization) => {
     switch (orgProfile.type) {
@@ -107,24 +107,24 @@ const OrganizationProfile = ({ orgProfile, loading }: Props) => {
               {orgProfile.rating.averageRating}
             </Typography>
             <Rating
-              name="rate"
+              name='rate'
               value={Math.floor(orgProfile?.rating.averageRating)}
               emptyIcon={
-                <StarRounded style={{ opacity: 0.55 }} fontSize="inherit" />
+                <StarRounded style={{ opacity: 0.55 }} fontSize='inherit' />
               }
               icon={
-                <StarRounded className={styles.ratingStar} fontSize="inherit" />
+                <StarRounded className={styles.ratingStar} fontSize='inherit' />
               }
               className={styles.rating}
             />
           </div>
-        );
+        )
       case 'institution':
-        return null;
+        return null
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   const renderEmployerLocation = (orgProfile: TOrganization) => {
     switch (orgProfile.type) {
@@ -161,13 +161,13 @@ const OrganizationProfile = ({ orgProfile, loading }: Props) => {
               </div>
             </div>
           </div>
-        );
+        )
       case 'institution':
-        return null;
+        return null
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   const renderInstitutionLocation = (orgProfile: TOrganization) => {
     switch (orgProfile.type) {
@@ -193,13 +193,13 @@ const OrganizationProfile = ({ orgProfile, loading }: Props) => {
               </Typography>
             </div>
           </div>
-        );
+        )
       case 'employer':
-        return null;
+        return null
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return orgProfile ? (
     <>
@@ -217,15 +217,15 @@ const OrganizationProfile = ({ orgProfile, loading }: Props) => {
             src={orgProfile?.logo || '/assets/icons/organization_alt.svg'}
             width={120}
             height={120}
-            alt="profile picture"
+            alt='profile picture'
             priority
             className={styles.profileImg}
           />
           <div className={styles.nameBox}>
-            <Typography variant="h2">{orgProfile?.name}</Typography>
+            <Typography variant='h2'>{orgProfile?.name}</Typography>
           </div>
           <div className={styles.codeBox}>
-            <Typography variant="body2" className={styles.code}>
+            <Typography variant='body2' className={styles.code}>
               {orgProfile?.accountId}
             </Typography>
           </div>
@@ -241,8 +241,8 @@ const OrganizationProfile = ({ orgProfile, loading }: Props) => {
             .split('. ')
             .map((p, i) => (
               <Typography
-                variant="body2"
-                component="p"
+                variant='body2'
+                component='p'
                 className={styles.about}
                 key={i}
               >
@@ -257,17 +257,17 @@ const OrganizationProfile = ({ orgProfile, loading }: Props) => {
       </div>
       <Link
         href={getRedirectPath(activeUser, selectedChat!.recipientId)}
-        target="_blank"
+        target='_blank'
       >
         <CustomButton
-          variant="text"
+          variant='text'
           className={styles.profileBtn}
-          label="View Full Profile"
+          label='View Full Profile'
           fullWidth
         />
       </Link>
     </>
-  ) : null;
-};
+  ) : null
+}
 
-export default OrganizationProfile;
+export default OrganizationProfile

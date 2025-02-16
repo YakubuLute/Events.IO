@@ -3,29 +3,29 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState,
-} from 'react';
-import Scroll from 'react-scroll';
-import Lightbox from 'yet-another-react-lightbox';
+  useState
+} from 'react'
+import Scroll from 'react-scroll'
+import Lightbox from 'yet-another-react-lightbox'
 
-import { socket } from '@/services/socket.service';
-import { MessageContext } from '@/contexts/messageContext';
-import { Attachment, IMessage } from '@/@types/shared/chat';
-import { sortMessagesByDate } from '@/utils';
-import NotificationStrip from '../sticky-message/messageInbox/chat-box/NotificationStrip';
-import AddChatReview from './AddChatReview';
-import ChatForm from './ChatForm';
-import ChatNotice from './ChatNotice';
-import EmptyMessages from './EmptyMessages';
-import ReviewChatSuccess from './ReviewChatSuccess';
-import SingleMessageThread from './SingleMessageThread';
-import styles from './styles.module.scss';
+import { socket } from '@/services/socket.service'
+import { MessageContext } from '@/contexts/messageContext'
+import { Attachment, IMessage } from '@/@types/shared/chat'
+import { sortMessagesByDate } from '@/utils'
+import NotificationStrip from '../sticky-message/messageInbox/chat-box/NotificationStrip'
+import AddChatReview from './AddChatReview'
+import ChatForm from './ChatForm'
+import ChatNotice from './ChatNotice'
+import EmptyMessages from './EmptyMessages'
+import ReviewChatSuccess from './ReviewChatSuccess'
+import SingleMessageThread from './SingleMessageThread'
+import styles from './styles.module.scss'
 
-const scroll = Scroll.animateScroll;
+const scroll = Scroll.animateScroll
 
 type TSlide = {
-  src: string;
-};
+  src: string
+}
 
 const MessageArea = () => {
   const {
@@ -38,12 +38,12 @@ const MessageArea = () => {
     loadingMgs,
     messageTotalPages,
     setItemsPerPage,
-    itemsPerPage,
-  } = useContext(MessageContext);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [openLightBox, setOpenLightBox] = useState(false);
-  const [slides, setSlides] = useState<TSlide[]>([]);
+    itemsPerPage
+  } = useContext(MessageContext)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [openLightBox, setOpenLightBox] = useState(false)
+  const [slides, setSlides] = useState<TSlide[]>([])
 
   const scrollToBottom = (duration = 400) => {
     scroll.scrollToBottom({
@@ -51,24 +51,24 @@ const MessageArea = () => {
       delay: 0,
       smooth: true,
       containerId: `chat${selectedChat?._id}`,
-      offset: 0,
-    });
-  };
+      offset: 0
+    })
+  }
 
   const fetchNextPage = useCallback(async () => {
-    if (currentPage === messageTotalPages) return;
+    if (currentPage === messageTotalPages) return
     const response = await socket.emitWithAck('messages', {
       page: 1,
       itemsPerPage,
-      connectionId: selectedChat?._id as string,
-    });
-    let olderMessages = response.data.items;
-    olderMessages = sortMessagesByDate(olderMessages);
+      connectionId: selectedChat?._id as string
+    })
+    let olderMessages = response.data.items
+    olderMessages = sortMessagesByDate(olderMessages)
     if (olderMessages.length > 0) {
-      setMessages(olderMessages);
-      setCurrentPage((prev) => prev + 1);
+      setMessages(olderMessages)
+      setCurrentPage(prev => prev + 1)
     }
-  }, [currentPage, messageTotalPages, itemsPerPage, selectedChat, setMessages]);
+  }, [currentPage, messageTotalPages, itemsPerPage, selectedChat, setMessages])
 
   const handleScroll = () => {
     if (
@@ -76,95 +76,93 @@ const MessageArea = () => {
       containerRef.current.scrollTop === 0 &&
       currentPage <= messageTotalPages
     ) {
-      setItemsPerPage(itemsPerPage + 10);
-      fetchNextPage();
+      setItemsPerPage(itemsPerPage + 10)
+      fetchNextPage()
     }
-  };
+  }
 
   useEffect(() => {
     if (containerRef.current) {
       setTimeout(() => {
         if (containerRef.current) {
-          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+          containerRef.current.scrollTop = containerRef.current.scrollHeight
         }
-      }, 500);
+      }, 500)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages]);
+  }, [messages])
 
   useEffect(() => {
     socket.on('messages:new', async (newMessage: IMessage) => {
-      setMessages([...messages, newMessage]);
+      setMessages([...messages, newMessage])
       const payload = {
         connectionId: selectedChat?._id,
-        messageId: newMessage.messageId,
-      };
-      await socket.emitWithAck('messages:read', payload);
-      await socket.emitWithAck('messages:delivered', payload);
-      scrollToBottom();
-    });
+        messageId: newMessage.messageId
+      }
+      await socket.emitWithAck('messages:read', payload)
+      await socket.emitWithAck('messages:delivered', payload)
+      scrollToBottom()
+    })
 
-    socket.on('messages:read', (info) => {
+    socket.on('messages:read', info => {
       const messageIndex = messages.findIndex(
-        (item) => item.messageId === info.messageId
-      );
-      if (messageIndex < 0) return;
-      const newArray = [...messages];
-      newArray[messageIndex].receipt = 'read';
-      setMessages(newArray);
-    });
+        item => item.messageId === info.messageId
+      )
+      if (messageIndex < 0) return
+      const newArray = [...messages]
+      newArray[messageIndex].receipt = 'read'
+      setMessages(newArray)
+    })
 
-    socket.on('messages:read:bulk', (info) => {
-      const newMessages = info.messageIds;
-      const updatedMessages = [...messages];
+    socket.on('messages:read:bulk', info => {
+      const newMessages = info.messageIds
+      const updatedMessages = [...messages]
       newMessages.forEach((element: any) => {
         const itemIndex = updatedMessages.findIndex(
-          (item) => element === item.messageId
-        );
+          item => element === item.messageId
+        )
         if (itemIndex >= 0) {
-          updatedMessages[itemIndex].receipt = 'read';
+          updatedMessages[itemIndex].receipt = 'read'
         }
-      });
-      setMessages(updatedMessages);
-    });
+      })
+      setMessages(updatedMessages)
+    })
 
     return () => {
-      socket.off('messages:new');
-      socket.off('messages:read');
-      socket.off('messages:read:bulk');
-    };
+      socket.off('messages:new')
+      socket.off('messages:read')
+      socket.off('messages:read:bulk')
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages]);
+  }, [messages])
 
   const performChecks = () => {
     if (selectedChat?.isDeletedUser) {
-      return <NotificationStrip message="This user is no longer on vaurse" />;
+      return <NotificationStrip message='This user is no longer on vaurse' />
     } else if (
       selectedChat?._id &&
       !selectedChat?.isConnected &&
       !selectedChat?.isDeletedUser
     ) {
       return (
-        <NotificationStrip message="You have closed connection for this user" />
-      );
+        <NotificationStrip message='You have closed connection for this user' />
+      )
     }
-    return null;
-  };
+    return null
+  }
 
   const onBuildAttachments = (data: Attachment) => {
-    const filteredMessaages = messages?.filter(
-      (msg) => msg.type === 'attachment'
-    );
-    const attachments: TSlide[] = filteredMessaages?.map((msg) => {
+    const filteredMessaages = messages?.filter(msg => msg.type === 'attachment')
+    const attachments: TSlide[] = filteredMessaages?.map(msg => {
       return {
-        src: msg?.attachment?.url,
-      };
-    });
-    const filteredAttachments = attachments.filter((a) => a?.src !== data?.url);
-    filteredAttachments.unshift({ src: data?.url });
-    setSlides(filteredAttachments);
-    setOpenLightBox(true);
-  };
+        src: msg?.attachment?.url
+      }
+    })
+    const filteredAttachments = attachments.filter(a => a?.src !== data?.url)
+    filteredAttachments.unshift({ src: data?.url })
+    setSlides(filteredAttachments)
+    setOpenLightBox(true)
+  }
 
   return (
     <div className={styles.messageAreaWrapper}>
@@ -179,9 +177,9 @@ const MessageArea = () => {
         ) : (
           <>
             {loadingMgs ? (
-              <NotificationStrip message="Loading messages . . ." />
+              <NotificationStrip message='Loading messages . . .' />
             ) : messages && messages.length > 0 ? (
-              messages.map((message) => (
+              messages.map(message => (
                 <SingleMessageThread
                   key={message.messageId}
                   message={message}
@@ -206,7 +204,7 @@ const MessageArea = () => {
         />
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default MessageArea;
+export default MessageArea

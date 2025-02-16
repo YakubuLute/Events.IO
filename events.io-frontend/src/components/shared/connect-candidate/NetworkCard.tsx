@@ -1,53 +1,53 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { IconButton, Typography } from '@mui/material';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { IconButton, Typography } from '@mui/material'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
-import { CustomButton } from '@/components/shared';
-import ConnectionModal from '@/components/shared/connect-candidate/ConnectionModal';
-import NoteModal from '@/components/shared/connect-candidate/NoteModal';
-import InfoPopOver from '@/components/shared/popover/InfoPopOver';
+import { CustomButton } from '@/components/shared'
+import ConnectionModal from '@/components/shared/connect-candidate/ConnectionModal'
+import NoteModal from '@/components/shared/connect-candidate/NoteModal'
+import InfoPopOver from '@/components/shared/popover/InfoPopOver'
 import {
   BriefCaseIcon,
   LocationCircleIcon,
   TimeIcon,
-  VaurseVerifiedLogo,
-} from '@/components/shared/SVG-components';
-import FileIcon from '@/components/shared/SVG-components/FileIcon';
-import { useHeaderContext } from '@/contexts/headerContext';
-import { NetworkItem } from '@/@types/shared/type';
-import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore';
-import { useAlumniProfileStore } from '@/store/university';
-import { truncateString } from '@/utils';
-import styles from './styles.module.scss';
+  VaurseVerifiedLogo
+} from '@/components/shared/SVG-components'
+import FileIcon from '@/components/shared/SVG-components/FileIcon'
+import { useHeaderContext } from '@/contexts/headerContext'
+import { NetworkItem } from '@/@types/shared/type'
+import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore'
+import { useAlumniProfileStore } from '@/store/university'
+import { truncateString } from '@/utils'
+import styles from './styles.module.scss'
 
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime)
 
 type Props = {
-  network: NetworkItem;
-  platform?: 'university' | 'candidate' | 'employer';
-};
+  network: NetworkItem
+  platform?: 'university' | 'candidate' | 'employer'
+}
 
 const NetworkCard = ({ network, platform }: Props) => {
-  const { handleSelectAlumni } = useAlumniProfileStore();
-  const { handleOpenChat } = useChatStickyMessageStore();
-  const [openConnectionModal, setOpenConnectionModal] = useState(false);
-  const [openNotesModal, setOpenNotesModal] = useState(false);
-  const { screenSize } = useHeaderContext();
-  const isLargeScreen = screenSize === 'desktop' || screenSize === 'laptop';
-  const router = useRouter();
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const openPopover = Boolean(anchorEl);
+  const { handleSelectAlumni } = useAlumniProfileStore()
+  const { handleOpenChat } = useChatStickyMessageStore()
+  const [openConnectionModal, setOpenConnectionModal] = useState(false)
+  const [openNotesModal, setOpenNotesModal] = useState(false)
+  const { screenSize } = useHeaderContext()
+  const isLargeScreen = screenSize === 'desktop' || screenSize === 'laptop'
+  const router = useRouter()
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const openPopover = Boolean(anchorEl)
 
   const onClosePopper = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const onViewVerified = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClickMessageBtn = () => {
     if (isLargeScreen) {
@@ -55,19 +55,19 @@ const NetworkCard = ({ network, platform }: Props) => {
         _id: network?.connectionId,
         recipientProfilePhoto: network?.profilePhoto,
         recipientName: `${network?.personalDetails?.firstName} ${network?.personalDetails?.lastName}`,
-        recipientId: network?._id,
-      });
+        recipientId: network?._id
+      })
     } else {
       const connectData = {
         _id: network?.connectionId,
         recipientProfilePhoto: network?.profilePhoto,
         recipientName: `${network?.personalDetails?.firstName} ${network?.personalDetails?.lastName}`,
-        recipientId: network?._id,
-      };
-      localStorage.setItem('connectData', JSON.stringify(connectData));
-      router.push(`/${platform}/messages`);
+        recipientId: network?._id
+      }
+      localStorage.setItem('connectData', JSON.stringify(connectData))
+      router.push(`/${platform}/messages`)
     }
-  };
+  }
 
   return (
     <>
@@ -90,7 +90,7 @@ const NetworkCard = ({ network, platform }: Props) => {
           <Typography
             noWrap
             className={styles.nameText}
-            role="button"
+            role='button'
             tabIndex={0}
             onClick={() => handleSelectAlumni(network?._id)}
           >{`${network?.personalDetails?.firstName?.toLowerCase()} ${network?.personalDetails?.lastName?.toLowerCase()}`}</Typography>
@@ -100,9 +100,9 @@ const NetworkCard = ({ network, platform }: Props) => {
               className={styles.iconBtn}
               sx={{ p: '4px' }}
               onMouseEnter={onViewVerified}
-              aria-haspopup="true"
+              aria-haspopup='true'
             >
-              <VaurseVerifiedLogo width={14} height={14} color="#1C92FF" />
+              <VaurseVerifiedLogo width={14} height={14} color='#1C92FF' />
             </IconButton>
           ) : null}
         </div>
@@ -144,8 +144,8 @@ const NetworkCard = ({ network, platform }: Props) => {
         <div className={styles.btnGroup}>
           {platform === 'university' ? (
             <CustomButton
-              variant="contained"
-              label="Message"
+              variant='contained'
+              label='Message'
               className={styles.messageBtn}
               fullWidth
               onClick={handleClickMessageBtn}
@@ -161,33 +161,35 @@ const NetworkCard = ({ network, platform }: Props) => {
                 </IconButton>
               ) : null}
 
-              {platform == "candidate" ? (network?.alreadyConnected ? (
-                network?.connectionStatus === 'accepted' ? (
+              {platform == 'candidate' ? (
+                network?.alreadyConnected ? (
+                  network?.connectionStatus === 'accepted' ? (
+                    <CustomButton
+                      variant='contained'
+                      label='Message'
+                      className={styles.messageBtn}
+                      fullWidth
+                      onClick={handleClickMessageBtn}
+                    />
+                  ) : network?.connectionStatus === 'pending' ? (
+                    <CustomButton
+                      variant='outlined'
+                      label='Pending'
+                      className={styles.messageBtn}
+                      fullWidth
+                      disabled
+                    />
+                  ) : null
+                ) : (
                   <CustomButton
-                    variant="contained"
-                    label="Message"
-                    className={styles.messageBtn}
+                    variant='outlined'
+                    label='Connect'
+                    className={styles.connectBtn}
                     fullWidth
-                    onClick={handleClickMessageBtn}
+                    onClick={() => setOpenConnectionModal(true)}
                   />
-                ) : network?.connectionStatus === 'pending' ? (
-                  <CustomButton
-                    variant="outlined"
-                    label="Pending"
-                    className={styles.messageBtn}
-                    fullWidth
-                    disabled
-                  />
-                ) : null
-              ) : (
-                <CustomButton
-                  variant="outlined"
-                  label="Connect"
-                  className={styles.connectBtn}
-                  fullWidth
-                  onClick={() => setOpenConnectionModal(true)}
-                />
-              )) : null}
+                )
+              ) : null}
             </>
           )}
         </div>
@@ -215,7 +217,7 @@ const NetworkCard = ({ network, platform }: Props) => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default NetworkCard;
+export default NetworkCard

@@ -1,12 +1,8 @@
-'use client';
+'use client'
 
-import { useEffect, useMemo, useState } from 'react';
-import {
-  KeyboardArrowDown,
-  KeyboardArrowUp,
-  Search,
-} from '@mui/icons-material';
-import { TabContext, TabList } from '@mui/lab';
+import { useEffect, useMemo, useState } from 'react'
+import { KeyboardArrowDown, KeyboardArrowUp, Search } from '@mui/icons-material'
+import { TabContext, TabList } from '@mui/lab'
 import {
   Avatar,
   Badge,
@@ -17,87 +13,87 @@ import {
   OutlinedInput,
   Paper,
   Tab,
-  Typography,
-} from '@mui/material';
+  Typography
+} from '@mui/material'
 
-import useDebounce from '@/utils/useDebounce';
-import { socket } from '@/services/socket.service';
-import { useAuthCandidateContext } from '@/contexts/authCandidateContext';
-import { useSocketContext } from '@/contexts/SocketContext';
-import { useUser } from '@/contexts/userContext';
-import { UserChatStatus } from '@/@types/shared/type';
-import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore';
-import { isSocialProfileLink } from '@/utils';
-import ChatTabPanel from './ChatTabPanel';
-import styles from './index.module.scss';
-import RequestsTabPanel from './RequestsTabPanel';
+import useDebounce from '@/utils/useDebounce'
+import { socket } from '@/services/socket.service'
+import { useAuthCandidateContext } from '@/contexts/authCandidateContext'
+import { useSocketContext } from '@/contexts/SocketContext'
+import { useUser } from '@/contexts/userContext'
+import { UserChatStatus } from '@/@types/shared/type'
+import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore'
+import { isSocialProfileLink } from '@/utils'
+import ChatTabPanel from './ChatTabPanel'
+import styles from './index.module.scss'
+import RequestsTabPanel from './RequestsTabPanel'
 
-type TTab = 'chat' | 'requests';
+type TTab = 'chat' | 'requests'
 
 const MessageInbox = () => {
-  const { user } = useAuthCandidateContext();
+  const { user } = useAuthCandidateContext()
   const { openChatWidget, setOpenChatWidget, setConnectionRequests } =
-    useSocketContext();
-  const [activeTab, setActiveTab] = useState<TTab>('chat');
-  const [searchTerm, setSearchTerm] = useState('');
-  const { setConversations } = useChatStickyMessageStore();
-  const debounceQuery = useDebounce(searchTerm, 1000);
-  const [totalUnread, setTotalUnread] = useState(0);
-  const [activeStatus, setActiveStatus] = useState<UserChatStatus>('inactive');
-  const [pendingRequests, setPendingRequests] = useState(0);
+    useSocketContext()
+  const [activeTab, setActiveTab] = useState<TTab>('chat')
+  const [searchTerm, setSearchTerm] = useState('')
+  const { setConversations } = useChatStickyMessageStore()
+  const debounceQuery = useDebounce(searchTerm, 1000)
+  const [totalUnread, setTotalUnread] = useState(0)
+  const [activeStatus, setActiveStatus] = useState<UserChatStatus>('inactive')
+  const [pendingRequests, setPendingRequests] = useState(0)
   //   timestamp
-  const timeStamp = useMemo(() => `?&timestamp=${Date.now()}`, []);
+  const timeStamp = useMemo(() => `?&timestamp=${Date.now()}`, [])
 
-  const { currentUserProfilePicture } = useUser();
+  const { currentUserProfilePicture } = useUser()
 
   const handleSearch = (e: any) => {
-    setSearchTerm(e.target.value);
-  };
+    setSearchTerm(e.target.value)
+  }
 
   const searchChats = async () => {
     const response = await socket.emitWithAck('messages:chats', {
       page: 1,
       itemsPerPage: 10,
-      search: debounceQuery,
-    });
-    setConversations([...response.data.items]);
-  };
+      search: debounceQuery
+    })
+    setConversations([...response.data.items])
+  }
 
   const searchConnectionRequests = async () => {
     const response = await socket.emitWithAck('connections', {
       page: 1,
       itemsPerPage: 10,
-      search: debounceQuery,
-    });
-    setConnectionRequests([...response.data.items]);
-  };
+      search: debounceQuery
+    })
+    setConnectionRequests([...response.data.items])
+  }
 
   useEffect(() => {
-    socket.on('messages:unread:count', (data) => {
+    socket.on('messages:unread:count', data => {
       if (data) {
-        const newData = JSON.parse(data);
+        const newData = JSON.parse(data)
         if (newData) {
-          setTotalUnread(newData?.totalUnread);
-          setActiveStatus(newData?.activeStatus);
-          setPendingRequests(newData?.pendingRequests);
+          setTotalUnread(newData?.totalUnread)
+          setActiveStatus(newData?.activeStatus)
+          setPendingRequests(newData?.pendingRequests)
         }
       }
-    });
+    })
     return () => {
-      socket.off('messages:unread:count');
-    };
-  }, []);
+      socket.off('messages:unread:count')
+    }
+  }, [])
 
   // console.log('STATUS: ', activeStatus);
 
   useEffect(() => {
     if (activeTab === 'chat' && searchTerm) {
-      searchChats();
+      searchChats()
     } else {
-      searchConnectionRequests();
+      searchConnectionRequests()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceQuery]);
+  }, [debounceQuery])
 
   return (
     <Paper className={styles.chatPaperBox}>
@@ -153,10 +149,10 @@ const MessageInbox = () => {
               height: 24,
               width: 24,
               p: 0.8,
-              '&:hover': { background: 'lightgrey' },
+              '&:hover': { background: 'lightgrey' }
             }}
             onClick={() => {
-              setOpenChatWidget(!openChatWidget);
+              setOpenChatWidget(!openChatWidget)
             }}
           >
             {openChatWidget ? <KeyboardArrowDown /> : <KeyboardArrowUp />}
@@ -174,7 +170,7 @@ const MessageInbox = () => {
         <Box
           sx={{
             background: 'white',
-            p: 1,
+            p: 1
           }}
         >
           <OutlinedInput
@@ -182,7 +178,7 @@ const MessageInbox = () => {
             startAdornment={<Search sx={{ fontSize: 18 }} />}
             placeholder={'Search'}
             sx={{ fontSize: 13, fontWeight: 600, borderRadius: 2, height: 32 }}
-            size="small"
+            size='small'
             fullWidth
             value={searchTerm}
           />
@@ -194,7 +190,7 @@ const MessageInbox = () => {
                   label={
                     <Typography className={styles.tab_title}>Chat</Typography>
                   }
-                  value="chat"
+                  value='chat'
                 />
                 <Tab
                   label={
@@ -204,13 +200,13 @@ const MessageInbox = () => {
                       </Typography>
                       {pendingRequests > 0 ? (
                         <Badge
-                          color="secondary"
+                          color='secondary'
                           badgeContent={pendingRequests}
                         />
                       ) : null}
                     </Box>
                   }
-                  value="requests"
+                  value='requests'
                 />
               </TabList>
             </Box>
@@ -222,7 +218,7 @@ const MessageInbox = () => {
         </Box>
       </Collapse>
     </Paper>
-  );
-};
+  )
+}
 
-export default MessageInbox;
+export default MessageInbox

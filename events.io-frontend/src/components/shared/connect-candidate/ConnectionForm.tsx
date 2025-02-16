@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { IconButton, Link, Tooltip, Typography } from '@mui/material';
-import { useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react'
+import { IconButton, Link, Tooltip, Typography } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
 
-import { decodeAxiosError } from '@/utils/shared/axiosError';
-import { CustomButton } from '@/components/shared';
-import CancelIcon from '@/components/shared/SVG-components/CancelIcon';
-import InfoIcon from '@/components/shared/SVG-components/InfoIcon';
-import { errorAlert, successAlert } from '@/components/shared/toastAlert';
-import { socket } from '@/services/socket.service';
-import { useSocketContext } from '@/contexts/SocketContext';
-import { TConenction } from '@/@types/candidate/candidate';
-import { ConnectionInquiryData, ConnectionNav } from '@/@types/shared/type';
-import { getBasePath } from '@/utils';
-import styles from './styles.module.scss';
-import { useGetEmployerInfo } from '@/hooks/employer';
+import { decodeAxiosError } from '@/utils/shared/axiosError'
+import { CustomButton } from '@/components/shared'
+import CancelIcon from '@/components/shared/SVG-components/CancelIcon'
+import InfoIcon from '@/components/shared/SVG-components/InfoIcon'
+import { errorAlert, successAlert } from '@/components/shared/toastAlert'
+import { socket } from '@/services/socket.service'
+import { useSocketContext } from '@/contexts/SocketContext'
+import { TConenction } from '@/@types/candidate/candidate'
+import { ConnectionInquiryData, ConnectionNav } from '@/@types/shared/type'
+import { getBasePath } from '@/utils'
+import styles from './styles.module.scss'
+import { useGetEmployerInfo } from '@/hooks/employer'
 
 type Props = {
-  connection: TConenction;
-  selectedNav: ConnectionNav;
-  setSelectedNav: (value: ConnectionNav | null) => void;
-  onClose: () => void;
-  allowClose?: boolean;
-  onConnect?: () => any;
-};
+  connection: TConenction
+  selectedNav: ConnectionNav
+  setSelectedNav: (value: ConnectionNav | null) => void
+  onClose: () => void
+  allowClose?: boolean
+  onConnect?: () => any
+}
 
 const ConnectionForm = ({
   connection,
@@ -32,85 +32,90 @@ const ConnectionForm = ({
   allowClose = true,
   onConnect
 }: Props) => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
   const [reason, setReason] = useState(
     selectedNav.label !== 'Other' ? selectedNav.label : ''
-  );
-  const [message, setMessage] = useState('');
+  )
+  const [message, setMessage] = useState('')
   const [enquiryData, setEnquiryData] = useState<ConnectionInquiryData | null>(
     null
-  );
-  const [loading, setLoading] = useState(false);
-  const [isSubmitting, setSubmitting] = useState(false);
-  const { setConnectionRequests, connectionRequests } = useSocketContext();
+  )
+  const [loading, setLoading] = useState(false)
+  const [isSubmitting, setSubmitting] = useState(false)
+  const { setConnectionRequests, connectionRequests } = useSocketContext()
 
-  const { data: employerDetails, isPending: employerInfoLoading } = useGetEmployerInfo();
+  const { data: employerDetails, isPending: employerInfoLoading } =
+    useGetEmployerInfo()
 
   const enquireCost = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const response = await socket.emitWithAck('connections:inquiry', {
-        recipientId: connection?._id,
-      });
-      setEnquiryData(response?.data);
-      setLoading(false);
+        recipientId: connection?._id
+      })
+      setEnquiryData(response?.data)
+      setLoading(false)
     } catch (err) {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const disabledCheck = () => {
     if (enquiryData && employerDetails) {
       return (
         !message ||
         !reason ||
-        enquiryData?.requestCost > employerDetails.candidateConnectionRequestCreditsRemaining ||
+        enquiryData?.requestCost >
+          employerDetails.candidateConnectionRequestCreditsRemaining ||
         isSubmitting
-      );
+      )
     }
-    return !message || !reason || isSubmitting;
-  };
+    return !message || !reason || isSubmitting
+  }
 
   const shouldShowTooltip = () => {
     if (enquiryData && employerDetails) {
-      return enquiryData?.requestCost > employerDetails.candidateConnectionRequestCreditsRemaining;
+      return (
+        enquiryData?.requestCost >
+        employerDetails.candidateConnectionRequestCreditsRemaining
+      )
     }
-    return false;
-  };
+    return false
+  }
 
   const onSendMessageClick = async () => {
     try {
-      setSubmitting(true);
+      setSubmitting(true)
       const payload = {
         recipientId: connection?._id,
         requestReason: reason?.toLowerCase(),
         message,
-        type: "group",
-        subType: "job_search"
-      };
-      const response = await socket.emitWithAck('connections:new', payload);
-      if (!response.success) throw new Error(response?.description);
-      setConnectionRequests([response.data, ...connectionRequests]);
-      if (onConnect) {
-        onConnect();
+        type: 'group',
+        subType: 'job_search'
       }
-      successAlert({ message: response.description });
-      setSubmitting(false);
-      queryClient.invalidateQueries({ queryKey: ['getCandidateNetworks'] });
-      onClose();
+      const response = await socket.emitWithAck('connections:new', payload)
+      if (!response.success) throw new Error(response?.description)
+      setConnectionRequests([response.data, ...connectionRequests])
+      if (onConnect) {
+        onConnect()
+      }
+      successAlert({ message: response.description })
+      setSubmitting(false)
+      queryClient.invalidateQueries({ queryKey: ['getCandidateNetworks'] })
+      onClose()
     } catch (err: any) {
-      errorAlert({ message: decodeAxiosError(err) });
-      setSubmitting(false);
+      errorAlert({ message: decodeAxiosError(err) })
+      setSubmitting(false)
     }
-  };
+  }
 
   useEffect(() => {
-    enquireCost();
+    enquireCost()
     return () => {
-      socket.removeListener('connections:inquiry');
-    };
+      socket.removeListener('connections:inquiry')
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   return (
     <>
@@ -130,9 +135,9 @@ const ConnectionForm = ({
       {selectedNav.label === 'Other' ? (
         <div className={styles.inputTextBox}>
           <input
-            type="text"
-            placeholder="Specify Reason"
-            onChange={(e) => setReason(e.target.value)}
+            type='text'
+            placeholder='Specify Reason'
+            onChange={e => setReason(e.target.value)}
             value={reason}
           />
           {allowClose ? (
@@ -149,8 +154,8 @@ const ConnectionForm = ({
         rows={14}
         className={styles.textArea}
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Type message ..."
+        onChange={e => setMessage(e.target.value)}
+        placeholder='Type message ...'
       />
       <div className={styles.footerBox}>
         <Typography className={styles.costMessage}>
@@ -164,7 +169,7 @@ const ConnectionForm = ({
                 : 'N/A'}
             </span>
             <Tooltip
-              placement="right"
+              placement='right'
               title={
                 <span>
                   This amount is set by{' '}
@@ -187,7 +192,7 @@ const ConnectionForm = ({
           </span>
         </Typography>
         <Tooltip
-          placement="top"
+          placement='top'
           disableHoverListener={!shouldShowTooltip()}
           title={
             <span>
@@ -199,8 +204,8 @@ const ConnectionForm = ({
         >
           <span className={styles.sendMessageButtonWrapper}>
             <CustomButton
-              label="Send Message"
-              variant="contained"
+              label='Send Message'
+              variant='contained'
               className={styles.btn}
               disabled={disabledCheck()}
               onClick={onSendMessageClick}
@@ -210,7 +215,7 @@ const ConnectionForm = ({
         </Tooltip>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ConnectionForm;
+export default ConnectionForm

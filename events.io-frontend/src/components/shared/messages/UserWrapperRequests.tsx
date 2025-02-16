@@ -1,48 +1,48 @@
-import React, { useContext } from 'react';
-import Image from 'next/image';
-import { Typography } from '@mui/material';
+import React, { useContext } from 'react'
+import Image from 'next/image'
+import { Typography } from '@mui/material'
 
-import { MessageContext } from '@/contexts/messageContext';
-import { TConnectionRequest } from '@/@types/shared/connection-request';
-import { formatIsoDate, getCurrentUser, truncateString } from '@/utils';
-import { TimeIcon } from '../SVG-components';
-import styles from './styles.module.scss';
+import { MessageContext } from '@/contexts/messageContext'
+import { TConnectionRequest } from '@/@types/shared/connection-request'
+import { formatIsoDate, getCurrentUser, truncateString } from '@/utils'
+import { TimeIcon } from '../SVG-components'
+import styles from './styles.module.scss'
 
 type Props = {
-  request: TConnectionRequest;
-  noBorder?: boolean;
-};
+  request: TConnectionRequest
+  noBorder?: boolean
+}
 
 const UserWrapperRequests = ({ request, noBorder }: Props) => {
-  const { selectedRequest, setSelectedRequest } = useContext(MessageContext);
+  const { selectedRequest, setSelectedRequest } = useContext(MessageContext)
 
   const displayProfilePhoto = () => {
     return request?.recipientId !== getCurrentUser()?._id
       ? request?.recipientProfilePhoto
-      : request?.senderProfilePhoto;
-  };
+      : request?.senderProfilePhoto
+  }
 
   const displayName = () => {
     return request?.recipientId !== getCurrentUser()?._id
       ? request?.recipientName
-      : request?.senderName;
-  };
+      : request?.senderName
+  }
 
   const displayOrgPhoto = () => {
     return request?.recipientId !== getCurrentUser()?._id
       ? request?.recipientOrganizationLogo
-      : request?.senderOrganizationLogo;
-  };
+      : request?.senderOrganizationLogo
+  }
 
   return (
     <button
       className={[
         styles.userWrapper,
         noBorder ? styles.noBorder : null,
-        selectedRequest?._id === request._id ? styles.active : null,
+        selectedRequest?._id === request._id ? styles.active : null
       ].join(' ')}
       onClick={() => setSelectedRequest(request)}
-      aria-label="Click to read user request"
+      aria-label='Click to read user request'
       disabled={request?._id === selectedRequest?._id}
     >
       <div className={styles.userBox}>
@@ -52,7 +52,7 @@ const UserWrapperRequests = ({ request, noBorder }: Props) => {
               displayProfilePhoto() ||
               '/assets/images/user-default-image-sq.svg'
             }
-            alt="user profile"
+            alt='user profile'
             width={50}
             height={50}
             className={styles.profileImg}
@@ -62,7 +62,7 @@ const UserWrapperRequests = ({ request, noBorder }: Props) => {
               src={
                 displayOrgPhoto() || '/assets/images/user-default-image-sq.svg'
               }
-              alt="user profile"
+              alt='user profile'
               width={20}
               height={20}
               className={styles.employerLogo}
@@ -90,7 +90,7 @@ const UserWrapperRequests = ({ request, noBorder }: Props) => {
         </div>
       </div>
     </button>
-  );
-};
+  )
+}
 
-export default UserWrapperRequests;
+export default UserWrapperRequests

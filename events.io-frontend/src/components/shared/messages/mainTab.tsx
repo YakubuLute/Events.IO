@@ -1,109 +1,109 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Box, Button, Typography } from '@mui/material';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
-import Scroll from 'react-scroll';
-import { toast } from 'react-toastify';
-import { useOnClickOutside } from 'usehooks-ts';
-import Lightbox from 'yet-another-react-lightbox';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { Box, Button, Typography } from '@mui/material'
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
+import Scroll from 'react-scroll'
+import { toast } from 'react-toastify'
+import { useOnClickOutside } from 'usehooks-ts'
+import Lightbox from 'yet-another-react-lightbox'
 
-import { getCurrentUser, isValidFileType } from '@/utils/utils';
-import { useUploadFile } from '@/hooks/shared/fileUploadHook';
-import useAutosizeTextArea from '@/hooks/shared/useAutosizeTextarea';
-import { socket } from '@/services/socket.service';
-import { MessageContext } from '@/contexts/messageContext';
-import { useSocketContext } from '@/contexts/SocketContext';
-import { Attachment, IMessage, TConversation } from '@/@types/shared/chat';
-import styles from '@/styles/messages.module.scss';
-import FilePreview from '../file-preview/FilePreview';
-import NotificationStrip from '../sticky-message/messageInbox/chat-box/NotificationStrip';
-import SingleMessageCard from '../sticky-message/single-message-card';
-import AttachFile from './icons/attachFile';
-import SendIcon from './icons/SendIcon';
-import SmileyFace from './icons/smileyFace';
-import ChatsEmptyState from './MessagesEmptyState';
+import { getCurrentUser, isValidFileType } from '@/utils/utils'
+import { useUploadFile } from '@/hooks/shared/fileUploadHook'
+import useAutosizeTextArea from '@/hooks/shared/useAutosizeTextarea'
+import { socket } from '@/services/socket.service'
+import { MessageContext } from '@/contexts/messageContext'
+import { useSocketContext } from '@/contexts/SocketContext'
+import { Attachment, IMessage, TConversation } from '@/@types/shared/chat'
+import styles from '@/styles/messages.module.scss'
+import FilePreview from '../file-preview/FilePreview'
+import NotificationStrip from '../sticky-message/messageInbox/chat-box/NotificationStrip'
+import SingleMessageCard from '../sticky-message/single-message-card'
+import AttachFile from './icons/attachFile'
+import SendIcon from './icons/SendIcon'
+import SmileyFace from './icons/smileyFace'
+import ChatsEmptyState from './MessagesEmptyState'
 
-const scroll = Scroll.animateScroll;
+const scroll = Scroll.animateScroll
 
 type Props = {
-  chats: TConversation[];
-};
+  chats: TConversation[]
+}
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 10
 const MainTab = ({ chats }: Props) => {
   const { selectedChat, setInfoTabOpen, infoTabOpen, isExtendTab } =
-    useContext(MessageContext);
-  const [open, setOpen] = useState<boolean>(false);
+    useContext(MessageContext)
+  const [open, setOpen] = useState<boolean>(false)
   const [selectedAttachment, setSelectedAttachment] =
-    useState<Attachment | null>(null);
-  const { networkConnected } = useSocketContext();
-  const bottomRef = useRef<HTMLDivElement>(null);
-  const emojiMenuRef = useRef<HTMLInputElement>(null);
-  const inputFile = useRef<HTMLInputElement | null>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [messages, setMessages] = useState<IMessage[]>([]);
-  const [showEmojiMenu, setShowEmojiMenu] = useState(false);
-  const [uploadUrl, setUploadUrl] = useState<Attachment | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [loadingMgs, setLoadingMgs] = useState(false);
+    useState<Attachment | null>(null)
+  const { networkConnected } = useSocketContext()
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const emojiMenuRef = useRef<HTMLInputElement>(null)
+  const inputFile = useRef<HTMLInputElement | null>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const [totalPages, setTotalPages] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [messages, setMessages] = useState<IMessage[]>([])
+  const [showEmojiMenu, setShowEmojiMenu] = useState(false)
+  const [uploadUrl, setUploadUrl] = useState<Attachment | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [loadingMgs, setLoadingMgs] = useState(false)
 
-  const onFileUploadSuccess = (data) => {
-    setUploadUrl(data);
-  };
+  const onFileUploadSuccess = data => {
+    setUploadUrl(data)
+  }
   const { mutateAsync, isPending: isUploading } = useUploadFile({
     onSuccess: onFileUploadSuccess,
     onError: () =>
-      toast('There was an error uploading your file', { type: 'error' }),
-  });
-  const [isTyping, setIsTyping] = useState(false);
-  const [value, setValue] = useState('');
-  useAutosizeTextArea(inputRef.current, value);
+      toast('There was an error uploading your file', { type: 'error' })
+  })
+  const [isTyping, setIsTyping] = useState(false)
+  const [value, setValue] = useState('')
+  useAutosizeTextArea(inputRef.current, value)
 
   const onIsTyping = (typing: any) => {
-    setIsTyping(typing ? true : false);
+    setIsTyping(typing ? true : false)
     setTimeout(() => {
-      setIsTyping(false);
-    }, 1000);
-  };
-  useOnClickOutside(emojiMenuRef, () => setShowEmojiMenu(false));
+      setIsTyping(false)
+    }, 1000)
+  }
+  useOnClickOutside(emojiMenuRef, () => setShowEmojiMenu(false))
 
   const fetchMessages = async () => {
     try {
-      setLoadingMgs(true);
-      setCurrentPage(1);
-      setTotalPages(0);
+      setLoadingMgs(true)
+      setCurrentPage(1)
+      setTotalPages(0)
       const payload = {
         connectionId: selectedChat?._id,
         page: currentPage,
-        itemsPerPage: ITEMS_PER_PAGE,
-      };
-      await socket.emitWithAck('messages:start', payload);
-      const response = await socket.emitWithAck('messages', payload);
-      const { totalPages, items } = response.data;
+        itemsPerPage: ITEMS_PER_PAGE
+      }
+      await socket.emitWithAck('messages:start', payload)
+      const response = await socket.emitWithAck('messages', payload)
+      const { totalPages, items } = response.data
 
-      setTotalPages(totalPages);
-      setMessages(sortMessagesByDate(items));
-      setLoadingMgs(false);
+      setTotalPages(totalPages)
+      setMessages(sortMessagesByDate(items))
+      setLoadingMgs(false)
 
       setTimeout(() => {
         if (bottomRef.current) {
-          bottomRef.current.scrollTop = bottomRef?.current?.scrollHeight;
+          bottomRef.current.scrollTop = bottomRef?.current?.scrollHeight
         }
-      }, 500);
+      }, 500)
     } catch (e) {
-      setLoadingMgs(false);
-      console.error('FETCH MESSAGES ERROR: ', e);
+      setLoadingMgs(false)
+      console.error('FETCH MESSAGES ERROR: ', e)
     }
-  };
+  }
 
   const onAttachFile = () => {
     if (inputFile.current) {
-      inputFile.current.click();
+      inputFile.current.click()
     }
-  };
+  }
 
   const scrollToBottom = (duration = 400) => {
     scroll.scrollToBottom({
@@ -111,220 +111,220 @@ const MainTab = ({ chats }: Props) => {
       delay: 0,
       smooth: true,
       containerId: `chatContainer${selectedChat?._id}`,
-      offset: 0,
-    });
-  };
+      offset: 0
+    })
+  }
 
   const handleScroll = () => {
     if (bottomRef.current && bottomRef.current.scrollTop < 10) {
-      bottomRef.current.scrollTop = 10;
+      bottomRef.current.scrollTop = 10
     }
     if (
       bottomRef.current &&
       bottomRef.current.scrollTop <= 10 &&
       currentPage <= totalPages
     ) {
-      console.log('=== GET OLDER MESSAGES ===');
-      fetchNextPage();
+      console.log('=== GET OLDER MESSAGES ===')
+      fetchNextPage()
     }
-  };
+  }
   useEffect(() => {
     if (selectedChat) {
-      fetchMessages();
+      fetchMessages()
     }
     return () => {
-      socket.removeAllListeners();
-    };
+      socket.removeAllListeners()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedChat]);
+  }, [selectedChat])
 
   const fetchNextPage = async () => {
-    if (currentPage > totalPages) return;
+    if (currentPage > totalPages) return
     const payload = {
       page: currentPage,
       itemsPerPage: ITEMS_PER_PAGE,
-      connectionId: selectedChat?._id,
-    };
-    const response = await socket.emitWithAck('messages', payload);
-    let olderMessages = response.data.items;
-    olderMessages = sortMessagesByDate(olderMessages);
+      connectionId: selectedChat?._id
+    }
+    const response = await socket.emitWithAck('messages', payload)
+    let olderMessages = response.data.items
+    olderMessages = sortMessagesByDate(olderMessages)
 
     if (olderMessages.length > 0) {
-      setMessages([...olderMessages, ...messages]);
-      setCurrentPage(currentPage + 1);
+      setMessages([...olderMessages, ...messages])
+      setCurrentPage(currentPage + 1)
     }
-  };
+  }
   // console.log(data);
 
   const handleSendMessage = async (e: any) => {
     try {
-      e.stopPropagation();
-      e.preventDefault();
+      e.stopPropagation()
+      e.preventDefault()
 
-      const msg = inputRef.current ? inputRef.current.value : '';
+      const msg = inputRef.current ? inputRef.current.value : ''
       if (msg === '' && uploadUrl == null) {
         if (inputRef.current) {
-          inputRef.current.focus();
+          inputRef.current.focus()
         }
-        return;
+        return
       }
-      setLoading(true);
+      setLoading(true)
       const payload = {
         connectionId: selectedChat!._id,
         message: msg,
         type: uploadUrl?.url ? 'attachment' : 'text', // text | voicenote | attachment
         voicenote: '',
-        attachment: uploadUrl?.url || '',
-      };
+        attachment: uploadUrl?.url || ''
+      }
       if (inputRef.current) {
-        inputRef.current.value = '';
+        inputRef.current.value = ''
       }
       const {
         data: newMessage,
         success,
-        description,
-      } = await socket.emitWithAck('messages:new', payload);
-      if (!success) throw new Error(description);
+        description
+      } = await socket.emitWithAck('messages:new', payload)
+      if (!success) throw new Error(description)
       setMessages([
         ...messages,
         {
           ...newMessage,
           senderId: getCurrentUser()?._id,
-          attachment: uploadUrl,
-        },
-      ]);
-      setUploadUrl(null);
-      setSelectedFile(null);
+          attachment: uploadUrl
+        }
+      ])
+      setUploadUrl(null)
+      setSelectedFile(null)
       setTimeout(() => {
-        scrollToBottom();
-      }, 300);
+        scrollToBottom()
+      }, 300)
 
-      setLoading(false);
+      setLoading(false)
     } catch (error: any) {
       toast(error.message, {
-        type: 'error',
-      });
-      setLoading(false);
+        type: 'error'
+      })
+      setLoading(false)
     }
-  };
-  function sortMessagesByDate(messages: IMessage[]): IMessage[] {
+  }
+  function sortMessagesByDate (messages: IMessage[]): IMessage[] {
     // Convert timestamps to Date objects for proper comparison
-    const messagesWithDate = messages.map((message) => ({
+    const messagesWithDate = messages.map(message => ({
       ...message,
-      dateObject: new Date(message.timestamp),
-    }));
+      dateObject: new Date(message.timestamp)
+    }))
 
     // Sort messages by date in descending order
     const sortedMessages = messagesWithDate.sort(
       (a, b) => a.dateObject.getTime() - b.dateObject.getTime()
-    );
+    )
 
     // Remove the temporary dateObject property
     const finalSortedMessages = sortedMessages.map(
       ({ dateObject, ...rest }) => {
-        console.log(dateObject);
-        return rest;
+        console.log(dateObject)
+        return rest
       }
-    );
+    )
 
-    return finalSortedMessages;
+    return finalSortedMessages
   }
   const onNewMessage = () => {
     socket.on('messages:new', async (newMessage: IMessage) => {
-      setMessages((previousState) => [...previousState, newMessage]);
+      setMessages(previousState => [...previousState, newMessage])
       const payload = {
         connectionId: selectedChat?._id,
-        messageId: newMessage.messageId,
-      };
+        messageId: newMessage.messageId
+      }
 
-      await socket.emitWithAck('messages:read', payload);
-      await socket.emitWithAck('messages:delivered', payload);
-      scrollToBottom();
-    });
-  };
+      await socket.emitWithAck('messages:read', payload)
+      await socket.emitWithAck('messages:delivered', payload)
+      scrollToBottom()
+    })
+  }
 
   useEffect(() => {
-    onNewMessage();
-    socket.on('messages:typing', onIsTyping);
-    socket.on('messages:read', (info) => {
+    onNewMessage()
+    socket.on('messages:typing', onIsTyping)
+    socket.on('messages:read', info => {
       const messageIndex = messages.findIndex(
-        (item) => item.messageId === info.messageId
-      );
+        item => item.messageId === info.messageId
+      )
 
-      if (messageIndex < 0) return;
-      const newArray = [...messages];
-      newArray[messageIndex].receipt = 'read';
-      setMessages(newArray);
-    });
+      if (messageIndex < 0) return
+      const newArray = [...messages]
+      newArray[messageIndex].receipt = 'read'
+      setMessages(newArray)
+    })
 
-    socket.on('messages:read:bulk', (info) => {
-      const newMessages = info.messageIds;
-      const updatedMessages = [...messages];
-      newMessages.forEach((element) => {
+    socket.on('messages:read:bulk', info => {
+      const newMessages = info.messageIds
+      const updatedMessages = [...messages]
+      newMessages.forEach(element => {
         const itemIndex = updatedMessages.findIndex(
-          (item) => element === item.messageId
-        );
+          item => element === item.messageId
+        )
 
         if (itemIndex >= 0) {
-          updatedMessages[itemIndex].receipt = 'read';
+          updatedMessages[itemIndex].receipt = 'read'
         }
-      });
-      setMessages(updatedMessages);
-    });
+      })
+      setMessages(updatedMessages)
+    })
     return () => {
-      socket.removeListener('messages:new');
-      socket.removeListener('messages:read');
-      socket.removeListener('messages:end');
-      socket.removeListener('messages:read');
-    };
+      socket.removeListener('messages:new')
+      socket.removeListener('messages:read')
+      socket.removeListener('messages:end')
+      socket.removeListener('messages:read')
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages]);
+  }, [messages])
 
   const onEmojiClick = (e: EmojiClickData) => {
-    const messageInput = inputRef.current;
+    const messageInput = inputRef.current
 
-    setShowEmojiMenu(false);
+    setShowEmojiMenu(false)
     if (messageInput) {
-      messageInput.value = messageInput.value + e.emoji;
-      messageInput?.focus();
+      messageInput.value = messageInput.value + e.emoji
+      messageInput?.focus()
     }
-  };
+  }
 
   const onFileChange = async (e: any) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (!isValidFileType(file?.type)) {
-      return toast('File type not supported', { type: 'error' });
+      return toast('File type not supported', { type: 'error' })
     }
-    setSelectedFile(file);
+    setSelectedFile(file)
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('prefix', 'message-attachment');
-    await mutateAsync({ formData });
-  };
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('prefix', 'message-attachment')
+    await mutateAsync({ formData })
+  }
 
   const onSetKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target as HTMLTextAreaElement;
-    setValue(value);
+    const { value } = e.target as HTMLTextAreaElement
+    setValue(value)
     if (value !== '') {
       socket.emit('messages:typing', {
-        connectionId: selectedChat?._id,
-      });
+        connectionId: selectedChat?._id
+      })
     } else {
       socket.emit('messages:typing', {
-        connectionId: '',
-      });
+        connectionId: ''
+      })
     }
-  };
+  }
 
   const onSetKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // Get the code of pressed key
-    const keyCode = e.which || e.keyCode || (e.key == 'Enter' ? 13 : '');
+    const keyCode = e.which || e.keyCode || (e.key == 'Enter' ? 13 : '')
 
     if (keyCode === 13 && !e.shiftKey) {
-      handleSendMessage(e);
+      handleSendMessage(e)
     }
-  };
+  }
 
   const disableCondition = () => {
     return (
@@ -333,8 +333,8 @@ const MainTab = ({ chats }: Props) => {
       isUploading ||
       selectedChat?.isConnected === false ||
       selectedChat?.isDeletedUser
-    );
-  };
+    )
+  }
 
   return (
     <Box
@@ -347,19 +347,19 @@ const MainTab = ({ chats }: Props) => {
           <Typography className={styles.mainTitle} noWrap>
             {selectedChat?.recipientName}
           </Typography>
-          {isTyping && <p className="text-[10px] text-slate-600">typing...</p>}
+          {isTyping && <p className='text-[10px] text-slate-600'>typing...</p>}
         </Box>
         <Button
           sx={{
-            display: infoTabOpen ? 'none' : 'block',
+            display: infoTabOpen ? 'none' : 'block'
           }}
           className={[
             styles.mainButton,
-            infoTabOpen ? styles['no-show'] : styles['show'],
+            infoTabOpen ? styles['no-show'] : styles['show']
           ].join(' ')}
           endIcon={<ArrowForwardIcon />}
           onClick={() => setInfoTabOpen(true)}
-          variant="contained"
+          variant='contained'
         >
           <Typography className={styles.mainButtonText} noWrap>
             Show Details
@@ -376,13 +376,13 @@ const MainTab = ({ chats }: Props) => {
           className={styles.mainChatContainer}
         >
           {loadingMgs ? (
-            <NotificationStrip message="Loading messages . . ." />
+            <NotificationStrip message='Loading messages . . .' />
           ) : messages.length ? (
-            messages.map((messageData) => (
+            messages.map(messageData => (
               <SingleMessageCard
-                onClick={(data) => {
-                  setOpen(true);
-                  setSelectedAttachment(data);
+                onClick={data => {
+                  setOpen(true)
+                  setSelectedAttachment(data)
                 }}
                 key={messageData.messageId}
                 message={messageData}
@@ -390,11 +390,11 @@ const MainTab = ({ chats }: Props) => {
             ))
           ) : null}
           {selectedChat?.isDeletedUser ? (
-            <NotificationStrip message="This user is no longer on vaurse" />
+            <NotificationStrip message='This user is no longer on vaurse' />
           ) : selectedChat?._id &&
             selectedChat?.isConnected === false &&
             selectedChat?.isDeletedUser === false ? (
-            <NotificationStrip message="You have closed connection for this user" />
+            <NotificationStrip message='You have closed connection for this user' />
           ) : null}
         </Box>
       ) : (
@@ -409,7 +409,7 @@ const MainTab = ({ chats }: Props) => {
         >
           <Box
             style={{
-              paddingInline: '16px',
+              paddingInline: '16px'
             }}
             sx={{
               backgroundColor: '#F2F4FF',
@@ -420,18 +420,18 @@ const MainTab = ({ chats }: Props) => {
               width: '100%',
               height: selectedFile ? '260px' : '100%',
               justifyContent: selectedFile ? 'center' : 'flex-start',
-              alignItems: 'start',
+              alignItems: 'start'
             }}
           >
             {selectedFile && (
-              <div className="lg:ml-16 w-[150px] h-[150px]">
+              <div className='lg:ml-16 w-[150px] h-[150px]'>
                 <FilePreview
                   fileType={selectedFile?.type}
                   fileUrl={URL.createObjectURL(selectedFile)}
                   showCloseButton={true}
                   onClose={() => {
-                    setSelectedFile(null);
-                    setUploadUrl(null);
+                    setSelectedFile(null)
+                    setUploadUrl(null)
                   }}
                 />
               </div>
@@ -444,7 +444,7 @@ const MainTab = ({ chats }: Props) => {
               height={'100%'}
             >
               <button
-                type="button"
+                type='button'
                 onClick={() => setShowEmojiMenu(true)}
                 className={styles.pointer}
               >
@@ -453,7 +453,7 @@ const MainTab = ({ chats }: Props) => {
 
               <textarea
                 onKeyUp={onSetKeyUp}
-                placeholder="Type your message"
+                placeholder='Type your message'
                 ref={inputRef}
                 onKeyDown={onSetKeyDown}
                 rows={1}
@@ -473,9 +473,9 @@ const MainTab = ({ chats }: Props) => {
           </Box>
 
           <button
-            type="submit"
+            type='submit'
             disabled={disableCondition()}
-            className="bg-[#F2F4FF] ml-3 rounded-full h-12 w-12 flex justify-center items-center"
+            className='bg-[#F2F4FF] ml-3 rounded-full h-12 w-12 flex justify-center items-center'
           >
             <SendIcon />
           </button>
@@ -484,7 +484,7 @@ const MainTab = ({ chats }: Props) => {
 
       <input
         onChange={onFileChange}
-        type="file"
+        type='file'
         ref={inputFile}
         style={{ display: 'none' }}
       />
@@ -504,7 +504,7 @@ const MainTab = ({ chats }: Props) => {
         slides={[{ src: selectedAttachment?.url as string }]}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default MainTab;
+export default MainTab

@@ -3,29 +3,29 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState,
-} from 'react';
-import Image from 'next/image';
-import SearchIcon from '@mui/icons-material/Search';
+  useState
+} from 'react'
+import Image from 'next/image'
+import SearchIcon from '@mui/icons-material/Search'
 import {
   Box,
   InputAdornment,
   TextField,
   Typography,
-  useMediaQuery,
-} from '@mui/material';
-import { Stack } from '@mui/system';
-import { useDebounce } from 'usehooks-ts';
+  useMediaQuery
+} from '@mui/material'
+import { Stack } from '@mui/system'
+import { useDebounce } from 'usehooks-ts'
 
 // import decodeJwt from '@/utils/jwtDecode';
-import useScreenView from '@/utils/useScreenView';
-import { socket } from '@/services/socket.service';
+import useScreenView from '@/utils/useScreenView'
+import { socket } from '@/services/socket.service'
 // import { useAuthCandidateContext } from '@/contexts/authCandidateContext';
-import { MessageContext /*, Person*/ } from '@/contexts/messageContext';
-import { TConversation } from '@/@types/shared/chat';
+import { MessageContext /*, Person*/ } from '@/contexts/messageContext'
+import { TConversation } from '@/@types/shared/chat'
 // import { TUser } from '@/@types/shared/type';
-import styles from '@/styles/messages.module.scss';
-import { formatIsoDate, truncateString } from '@/utils';
+import styles from '@/styles/messages.module.scss'
+import { formatIsoDate, truncateString } from '@/utils'
 
 // import Scroll  from 'react-scroll'
 
@@ -34,92 +34,92 @@ import { formatIsoDate, truncateString } from '@/utils';
 //   [key: string]: string;
 // };
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 10
 
 type Props = {
-  onSetChats: (value: TConversation[]) => void;
-};
+  onSetChats: (value: TConversation[]) => void
+}
 
 const SearchTab = ({ onSetChats }: Props) => {
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null)
   const { setSelectedChat, setIsExtendTab, isExtendTab, selectedChat } =
-    useContext(MessageContext);
-  const [chats, setChats] = useState<TConversation[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+    useContext(MessageContext)
+  const [chats, setChats] = useState<TConversation[]>([])
+  const [totalPages, setTotalPages] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false)
   // const { user } = useAuthCandidateContext();
-  const isReachedBottom = useScreenView(bottomRef);
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const debounceQuery = useDebounce(searchTerm, 1000);
+  const isReachedBottom = useScreenView(bottomRef)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const debounceQuery = useDebounce(searchTerm, 1000)
 
   const handleSearch = (e: any) => {
-    setSearchTerm(e.target.value);
-  };
+    setSearchTerm(e.target.value)
+  }
 
   const searchChats = async () => {
     const response = await socket.emitWithAck('messages:chats', {
       page: 1,
       itemsPerPage: 10,
-      search: debounceQuery,
-    });
-    setChats([...response.data.items]);
-    onSetChats(response?.data?.items);
-  };
+      search: debounceQuery
+    })
+    setChats([...response.data.items])
+    onSetChats(response?.data?.items)
+  }
 
   useEffect(() => {
-    searchChats();
+    searchChats()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceQuery]);
+  }, [debounceQuery])
 
   const fetchChats = async () => {
     const response = await socket.emitWithAck('messages:chats', {
       page: currentPage,
-      itemsPerPage: ITEMS_PER_PAGE,
-    });
-    const { totalPages, items, currentPage: cp } = response.data;
-    setTotalPages(totalPages);
-    setChats(items);
-    setSelectedChat(items[0]);
+      itemsPerPage: ITEMS_PER_PAGE
+    })
+    const { totalPages, items, currentPage: cp } = response.data
+    setTotalPages(totalPages)
+    setChats(items)
+    setSelectedChat(items[0])
     if (cp < totalPages) {
-      setHasNextPage(true);
+      setHasNextPage(true)
     }
-  };
+  }
 
   const fetchChatsNextPage = useCallback(async () => {
     const response = await socket.emitWithAck('messages:chats', {
       page: currentPage,
-      itemsPerPage: ITEMS_PER_PAGE,
-    });
-    setChats([...chats, ...response.data.items]);
+      itemsPerPage: ITEMS_PER_PAGE
+    })
+    setChats([...chats, ...response.data.items])
     if (response?.data.currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
+      setCurrentPage(prev => prev + 1)
     }
-  }, [chats, currentPage, totalPages]);
+  }, [chats, currentPage, totalPages])
 
   useEffect(() => {
-    fetchChats();
+    fetchChats()
     return () => {
-      socket.removeAllListeners();
-    };
+      socket.removeAllListeners()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (isReachedBottom && hasNextPage) {
-      fetchChatsNextPage();
+      fetchChatsNextPage()
     }
-  }, [fetchChatsNextPage, hasNextPage, isReachedBottom]);
+  }, [fetchChatsNextPage, hasNextPage, isReachedBottom])
 
   // const activeUser = decodeJwt(String(user?.access_token)) as TUser;
-  const isMobile = useMediaQuery('(max-width:800px)');
+  const isMobile = useMediaQuery('(max-width:800px)')
 
   const handleOpenMessage = (chat: TConversation) => {
-    setSelectedChat(chat);
+    setSelectedChat(chat)
     if (isMobile) {
-      setIsExtendTab(!isExtendTab);
+      setIsExtendTab(!isExtendTab)
     }
-  };
+  }
 
   return (
     <Box
@@ -127,27 +127,27 @@ const SearchTab = ({ onSetChats }: Props) => {
     >
       <TextField
         onChange={handleSearch}
-        placeholder="Search"
+        placeholder='Search'
         InputProps={{
           disableUnderline: true,
           endAdornment: (
-            <InputAdornment position="start">
+            <InputAdornment position='start'>
               <SearchIcon />
             </InputAdornment>
           ),
           style: {
             fontSize: '14px',
-            color: '#071754',
-          },
+            color: '#071754'
+          }
         }}
         InputLabelProps={{
           style: {
             fontSize: '14px',
-            color: '#071754',
-          },
+            color: '#071754'
+          }
         }}
         className={styles.searchFieldContainer}
-        variant="standard"
+        variant='standard'
       />
       <Box
         ref={bottomRef}
@@ -172,7 +172,7 @@ const SearchTab = ({ onSetChats }: Props) => {
                       className={[
                         styles.searchListItemStatus,
                         styles.status,
-                        styles[item.activeStatus],
+                        styles[item.activeStatus]
                       ].join(' ')}
                     />
                   </div>
@@ -191,9 +191,9 @@ const SearchTab = ({ onSetChats }: Props) => {
                   <Box sx={{ width: '100%' }}>
                     <Stack
                       direction={'row'}
-                      alignItems="center"
+                      alignItems='center'
                       gap={1}
-                      justifyContent="space-between"
+                      justifyContent='space-between'
                     >
                       <Typography
                         fontWeight={`${
@@ -210,9 +210,9 @@ const SearchTab = ({ onSetChats }: Props) => {
                     </Stack>
                     <Stack
                       direction={'row'}
-                      alignItems="center"
+                      alignItems='center'
                       gap={1}
-                      justifyContent="space-between"
+                      justifyContent='space-between'
                     >
                       <Typography className={styles.searchItemText} noWrap>
                         {truncateString(item?.lastMessage, 20)}
@@ -226,7 +226,7 @@ const SearchTab = ({ onSetChats }: Props) => {
                   </Box>
                 </Box>
               </Box>
-            );
+            )
           }
           if (item.recipientId && item.recipientOrganizationId) {
             return (
@@ -244,7 +244,7 @@ const SearchTab = ({ onSetChats }: Props) => {
                       className={[
                         styles.searchListItemStatus,
                         styles.status,
-                        styles[item.activeStatus],
+                        styles[item.activeStatus]
                       ].join(' ')}
                     />
                   </div>
@@ -273,9 +273,9 @@ const SearchTab = ({ onSetChats }: Props) => {
                   <Box sx={{ width: '100%' }}>
                     <Stack
                       direction={'row'}
-                      alignItems="center"
+                      alignItems='center'
                       gap={1}
-                      justifyContent="space-between"
+                      justifyContent='space-between'
                     >
                       <Typography
                         fontWeight={`${
@@ -292,9 +292,9 @@ const SearchTab = ({ onSetChats }: Props) => {
                     </Stack>
                     <Stack
                       direction={'row'}
-                      alignItems="center"
+                      alignItems='center'
                       gap={1}
-                      justifyContent="space-between"
+                      justifyContent='space-between'
                     >
                       <Typography className={styles.searchItemText} noWrap>
                         {truncateString(item?.lastMessage, 20)}
@@ -308,12 +308,12 @@ const SearchTab = ({ onSetChats }: Props) => {
                   </Box>
                 </Box>
               </Box>
-            );
+            )
           }
         })}
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default SearchTab;
+export default SearchTab

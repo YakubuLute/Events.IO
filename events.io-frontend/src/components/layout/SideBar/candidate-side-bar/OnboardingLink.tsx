@@ -1,28 +1,28 @@
-import React from 'react';
+import React from 'react'
 import {
   Divider,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+  ListItemText
+} from '@mui/material'
 
-import JetIcon from '@/components/shared/SVG-components/JetIcon';
-import { useHeaderContext } from '@/contexts/headerContext';
-import { useOnboardingDialogContext } from '@/contexts/onboardingContext';
-import styles from './mainSideBar.module.scss';
+import JetIcon from '@/components/shared/SVG-components/JetIcon'
+import { useHeaderContext } from '@/contexts/headerContext'
+import { useOnboardingDialogContext } from '@/contexts/onboardingContext'
+import styles from './mainSideBar.module.scss'
 
 const OnboardingLink = () => {
-  const { sideBarOpen } = useHeaderContext();
+  const { sideBarOpen } = useHeaderContext()
   const { checklistStatus, openOnboardingDialog, setOpenOnboardingDialog } =
-    useOnboardingDialogContext();
+    useOnboardingDialogContext()
 
   return !checklistStatus ? (
     <>
       <Divider
-        variant="middle"
-        orientation="horizontal"
+        variant='middle'
+        orientation='horizontal'
         className={styles.divider}
       />
       <List className={[styles.listItemBox, styles.marginB].join(' ')}>
@@ -30,7 +30,7 @@ const OnboardingLink = () => {
           <ListItemButton
             className={[
               styles.itemBtn,
-              openOnboardingDialog && styles.active,
+              openOnboardingDialog && styles.active
             ].join(' ')}
             onClick={() => setOpenOnboardingDialog(!openOnboardingDialog)}
           >
@@ -41,10 +41,10 @@ const OnboardingLink = () => {
 
               {sideBarOpen && (
                 <ListItemText
-                  primary="Onboarding"
+                  primary='Onboarding'
                   className={[
                     styles.itemLabel,
-                    !sideBarOpen && styles.hidden,
+                    !sideBarOpen && styles.hidden
                   ].join(' ')}
                 />
               )}
@@ -53,7 +53,7 @@ const OnboardingLink = () => {
         </ListItem>
       </List>
     </>
-  ) : null;
-};
+  ) : null
+}
 
-export default OnboardingLink;
+export default OnboardingLink

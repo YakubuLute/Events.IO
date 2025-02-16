@@ -1,18 +1,18 @@
-import React, { useContext } from 'react';
-import { IconButton, Typography } from '@mui/material';
+import React, { useContext } from 'react'
+import { IconButton, Typography } from '@mui/material'
 
-import { MessageContext } from '@/contexts/messageContext';
-import { CustomButton } from '../Button/Button';
-import XIcon from '../SVG-components/XIcon';
-import styles from './styles.module.scss';
+import { MessageContext } from '@/contexts/messageContext'
+import { CustomButton } from '../Button/Button'
+import XIcon from '../SVG-components/XIcon'
+import styles from './styles.module.scss'
 
 const ChatNotice = () => {
-  const { setShowAttentionModal, setStep } = useContext(MessageContext);
+  const { setShowAttentionModal, setStep } = useContext(MessageContext)
 
   const onContinueBtnClick = () => {
-    setStep('submit');
-    setShowAttentionModal(false);
-  };
+    setStep('submit')
+    setShowAttentionModal(false)
+  }
 
   return (
     <div className={styles.chatNoticeBox}>
@@ -35,13 +35,13 @@ const ChatNotice = () => {
         </div>
         <div className={styles.btnGroup}>
           <CustomButton
-            label="Continue"
+            label='Continue'
             className={[styles.btn, styles.continue].join(' ')}
             fullWidth
             onClick={onContinueBtnClick}
           />
           <CustomButton
-            label="Cancel"
+            label='Cancel'
             className={[styles.btn, styles.cancel].join(' ')}
             fullWidth
             onClick={() => setShowAttentionModal(false)}
@@ -49,7 +49,7 @@ const ChatNotice = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChatNotice;
+export default ChatNotice

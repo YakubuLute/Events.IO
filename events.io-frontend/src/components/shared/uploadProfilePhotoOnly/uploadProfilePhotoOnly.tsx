@@ -1,132 +1,132 @@
-import { Fragment, useEffect, useState } from 'react';
-import Image from 'next/image';
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
-import { CircularProgress } from '@mui/material';
+import { Fragment, useEffect, useState } from 'react'
+import Image from 'next/image'
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined'
+import { CircularProgress } from '@mui/material'
 
-import { decodeAxiosError } from '@/utils/shared/axiosError';
-import styles from '@/components/employer/accountSettings/accountSetting.module.scss';
-import ImageCropperModal from '@/components/employer/company-profile/image-crop/imageCropperDialog';
-import { useUploadCandidateProfilePicture } from '@/hooks/candidate';
-import { useUploadEmployeeProfilePicture } from '@/hooks/employer/employer-hooks';
-import { useUpdateUniversityStaffProfilePicture } from '@/hooks/university';
-import { useUser } from '@/contexts/userContext';
-import { APISuccessResponse, ErrorResponse } from '@/@types/shared/type';
-import { errorAlert, successAlert } from '../toastAlert';
+import { decodeAxiosError } from '@/utils/shared/axiosError'
+import styles from '@/components/employer/accountSettings/accountSetting.module.scss'
+import ImageCropperModal from '@/components/employer/company-profile/image-crop/imageCropperDialog'
+import { useUploadCandidateProfilePicture } from '@/hooks/candidate'
+import { useUploadEmployeeProfilePicture } from '@/hooks/employer/employer-hooks'
+import { useUpdateUniversityStaffProfilePicture } from '@/hooks/university'
+import { useUser } from '@/contexts/userContext'
+import { APISuccessResponse, ErrorResponse } from '@/@types/shared/type'
+import { errorAlert, successAlert } from '../toastAlert'
 
 type ProfileProps = {
-  sector: 'employer' | 'university' | 'candidate';
-  defaultProfileImage?: string | null;
-  showModal?: boolean;
-  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  sector: 'employer' | 'university' | 'candidate'
+  defaultProfileImage?: string | null
+  showModal?: boolean
+  setShowModal?: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export const UploadProfilePhotoOnly: React.FC<ProfileProps> = ({
   sector,
   defaultProfileImage,
   showModal,
-  setShowModal,
+  setShowModal
 }) => {
-  const [logoUrl, setLogoUrl] = useState(defaultProfileImage || '');
-  const [rawPhoto, setRawPhoto] = useState('');
+  const [logoUrl, setLogoUrl] = useState(defaultProfileImage || '')
+  const [rawPhoto, setRawPhoto] = useState('')
 
   const [defaultLogoUrl, setDefaultLogoUrl] = useState<string>(
     defaultProfileImage || ''
-  );
-  const [openCropperModal, setOpenCropperModal] = useState<boolean>(false);
-  const { updateCurrentUserProfilePicture } = useUser();
+  )
+  const [openCropperModal, setOpenCropperModal] = useState<boolean>(false)
+  const { updateCurrentUserProfilePicture } = useUser()
   //   University Hook
 
   const {
     mutate: uploadUniversityPicture,
-    isPending: isUploadingUniversityPicture,
+    isPending: isUploadingUniversityPicture
   } = useUpdateUniversityStaffProfilePicture({
     onSuccess: (data: APISuccessResponse) => {
-      updateCurrentUserProfilePicture(rawPhoto);
-      setLogoUrl(rawPhoto);
-      successAlert({ message: data?.message });
+      updateCurrentUserProfilePicture(rawPhoto)
+      setLogoUrl(rawPhoto)
+      successAlert({ message: data?.message })
     },
     onError: (error: ErrorResponse) => {
-      errorAlert({ message: decodeAxiosError(error) });
-    },
-  });
+      errorAlert({ message: decodeAxiosError(error) })
+    }
+  })
 
   // Employer Hook
   const {
     mutate: uploadEmployerPicture,
-    isPending: isUploadingEmployerPicture,
+    isPending: isUploadingEmployerPicture
   } = useUploadEmployeeProfilePicture({
     onSuccess: (data: APISuccessResponse) => {
-      updateCurrentUserProfilePicture(rawPhoto);
-      setLogoUrl(rawPhoto);
-      successAlert({ message: data?.message });
+      updateCurrentUserProfilePicture(rawPhoto)
+      setLogoUrl(rawPhoto)
+      successAlert({ message: data?.message })
     },
     onError: (error: ErrorResponse) => {
-      errorAlert({ message: decodeAxiosError(error) });
-    },
-  });
+      errorAlert({ message: decodeAxiosError(error) })
+    }
+  })
 
   const {
     mutate: uploadCandidatePicture,
-    isPending: isUploadCandidatePicture,
+    isPending: isUploadCandidatePicture
   } = useUploadCandidateProfilePicture({
     onSuccess: (data: APISuccessResponse) => {
-      updateCurrentUserProfilePicture(rawPhoto);
-      setLogoUrl(rawPhoto);
-      successAlert({ message: data?.message });
+      updateCurrentUserProfilePicture(rawPhoto)
+      setLogoUrl(rawPhoto)
+      successAlert({ message: data?.message })
     },
     onError: (error: ErrorResponse) => {
-      errorAlert({ message: decodeAxiosError(error) });
-    },
-  });
+      errorAlert({ message: decodeAxiosError(error) })
+    }
+  })
 
   // Fetch image as blob
   const fetchImageAsBlob = async (imageUrl: string) => {
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      return blob;
+      const response = await fetch(imageUrl)
+      const blob = await response.blob()
+      return blob
     } catch (error) {
-      console.error('Error fetching image:', error);
-      throw error;
+      console.error('Error fetching image:', error)
+      throw error
     }
-  };
+  }
 
   const handleSaveImage = async (event: string) => {
     if (!event) {
-      return;
+      return
     }
-    const formData = new FormData();
-    const logoBlob = await fetchImageAsBlob(event);
-    setRawPhoto(event);
+    const formData = new FormData()
+    const logoBlob = await fetchImageAsBlob(event)
+    setRawPhoto(event)
 
-    formData.append('photo', logoBlob, 'image/jpeg');
+    formData.append('photo', logoBlob, 'image/jpeg')
 
     if (sector === 'university') {
-      uploadUniversityPicture(formData);
+      uploadUniversityPicture(formData)
     } else if (sector === 'employer') {
-      uploadEmployerPicture(formData);
+      uploadEmployerPicture(formData)
     } else if (sector === 'candidate') {
-      uploadCandidatePicture(formData);
+      uploadCandidatePicture(formData)
     }
-  };
+  }
 
   useEffect(() => {
     if (defaultProfileImage) {
-      setDefaultLogoUrl(defaultProfileImage);
+      setDefaultLogoUrl(defaultProfileImage)
     }
-  }, [defaultProfileImage]);
+  }, [defaultProfileImage])
 
   const handleClose = () => {
-    setShowModal?.(false);
-    setOpenCropperModal(false);
-  };
+    setShowModal?.(false)
+    setOpenCropperModal(false)
+  }
 
-  console.log('LOGO URL ', logoUrl);
+  console.log('LOGO URL ', logoUrl)
 
   return (
     <Fragment>
       <label
-        htmlFor="upload-profile-photo"
+        htmlFor='upload-profile-photo'
         className={
           sector === 'candidate'
             ? styles.img_profile + ' ' + styles.img_profile_candidate
@@ -140,10 +140,10 @@ export const UploadProfilePhotoOnly: React.FC<ProfileProps> = ({
         ) : (
           <Fragment>
             <div
-              className="group cursor-pointer"
+              className='group cursor-pointer'
               onClick={() => {
-                setShowModal?.(true);
-                setOpenCropperModal(true);
+                setShowModal?.(true)
+                setOpenCropperModal(true)
               }}
             >
               {sector === 'candidate' ? (
@@ -156,9 +156,9 @@ export const UploadProfilePhotoOnly: React.FC<ProfileProps> = ({
                   style={{
                     borderRadius: '400px',
                     objectFit: 'cover',
-                    border: 'unset',
+                    border: 'unset'
                   }}
-                  className="!z-0"
+                  className='!z-0'
                   priority
                   unoptimized
                 />
@@ -169,7 +169,7 @@ export const UploadProfilePhotoOnly: React.FC<ProfileProps> = ({
                   alt={`${logoUrl} upload`}
                   width={144}
                   height={144}
-                  className="!z-0"
+                  className='!z-0'
                   priority
                   unoptimized
                 />
@@ -187,10 +187,10 @@ export const UploadProfilePhotoOnly: React.FC<ProfileProps> = ({
         open={sector === 'candidate' ? showModal ?? false : openCropperModal}
         handleClose={handleClose}
         handleSaveProfileImage={handleSaveImage}
-        imageCropperType="profile"
+        imageCropperType='profile'
       />
     </Fragment>
-  );
-};
+  )
+}
 
-export default UploadProfilePhotoOnly;
+export default UploadProfilePhotoOnly

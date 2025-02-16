@@ -1,43 +1,43 @@
-import React, { useContext } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Box, Button, Rating, Typography, useMediaQuery } from '@mui/material';
+import React, { useContext } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Box, Button, Rating, Typography, useMediaQuery } from '@mui/material'
 
-import { useGetCandidatePublicProfile } from '@/hooks/candidate';
-import { useGetOrganizationProfileHook } from '@/hooks/shared';
-import { MessageContext } from '@/contexts/messageContext';
-import styles from '@/styles/messages.module.scss';
-import ArrowBack from './icons/arrowBack';
-import Company from './icons/company';
-import Facebook from './icons/facebook';
-import FileHeart from './icons/file-heart';
-import Instagram from './icons/instagram';
-import Linkedin from './icons/linkedin';
-import Mail from './icons/mail';
-import People from './icons/people';
-import PhoneCall from './icons/phone-call';
-import Pin from './icons/pin';
-import Twitter from './icons/twitter';
-import Wifi from './icons/wifi';
-import Work from './icons/work';
+import { useGetCandidatePublicProfile } from '@/hooks/candidate'
+import { useGetOrganizationProfileHook } from '@/hooks/shared'
+import { MessageContext } from '@/contexts/messageContext'
+import styles from '@/styles/messages.module.scss'
+import ArrowBack from './icons/arrowBack'
+import Company from './icons/company'
+import Facebook from './icons/facebook'
+import FileHeart from './icons/file-heart'
+import Instagram from './icons/instagram'
+import Linkedin from './icons/linkedin'
+import Mail from './icons/mail'
+import People from './icons/people'
+import PhoneCall from './icons/phone-call'
+import Pin from './icons/pin'
+import Twitter from './icons/twitter'
+import Wifi from './icons/wifi'
+import Work from './icons/work'
 
 const InfoTab = () => {
-  const isMobile = useMediaQuery('(max-width:800px)');
+  const isMobile = useMediaQuery('(max-width:800px)')
   const { infoTabOpen, setInfoTabOpen, selectedChat } =
-    useContext(MessageContext);
+    useContext(MessageContext)
   const { data: senderProfile } = useGetCandidatePublicProfile(
     selectedChat?.recipientId || ''
-  );
+  )
   const { data: organizationProfile } = useGetOrganizationProfileHook(
     selectedChat?.recipientOrganizationId || ''
-  );
+  )
   return (
     <Box
       sx={{
         width: infoTabOpen ? '100%' : '0% !important',
         '&::-webkit-scrollbar': {
-          width: !infoTabOpen ? '0 !important' : 'auto',
-        },
+          width: !infoTabOpen ? '0 !important' : 'auto'
+        }
       }}
       className={`${styles.infoContainer} ${
         isMobile && infoTabOpen && styles.modal
@@ -84,7 +84,7 @@ const InfoTab = () => {
                         <Linkedin />
                       </Box>
                     </Link>
-                  );
+                  )
                 }
                 if (item.network === 'facebook') {
                   return (
@@ -93,7 +93,7 @@ const InfoTab = () => {
                         <Facebook />
                       </Box>
                     </Link>
-                  );
+                  )
                 }
                 if (item.network === 'twitter') {
                   return (
@@ -102,7 +102,7 @@ const InfoTab = () => {
                         <Twitter />
                       </Box>
                     </Link>
-                  );
+                  )
                 }
               })}
             </Box>
@@ -120,7 +120,7 @@ const InfoTab = () => {
             <Box
               sx={{
                 borderLeft: '1px solid rgba(135, 150, 165, 0.10)',
-                borderRight: '1px solid rgba(135, 150, 165, 0.10)',
+                borderRight: '1px solid rgba(135, 150, 165, 0.10)'
               }}
               className={styles.infoChild2Item}
             >
@@ -160,7 +160,7 @@ const InfoTab = () => {
                   <Typography className={styles.infoChild4Text}>
                     Open to:
                   </Typography>
-                  <Box className="flex items-center gap-2 flex-wrap">
+                  <Box className='flex items-center gap-2 flex-wrap'>
                     {senderProfile?.data?.workDetails?.jobTypes?.map(
                       (item: string, index: number) => {
                         return (
@@ -169,13 +169,13 @@ const InfoTab = () => {
                             sx={{
                               paddingInline: '15px',
                               backgroundColor: '#F8F8F8',
-                              borderRadius: '100px',
+                              borderRadius: '100px'
                             }}
                             className={styles.infoChild4Text}
                           >
                             {item}
                           </Typography>
-                        );
+                        )
                       }
                     )}
                   </Box>
@@ -193,7 +193,7 @@ const InfoTab = () => {
                   <Typography className={styles.infoChild4Text}>
                     On-site in or near:
                   </Typography>
-                  <Box className="flex items-center gap-2 flex-wrap">
+                  <Box className='flex items-center gap-2 flex-wrap'>
                     {senderProfile?.data?.workDetails?.locations?.map(
                       (item, index: number) => {
                         return (
@@ -202,13 +202,13 @@ const InfoTab = () => {
                             sx={{
                               paddingInline: '15px',
                               backgroundColor: '#F8F8F8',
-                              borderRadius: '100px',
+                              borderRadius: '100px'
                             }}
                             className={styles.infoChild4Text}
                           >
                             {item.country} {item.city}
                           </Typography>
-                        );
+                        )
                       }
                     )}
                   </Box>
@@ -226,7 +226,7 @@ const InfoTab = () => {
                   <Typography className={styles.infoChild4Text}>
                     Remote in timezone:
                   </Typography>
-                  <Box className="flex items-center gap-2 flex-wrap">
+                  <Box className='flex items-center gap-2 flex-wrap'>
                     {senderProfile?.data?.workDetails.timezones?.map(
                       (item, index: number) => {
                         return (
@@ -235,13 +235,13 @@ const InfoTab = () => {
                             sx={{
                               paddingInline: '15px',
                               backgroundColor: '#F8F8F8',
-                              borderRadius: '100px',
+                              borderRadius: '100px'
                             }}
                             className={styles.infoChild4Text}
                           >
                             {item}
                           </Typography>
-                        );
+                        )
                       }
                     )}
                   </Box>
@@ -249,7 +249,7 @@ const InfoTab = () => {
               </Box>
             )}
 
-            <Button type="button" className={styles.infoView_btn}>
+            <Button type='button' className={styles.infoView_btn}>
               View Full Profile
             </Button>
           </Box>
@@ -288,8 +288,8 @@ const InfoTab = () => {
                   {organizationProfile?.data?.rating?.averageRating}
                 </Typography>
                 <Rating
-                  color="#0A9C55"
-                  name="read-only"
+                  color='#0A9C55'
+                  name='read-only'
                   value={organizationProfile?.data?.rating?.averageRating}
                   readOnly
                 />
@@ -367,7 +367,7 @@ const InfoTab = () => {
               <Box
                 sx={{
                   backgroundColor: '#F8F8F8',
-                  borderRadius: '8px',
+                  borderRadius: '8px'
                 }}
               >
                 <Typography className={styles.infoChild13Title}>
@@ -389,7 +389,7 @@ const InfoTab = () => {
         </>
       )}
     </Box>
-  );
-};
+  )
+}
 
-export default InfoTab;
+export default InfoTab

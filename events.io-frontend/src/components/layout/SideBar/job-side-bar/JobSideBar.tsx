@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward'
 import {
   CSSObject,
   Divider,
@@ -16,48 +16,48 @@ import {
   Stack,
   styled,
   Theme,
-  Typography,
-} from '@mui/material';
+  Typography
+} from '@mui/material'
 
-import { AddMore } from '@/components/employer';
-import CreateGroupModal from '@/components/employer/dashboard/create-group/CreateGroupModal';
-import CreatePositionModal from '@/components/employer/dashboard/create-position/CreatePositionModal';
-import InterviewProcessModal from '@/components/employer/interviews/modals/InterviewProcessModal';
-import { HeaderLogoBurger } from '@/components/layout/Header/HeaderLogoBurger';
-import { CustomBadge } from '@/components/shared';
-import CustomSearchInput from '@/components/shared/customSearchInput';
+import { AddMore } from '@/components/employer'
+import CreateGroupModal from '@/components/employer/dashboard/create-group/CreateGroupModal'
+import CreatePositionModal from '@/components/employer/dashboard/create-position/CreatePositionModal'
+import InterviewProcessModal from '@/components/employer/interviews/modals/InterviewProcessModal'
+import { HeaderLogoBurger } from '@/components/layout/Header/HeaderLogoBurger'
+import { CustomBadge } from '@/components/shared'
+import CustomSearchInput from '@/components/shared/customSearchInput'
 // import {
 //   useCreateJob,
 //   useCreatePosition,
 //   useGetEmployerJobs,
 // } from '@/hooks/employer/useEmployer';
 // import { Position, useEmployerContext } from '@/contexts/employerContext';
-import { EmployerPositionsItemDTO } from '@/hooks/employer/dtos';
+import { EmployerPositionsItemDTO } from '@/hooks/employer/dtos'
 import {
   useEmployerGroups,
-  useEmployerPositions,
-} from '@/hooks/employer/employer-hooks';
+  useEmployerPositions
+} from '@/hooks/employer/employer-hooks'
 // import { useEmployeeAuthContext } from '@/contexts/employerContext/authEmployeeContext';
-import { useHeaderContext } from '@/contexts/headerContext';
-import styles from './jobSideBar.module.scss';
-import CloseNav from '@/components/shared/icons/closenav';
+import { useHeaderContext } from '@/contexts/headerContext'
+import styles from './jobSideBar.module.scss'
+import CloseNav from '@/components/shared/icons/closenav'
 
 const JobSideBar: React.FC = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { sideBarOpen, screenSize } = useHeaderContext();
-  const [jobDialog, setJobDialog] = useState(false);
-  const [groupDialog, setGroupDialog] = useState(false);
-  const [searchPosition, setSearchPosition] = useState('');
-  const [searchGroup, setSearchGroup] = useState('');
-  const [openInterviewModal, setOpenInterviewModal] = useState(false);
-  const [posId, setPosId] = useState('');
-  const isLargeScreen = screenSize === 'desktop';
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { sideBarOpen, screenSize } = useHeaderContext()
+  const [jobDialog, setJobDialog] = useState(false)
+  const [groupDialog, setGroupDialog] = useState(false)
+  const [searchPosition, setSearchPosition] = useState('')
+  const [searchGroup, setSearchGroup] = useState('')
+  const [openInterviewModal, setOpenInterviewModal] = useState(false)
+  const [posId, setPosId] = useState('')
+  const isLargeScreen = screenSize === 'desktop'
   // const { employee, employer } = useEmployeeAuthContext();
   // const employerJob = useCreateJob();
   // const employerPosition = useCreatePosition();
 
-  const positionId = searchParams.get('position') as string;
+  const positionId = searchParams.get('position') as string
 
   // employer context
   // const { setPositions, positions } = useEmployerContext();
@@ -66,84 +66,83 @@ const JobSideBar: React.FC = () => {
     data: jobPositionList,
     isPending: jobsLoading,
     refetch: refreshJobs,
-    isFetching: jobsFetching,
-  } = useEmployerPositions({ search: searchPosition } as any);
+    isFetching: jobsFetching
+  } = useEmployerPositions({ search: searchPosition } as any)
 
   // set positions in emplyer context
   // setPositions(jobPositionList?.items);
-  const drawerWidth = 270;
-  const drawerWidthMini = 270;
-
+  const drawerWidth = 270
+  const drawerWidthMini = 270
 
   const {
     data: groupsList,
     isPending: groupsLoading,
     isFetching: groupsFetching,
-    refetch: refrechingGroups,
-  } = useEmployerGroups({ searchQuery: searchGroup });
+    refetch: refrechingGroups
+  } = useEmployerGroups({ searchQuery: searchGroup })
 
   const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  });
+      duration: theme.transitions.duration.enteringScreen
+    })
+  })
 
   const closedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidthMini,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  });
+      duration: theme.transitions.duration.leavingScreen
+    })
+  })
 
   const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: prop => prop !== 'open'
   })(({ theme, open }) => ({
     ...(open && {
       ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme)
     }),
     ...(!open && {
       ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }));
+      '& .MuiDrawer-paper': closedMixin(theme)
+    })
+  }))
 
   const handlePositionClick = (position: EmployerPositionsItemDTO) => {
     // console.log('position:', position);
-    router.push(`/employer/positions-search-result?position=${position?._id}`);
-  };
+    router.push(`/employer/positions-search-result?position=${position?._id}`)
+  }
 
   useEffect(() => {
     const bounce = setTimeout(() => {
-      refreshJobs();
-    }, 500);
-    return () => clearTimeout(bounce);
-  }, [refreshJobs, searchPosition]);
+      refreshJobs()
+    }, 500)
+    return () => clearTimeout(bounce)
+  }, [refreshJobs, searchPosition])
 
   useEffect(() => {
     const bounce = setTimeout(() => {
-      refrechingGroups();
-    }, 500);
-    return () => clearTimeout(bounce);
-  }, [refrechingGroups, searchGroup]);
+      refrechingGroups()
+    }, 500)
+    return () => clearTimeout(bounce)
+  }, [refrechingGroups, searchGroup])
 
   const onOpenInterviewModal = (id: string) => {
-    setOpenInterviewModal(true);
-    setPosId(id);
-  };
+    setOpenInterviewModal(true)
+    setPosId(id)
+  }
 
-  const Component = isLargeScreen ? Drawer : MuiDrawer;
+  const Component = isLargeScreen ? Drawer : MuiDrawer
 
   // return null;
   return (
     <Component
-      variant={isLargeScreen ? "permanent" : undefined}
-      anchor="left"
+      variant={isLargeScreen ? 'permanent' : undefined}
+      anchor='left'
       open={sideBarOpen}
-      id="aside"
+      id='aside'
       classes={{ paper: styles.sidebar_container }}
       sx={{
         // width: sideBarOpen ? drawerWidth : 0,
@@ -151,14 +150,18 @@ const JobSideBar: React.FC = () => {
         // flexShrink: 0,
         transition: 'width 225ms cubic-bezier(0, 0, 0.2, 1) 0ms',
         // position: { xs: 'absolute', xl: 'relative' },
-        position: isLargeScreen ? "relative" : "absolute",
+        position: isLargeScreen ? 'relative' : 'absolute',
         zIndex: { xs: 100, lg: 100, xl: 7 },
-        top: 0,
+        top: 0
       }}
     >
       {!isLargeScreen ? (
-        <Stack direction="row" spacing={3} className={styles.vaurse_logo}>
-          <HeaderLogoBurger showLabel={!isLargeScreen} haveSidebar isSmall={!isLargeScreen} />
+        <Stack direction='row' spacing={3} className={styles.vaurse_logo}>
+          <HeaderLogoBurger
+            showLabel={!isLargeScreen}
+            haveSidebar
+            isSmall={!isLargeScreen}
+          />
           <CloseNav />
         </Stack>
       ) : null}
@@ -173,10 +176,10 @@ const JobSideBar: React.FC = () => {
         <div className={styles.position_group}>
           <div className={styles.div_group}>
             <ListItemText
-              primary="Your Positions"
+              primary='Your Positions'
               className={styles.group_title}
             />
-            <AddMore label="" onClick={() => setJobDialog(true)} />
+            <AddMore label='' onClick={() => setJobDialog(true)} />
           </div>
 
           {jobDialog ? (
@@ -195,12 +198,12 @@ const JobSideBar: React.FC = () => {
           ) : null}
 
           <CustomSearchInput
-            placeholder="Search..."
-            name="search"
-            searchClass="positions_groups_aside"
+            placeholder='Search...'
+            name='search'
+            searchClass='positions_groups_aside'
             show={true}
             value={searchPosition}
-            onChange={(e) => setSearchPosition(e.target.value)}
+            onChange={e => setSearchPosition(e.target.value)}
           />
           {jobsLoading || jobsFetching || groupsFetching ? (
             <LandingSkeletonLinst num={5} />
@@ -217,7 +220,7 @@ const JobSideBar: React.FC = () => {
                         : styles.item + ' ' + styles.item_selected
                     }
                     onClick={() => {
-                      handlePositionClick(job);
+                      handlePositionClick(job)
                     }}
                   >
                     <ListItemButton className={styles.item_btn}>
@@ -234,8 +237,8 @@ const JobSideBar: React.FC = () => {
                       <CustomBadge
                         count={job?.count}
                         name={job?.jobTitle}
-                        iconBtnClass="aside_left_btn"
-                        badgeClass="aside_badge"
+                        iconBtnClass='aside_left_btn'
+                        badgeClass='aside_badge'
                       />
                     </ListItemButton>
                   </li>
@@ -243,7 +246,7 @@ const JobSideBar: React.FC = () => {
 
               {jobPositionList?.items && jobPositionList?.items?.length > 3 && (
                 <Typography className={styles.see_all_positions}>
-                  <Link href="/employer/positions">
+                  <Link href='/employer/positions'>
                     <span> See all Position </span>
                     <ArrowOutwardIcon />
                   </Link>
@@ -251,7 +254,7 @@ const JobSideBar: React.FC = () => {
               )}
 
               {jobPositionList?.pageSize === 0 && (
-                <Typography variant="body2" className={styles.no_found}>
+                <Typography variant='body2' className={styles.no_found}>
                   No position found
                 </Typography>
               )}
@@ -262,10 +265,10 @@ const JobSideBar: React.FC = () => {
         <div className={styles.position_group}>
           <div className={styles.div_group}>
             <ListItemText
-              primary="Your Groups"
+              primary='Your Groups'
               className={styles.group_title}
             />
-            <AddMore label="" onClick={() => setGroupDialog(true)} />
+            <AddMore label='' onClick={() => setGroupDialog(true)} />
           </div>
 
           {groupDialog ? (
@@ -276,12 +279,12 @@ const JobSideBar: React.FC = () => {
           ) : null}
 
           <CustomSearchInput
-            placeholder="Search..."
-            name="search"
-            searchClass="positions_groups_aside"
+            placeholder='Search...'
+            name='search'
+            searchClass='positions_groups_aside'
             show
             value={searchGroup}
-            onChange={(e) => setSearchGroup(e.target.value)}
+            onChange={e => setSearchGroup(e.target.value)}
           />
           {groupsLoading || groupsFetching ? (
             <LandingSkeletonLinst num={5} group />
@@ -294,7 +297,7 @@ const JobSideBar: React.FC = () => {
                     <ListItemButton
                       className={styles.item_btn}
                       onClick={() => {
-                        router.push(`/employer/groups/${group._id}`);
+                        router.push(`/employer/groups/${group._id}`)
                       }}
                     >
                       <ListItemText
@@ -305,18 +308,17 @@ const JobSideBar: React.FC = () => {
                   </ListItem>
                 ))}
 
-              {groupsList?.data?.items &&
-                groupsList?.data?.items?.length > 4 && (
-                  <Typography className={styles.see_all_positions}>
-                    <Link href="/employer/groups">
-                      <span> See all Groups </span>
-                      <ArrowOutwardIcon />
-                    </Link>
-                  </Typography>
-                )}
+              {groupsList?.data?.items && groupsList?.data?.items?.length > 4 && (
+                <Typography className={styles.see_all_positions}>
+                  <Link href='/employer/groups'>
+                    <span> See all Groups </span>
+                    <ArrowOutwardIcon />
+                  </Link>
+                </Typography>
+              )}
 
               {groupsList?.data?.pageSize === 0 && (
-                <Typography variant="body2" className={styles.no_found}>
+                <Typography variant='body2' className={styles.no_found}>
                   No group found
                 </Typography>
               )}
@@ -327,30 +329,30 @@ const JobSideBar: React.FC = () => {
       <footer className={`${styles.footer} ${!sideBarOpen && styles.small}`}>
         <Divider />
         <Typography
-          component="p"
+          component='p'
           classes={{ root: styles.side_footer_parag }}
-          variant="body2"
+          variant='body2'
         >
           About {''}
-          <Link href="https://vaurse.com/terms-of-service">Terms {''}</Link> ,
-          <Link href="https://vaurse.com/privacy-policy">Privacy{''} </Link>{' '}
+          <Link href='https://vaurse.com/terms-of-service'>Terms {''}</Link> ,
+          <Link href='https://vaurse.com/privacy-policy'>Privacy{''} </Link>{' '}
           Help <br />
           &copy; Copyright 2023,{''}
-          <Link href="https://vaurse.com">Vaurse.com</Link>
+          <Link href='https://vaurse.com'>Vaurse.com</Link>
         </Typography>
       </footer>
     </Component>
-  );
-};
+  )
+}
 
 const LandingSkeletonLinst = ({
   num,
-  group = false,
+  group = false
 }: {
-  num: number;
-  group?: boolean;
+  num: number
+  group?: boolean
 }) => {
-  const skeletonLines = Array.from(Array(num).keys());
+  const skeletonLines = Array.from(Array(num).keys())
 
   return (
     <List className={styles.list_item}>
@@ -358,12 +360,12 @@ const LandingSkeletonLinst = ({
         <ListItem key={index} disablePadding className={styles.item}>
           <ListItemButton className={styles.item_btn}>
             <div className={styles.job_text}>
-              <Skeleton animation="wave" width="90%" />
+              <Skeleton animation='wave' width='90%' />
             </div>
             {!group && (
               <Skeleton
-                variant="circular"
-                animation="wave"
+                variant='circular'
+                animation='wave'
                 width={22}
                 height={22}
               />
@@ -372,7 +374,7 @@ const LandingSkeletonLinst = ({
         </ListItem>
       ))}
     </List>
-  );
-};
+  )
+}
 
-export default JobSideBar;
+export default JobSideBar

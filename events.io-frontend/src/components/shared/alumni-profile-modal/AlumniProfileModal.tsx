@@ -1,146 +1,145 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { SyntheticEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import CloseIcon from '@mui/icons-material/Close'
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   Grid,
-  Typography,
-} from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
+  Typography
+} from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import Slide from '@mui/material/Slide'
+import { TransitionProps } from '@mui/material/transitions'
 
-import PersonalWrapper from '@/components/candidate/ob-submit-profile/PersonalWrapper';
-import ProfileContentWrapper from '@/components/candidate/ob-submit-profile/ProfileContentWrapper';
-import ProfileWrapper from '@/components/candidate/ob-submit-profile/ProfileWrapper';
-import Recommendations from '@/components/candidate/ob-submit-profile/Recommendations';
-import Reviews from '@/components/candidate/ob-submit-profile/Reviews';
-import PersonalWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/PersonalWrapperSkeleton';
-import ProfileWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/ProfileWrapperSkeleton';
-import SkillsWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/SkillsWrapperSkeleton';
-import WorkPreferenceWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/WorkPreferenceWrapperSkeleton';
-import WorthWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/WorthWrapperSkeleton';
-import SkillsWrapper from '@/components/candidate/ob-submit-profile/SkillsWrapper';
-import WorkPreferenceWrapper from '@/components/candidate/ob-submit-profile/WorkPreferenceWrapper';
-import WorthWrapper from '@/components/candidate/ob-submit-profile/WorthWrapper';
-import { CustomButton, EmptyRequestsTemplates } from '@/components/shared';
-import TabsNav from '@/components/shared/tabs-nav/TabsNav';
+import PersonalWrapper from '@/components/candidate/ob-submit-profile/PersonalWrapper'
+import ProfileContentWrapper from '@/components/candidate/ob-submit-profile/ProfileContentWrapper'
+import ProfileWrapper from '@/components/candidate/ob-submit-profile/ProfileWrapper'
+import Recommendations from '@/components/candidate/ob-submit-profile/Recommendations'
+import Reviews from '@/components/candidate/ob-submit-profile/Reviews'
+import PersonalWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/PersonalWrapperSkeleton'
+import ProfileWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/ProfileWrapperSkeleton'
+import SkillsWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/SkillsWrapperSkeleton'
+import WorkPreferenceWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/WorkPreferenceWrapperSkeleton'
+import WorthWrapperSkeleton from '@/components/candidate/ob-submit-profile/skeletons/WorthWrapperSkeleton'
+import SkillsWrapper from '@/components/candidate/ob-submit-profile/SkillsWrapper'
+import WorkPreferenceWrapper from '@/components/candidate/ob-submit-profile/WorkPreferenceWrapper'
+import WorthWrapper from '@/components/candidate/ob-submit-profile/WorthWrapper'
+import { CustomButton, EmptyRequestsTemplates } from '@/components/shared'
+import TabsNav from '@/components/shared/tabs-nav/TabsNav'
 import {
   useGetCandidateAuthenticatedProfile,
   useGetCandidateProfileRecommendations,
-  useGetCandidateProfileReviews,
-} from '@/hooks/candidate';
-import { ReviewQueryParams, TabMenuOptions } from '@/hooks/candidate/dtos';
-import { useHeaderContext } from '@/contexts/headerContext';
-import { TCandidateProfile } from '@/@types/candidate/auth/candidate-auth';
-import { ErrorCodes } from '@/enums/shared';
-import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore';
-import { useAlumniProfileStore } from '@/store/university/useAlumniProfileStore';
-import { getCurrentUser } from '@/utils';
-import ConnectionModal from '../connect-candidate/ConnectionModal';
-import styles from './alumnProfileModal.module.scss';
+  useGetCandidateProfileReviews
+} from '@/hooks/candidate'
+import { ReviewQueryParams, TabMenuOptions } from '@/hooks/candidate/dtos'
+import { useHeaderContext } from '@/contexts/headerContext'
+import { TCandidateProfile } from '@/@types/candidate/auth/candidate-auth'
+import { ErrorCodes } from '@/enums/shared'
+import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore'
+import { useAlumniProfileStore } from '@/store/university/useAlumniProfileStore'
+import { getCurrentUser } from '@/utils'
+import ConnectionModal from '../connect-candidate/ConnectionModal'
+import styles from './alumnProfileModal.module.scss'
 
-const Transition = React.forwardRef(function Transition(
+const Transition = React.forwardRef(function Transition (
   props: TransitionProps & {
-    children: React.ReactElement<any, any>;
+    children: React.ReactElement<any, any>
   },
   ref: React.Ref<unknown>
 ) {
   // return <Zoom timeout={500} ref={ref} {...props} />;
-  return <Slide direction="left" ref={ref} {...props} />;
-});
+  return <Slide direction='left' ref={ref} {...props} />
+})
 
 type AlumniProfileProps = {
-  sector: 'university' | 'employer' | 'candidate';
-  isMessagePage?: boolean;
-  redirectUrl?: string;
-};
+  sector: 'university' | 'employer' | 'candidate'
+  isMessagePage?: boolean
+  redirectUrl?: string
+}
 
 const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
   sector,
   isMessagePage,
-  redirectUrl,
+  redirectUrl
 }) => {
-  const [activeTab, setActiveTab] = useState<string>(TabMenuOptions.PROFILE);
+  const [activeTab, setActiveTab] = useState<string>(TabMenuOptions.PROFILE)
   const [fetchParams, setFetchParams] = useState({
     page: 1,
-    itemsPerPage: 10,
-  });
+    itemsPerPage: 10
+  })
   const [reviewFilter, setReviewFilter] = useState<ReviewQueryParams>({
     itemsPerPage: 10,
     page: 1,
-    sortBy: undefined,
-  });
+    sortBy: undefined
+  })
 
   // Hooks
   const { showProfileModal, setShowProfileModal, alumniId } =
-    useAlumniProfileStore();
-  const { handleOpenChat } = useChatStickyMessageStore();
-  const [openConnectionModal, setOpenConnectionModal] = useState(false);
-  const router = useRouter();
-  const { screenSize } = useHeaderContext();
-  const isLargeScreen = screenSize === 'desktop' || screenSize === 'laptop';
+    useAlumniProfileStore()
+  const { handleOpenChat } = useChatStickyMessageStore()
+  const [openConnectionModal, setOpenConnectionModal] = useState(false)
+  const router = useRouter()
+  const { screenSize } = useHeaderContext()
+  const isLargeScreen = screenSize === 'desktop' || screenSize === 'laptop'
 
   const {
     data: candidateProfileData,
     isPending: isLoading,
-    error: profileError,
-  } = useGetCandidateAuthenticatedProfile(alumniId as string);
-  const candidateProfile = candidateProfileData?.data as TCandidateProfile;
-  const errorCode = (profileError as any)?.response?.data
-    ?.errCode as ErrorCodes;
+    error: profileError
+  } = useGetCandidateAuthenticatedProfile(alumniId as string)
+  const candidateProfile = candidateProfileData?.data as TCandidateProfile
+  const errorCode = (profileError as any)?.response?.data?.errCode as ErrorCodes
 
   const { data: recommendations, isPending: loadingRecommendations } =
-    useGetCandidateProfileRecommendations(alumniId as string);
+    useGetCandidateProfileRecommendations(alumniId as string)
 
   const { data: reviews, isPending: loadingReviews } =
-    useGetCandidateProfileReviews(alumniId, reviewFilter);
+    useGetCandidateProfileReviews(alumniId, reviewFilter)
 
   // Functions
   const handleTabsChange = (_: SyntheticEvent<Element, Event>, tab: string) => {
-    setActiveTab(tab);
-  };
+    setActiveTab(tab)
+  }
 
   const onClose = () => {
-    setShowProfileModal(false);
-  };
+    setShowProfileModal(false)
+  }
 
   const handleClickMessageBtn = () => {
     if (isLargeScreen) {
       handleOpenChat('chat', candidateProfile?.connectionId, {
         _id: candidateProfile.connectionId,
         recipientProfilePhoto: candidateProfile?.profilePhoto,
-        recipientName: `${candidateProfile?.personalDetails.firstName} ${candidateProfile?.personalDetails.lastName}`,
-      });
+        recipientName: `${candidateProfile?.personalDetails.firstName} ${candidateProfile?.personalDetails.lastName}`
+      })
     } else {
       const connectData = {
         _id: candidateProfile.connectionId,
         recipientProfilePhoto: candidateProfile?.profilePhoto,
-        recipientName: `${candidateProfile?.personalDetails.firstName} ${candidateProfile?.personalDetails.lastName}`,
-      };
-      localStorage.setItem('connectData', JSON.stringify(connectData));
-      router.push(`/${sector}/messages`);
+        recipientName: `${candidateProfile?.personalDetails.firstName} ${candidateProfile?.personalDetails.lastName}`
+      }
+      localStorage.setItem('connectData', JSON.stringify(connectData))
+      router.push(`/${sector}/messages`)
     }
-  };
+  }
 
   return (
     <>
       <Dialog
         open={showProfileModal}
         fullWidth
-        maxWidth="md"
+        maxWidth='md'
         onClose={onClose}
         transitionDuration={700}
         TransitionComponent={Transition}
-        aria-describedby="candidates-profile-dialog-slide-data"
+        aria-describedby='candidates-profile-dialog-slide-data'
         classes={{ root: styles.dialog_root, paper: styles.dialog_paper }}
         disableEnforceFocus
       >
         <DialogTitle className={styles.dialog_header}>
           <div className={styles.title_interview}>
-            <Typography component="h3" className={styles.title}>
+            <Typography component='h3' className={styles.title}>
               Profile
             </Typography>
             {isMessagePage ||
@@ -149,17 +148,17 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
             ) ? null : candidateProfile?.alreadyConnected ||
               sector === 'university' ? (
               <CustomButton
-                label="Send Message"
+                label='Send Message'
                 onClick={handleClickMessageBtn}
                 className={styles.messageBtn}
                 disabled={isLoading}
-                variant="contained"
+                variant='contained'
               />
             ) : !candidateProfile?.alreadyConnected &&
               candidateProfile?._id !== getCurrentUser()?._id &&
               sector !== 'employer' ? (
               <CustomButton
-                label="Connect"
+                label='Connect'
                 onClick={() =>
                   redirectUrl
                     ? router.push(redirectUrl)
@@ -167,11 +166,11 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
                 }
                 className={styles.connectBtn}
                 disabled={isLoading}
-                variant="outlined"
+                variant='outlined'
               />
             ) : null}
             <IconButton
-              aria-label="close dialog"
+              aria-label='close dialog'
               onClick={onClose}
               className={styles.close_dialog_btn}
             >
@@ -189,20 +188,20 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
                   <EmptyRequestsTemplates
                     component={
                       <Typography
-                        component="h4"
+                        component='h4'
                         sx={{ fontSize: 20, fontWeight: 600, my: 2 }}
-                        className="text-auth-primary"
+                        className='text-auth-primary'
                       >
                         Oops, This Profile is private.
                       </Typography>
                     }
-                    imageType="noOffers"
-                    altName="Private profile"
+                    imageType='noOffers'
+                    altName='Private profile'
                     sx={{
                       my: { xs: '72px', sm: '98px', lg: '120px' },
-                      mx: 'auto',
+                      mx: 'auto'
                     }}
-                    imgClass="max-w-[200px] h-[200px]"
+                    imgClass='max-w-[200px] h-[200px]'
                   />
                 ) : (
                   <Grid container>
@@ -248,7 +247,7 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
                         <TabsNav
                           value={activeTab}
                           onChange={handleTabsChange}
-                          padding="24px 0px"
+                          padding='24px 0px'
                           options={[
                             {
                               label: 'Profile',
@@ -259,7 +258,7 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
                                   isProfileLoading={isLoading}
                                   isPublic
                                 />
-                              ),
+                              )
                             },
                             {
                               label: `Recommendations(${
@@ -276,7 +275,7 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
                                   fetchParams={fetchParams}
                                   isPublic
                                 />
-                              ),
+                              )
                             },
                             {
                               label: `Reviews (${reviews?.items?.length || 0})`,
@@ -290,8 +289,8 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
                                   isPublic
                                   noProfileModal
                                 />
-                              ),
-                            },
+                              )
+                            }
                           ]}
                         />
                       </div>
@@ -309,16 +308,16 @@ const AlumniProfileModal: React.FC<AlumniProfileProps> = ({
             _id: candidateProfile?._id,
             personalDetails: {
               firstName: candidateProfile?.personalDetails?.firstName || '',
-              lastName: candidateProfile?.personalDetails?.lastName || '',
+              lastName: candidateProfile?.personalDetails?.lastName || ''
             },
-            profilePhoto: candidateProfile?.profilePhoto,
+            profilePhoto: candidateProfile?.profilePhoto
           }}
           onClose={() => setOpenConnectionModal(false)}
           open={openConnectionModal}
         />
       ) : null}
     </>
-  );
-};
+  )
+}
 
-export default AlumniProfileModal;
+export default AlumniProfileModal

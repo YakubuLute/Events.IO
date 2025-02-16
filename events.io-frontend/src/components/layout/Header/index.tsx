@@ -6,7 +6,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 
 import styles from './header.module.scss'
-import { useHeaderContext } from '@/context/headerContext'
+import { useHeaderContext } from '@/contexts/headerContext'
 import Menu from '@/components/shared/icons/menu'
 import { CustomButton } from '@/components/shared'
 import { Stack } from '@mui/material'
@@ -32,16 +32,16 @@ const Header = () => {
       <Menu />
     </div>
   )
-const leftContentData = (
-  <Stack
-    direction='row'
-    display={{ sx: 'flex', xl: '' }}
-    width={{ xxl: '240px' }}
-    spacing={2}
-  >
-    <HeaderLogoBurger haveSidebar platform='employer' />
-  </Stack>
-)
+  const leftContentData = (
+    <Stack
+      direction='row'
+      display={{ sx: 'flex', xl: '' }}
+      width={{ xxl: '240px' }}
+      spacing={2}
+    >
+      <HeaderLogoBurger haveSidebar platform='employer' />
+    </Stack>
+  )
 
   return (
     <AppBar

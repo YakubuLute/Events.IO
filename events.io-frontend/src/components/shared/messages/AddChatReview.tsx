@@ -1,88 +1,86 @@
-import React, { useContext, useState } from 'react';
-import { Rating, Typography } from '@mui/material';
+import React, { useContext, useState } from 'react'
+import { Rating, Typography } from '@mui/material'
 
-import { socket } from '@/services/socket.service';
-import { MessageContext } from '@/contexts/messageContext';
-import { ReviewDTO, ReviewResponse, TConversation } from '@/@types/shared/chat';
-import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore';
-import { formatString } from '@/utils';
-import { CustomButton } from '../Button/Button';
-import { errorAlert } from '../toastAlert';
-import styles from './styles.module.scss';
+import { socket } from '@/services/socket.service'
+import { MessageContext } from '@/contexts/messageContext'
+import { ReviewDTO, ReviewResponse, TConversation } from '@/@types/shared/chat'
+import { useChatStickyMessageStore } from '@/store/shared/useChatMessageStore'
+import { formatString } from '@/utils'
+import { CustomButton } from '../Button/Button'
+import { errorAlert } from '../toastAlert'
+import styles from './styles.module.scss'
 
 const AddChatReview = () => {
   const { selectedChat, setShowSuccessModal, setShowAttentionModal, setStep } =
-    useContext(MessageContext);
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [isSuccess, setSuccess] = useState(false);
+    useContext(MessageContext)
+  const [rating, setRating] = useState(0)
+  const [review, setReview] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [isSuccess, setSuccess] = useState(false)
   const {
     setConversations,
     conversations,
     setActiveChatBoxes,
-    activeChatBoxes,
-  } = useChatStickyMessageStore();
+    activeChatBoxes
+  } = useChatStickyMessageStore()
 
   const onSubmitReview = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const payload: ReviewDTO = {
         connectionId: selectedChat?._id || '',
         rating,
-        review,
-      };
+        review
+      }
       const response: ReviewResponse = await socket.emitWithAck(
         'messages:chats:close',
         payload
-      );
-      setLoading(false);
-      setReview('');
-      setRating(0);
-      setSuccess(response.success);
-      setShowSuccessModal(response.success);
+      )
+      setLoading(false)
+      setReview('')
+      setRating(0)
+      setSuccess(response.success)
+      setShowSuccessModal(response.success)
 
       if (response.success === true) {
-        const copyChats = [...conversations];
-        const findChat = copyChats.find(
-          (chat) => chat?._id === selectedChat?._id
-        );
+        const copyChats = [...conversations]
+        const findChat = copyChats.find(chat => chat?._id === selectedChat?._id)
         if (findChat) {
-          const cChat = { ...findChat };
-          copyChats.filter((c) => c?._id !== findChat?._id);
-          cChat.isConnected = false;
-          cChat.isDeletedUser = false;
-          copyChats.push(cChat);
-          setConversations(copyChats);
-          const cActiveBoxes = [...activeChatBoxes];
+          const cChat = { ...findChat }
+          copyChats.filter(c => c?._id !== findChat?._id)
+          cChat.isConnected = false
+          cChat.isDeletedUser = false
+          copyChats.push(cChat)
+          setConversations(copyChats)
+          const cActiveBoxes = [...activeChatBoxes]
           if (cActiveBoxes[0]?.type === 'chat') {
-            const fdata = cActiveBoxes[0]?.data as TConversation;
-            const cFilter = { ...fdata };
-            cFilter.isConnected = false;
-            cFilter.isDeletedUser = false;
-            cActiveBoxes[0].data = cFilter;
-            setActiveChatBoxes(cActiveBoxes);
+            const fdata = cActiveBoxes[0]?.data as TConversation
+            const cFilter = { ...fdata }
+            cFilter.isConnected = false
+            cFilter.isDeletedUser = false
+            cActiveBoxes[0].data = cFilter
+            setActiveChatBoxes(cActiveBoxes)
           }
         }
       }
 
       if (response.success === false) {
         errorAlert({
-          message: response.description,
-        });
+          message: response.description
+        })
       }
     } catch (err: any) {
-      setLoading(false);
+      setLoading(false)
       errorAlert({
-        message: err.message,
-      });
+        message: err.message
+      })
     }
-  };
+  }
 
   const onCancelBtnClick = () => {
-    setStep('start');
-    setShowAttentionModal(false);
-  };
+    setStep('start')
+    setShowAttentionModal(false)
+  }
 
   return (
     <>
@@ -96,42 +94,42 @@ const AddChatReview = () => {
           <Rating
             value={rating}
             onChange={(_, newValue) => {
-              setRating(newValue!);
+              setRating(newValue!)
             }}
             disabled={isSuccess}
             sx={{
-              width: 'fit-content',
+              width: 'fit-content'
             }}
           />
           <textarea
             className={styles.textarea}
             rows={10}
-            placeholder="Write review"
-            onChange={(e) => setReview(e.target.value)}
+            placeholder='Write review'
+            onChange={e => setReview(e.target.value)}
             disabled={isSuccess}
           />
 
           <div className={styles.btnGroup}>
             <CustomButton
               fullWidth
-              variant="contained"
+              variant='contained'
               disabled={loading || isSuccess}
               onClick={onSubmitReview}
-              label="Submit"
+              label='Submit'
               className={styles.reviewBtn}
             />
             <CustomButton
               fullWidth
-              variant="contained"
+              variant='contained'
               onClick={onCancelBtnClick}
-              label="Cancel"
+              label='Cancel'
               className={[styles.btn, styles.cancel].join(' ')}
             />
           </div>
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AddChatReview;
+export default AddChatReview
