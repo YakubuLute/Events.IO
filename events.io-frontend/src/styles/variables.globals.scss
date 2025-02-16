@@ -1,0 +1,17 @@
+[data-theme="light"] {
+    --background: #f7f8fa;
+    --element-bg: hsl(0, 0%, 100%);
+    --text: #071754;
+    --dark: #171725;
+    --shadow: hsla(0, 0%, 52%, 0.274);
+    --input: hsl(0, 0%, 52%);
+    --primary: #0C27BE;
+}
+[data-theme="dark"] {
+    --background: hsl(207, 26%, 17%);
+    --element-bg: hsl(209, 23%, 22%);
+    --text: hsl(0, 0%, 100%);
+    --input: hsla(0, 0%, 85%, 0.925);
+    --shadow: rgba(22, 22, 22, 0.226);
+}
+  

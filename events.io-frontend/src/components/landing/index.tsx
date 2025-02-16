@@ -11,28 +11,17 @@ import LandingFooter from './landingFooter'
 import LandingMain from './landingMain'
 
 export default function LandingComponent () {
-  const user = getCurrentUser()
+  // const user = getCurrentUser()
   const router = useRouter()
-
-  useEffect(() => {
-    if (user?.userType === 'CANDIDATE') {
-      router.push('/candidate/dashboard')
-    } else if (user?.userType === 'EMPLOYEE') {
-      router.push('/employer/dashboard')
-    } else if (user?.userType === 'STAFF') {
-      router.push('/university/dashboard')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
 
   return (
     <Box className={styles.mainLandingWrapper}>
-      {!user ? <Header /> : null}
+      {/* {!user ? <Header /> : null} */}
       <Box className='min-h-screen md:min-h-[100vh] flex flex-col'>
         <Container className='max-w-[1208px]'>
-          {!user ? <LandingMain /> : null}
+          <LandingMain />
         </Container>
-        {!user ? <LandingFooter /> : null}
+        <LandingFooter />
       </Box>
     </Box>
   )
