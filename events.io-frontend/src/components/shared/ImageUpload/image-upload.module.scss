@@ -1,0 +1,16 @@
+.upload_box {
+    height: 200px;
+    border-width: 2px;
+    border-radius: 8px;
+    border: 1px dashed var(--black, #071754);
+    background: #F8FAFB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .image {
+        width: auto !important;
+        height: 100% !important;
+        visibility: visible !important;
+    }
+}

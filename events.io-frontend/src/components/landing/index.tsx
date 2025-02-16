@@ -16,7 +16,7 @@ export default function LandingComponent () {
 
   return (
     <Box className={styles.mainLandingWrapper}>
-      {/* {!user ? <Header /> : null} */}
+      <Header />
       <Box className='min-h-screen md:min-h-[100vh] flex flex-col'>
         <Container className='max-w-[1208px]'>
           <LandingMain />

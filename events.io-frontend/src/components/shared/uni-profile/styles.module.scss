@@ -1,0 +1,1230 @@
+@import '@/scss/main.scss';
+
+.bannerWrapper {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: $white;
+  border-radius: 16px;
+
+  .bannerImg {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    height: 180px;
+
+    @media (min-width: 992px) {
+      width: 100%;
+      height: 280px;
+    }
+
+    @media (min-width: 1025px) {
+      width: 100%;
+      height: 380px;
+    }
+  }
+
+  .logoAndButtonBox {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+    gap: 16px;
+
+    button {
+      padding: 8px 12px;
+      background-color: $primaryColor;
+      box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+      border-radius: 8px;
+      width: fit-content;
+    }
+
+    @media (min-width: 1025px) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .uniBox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: -35px;
+
+    @media (min-width: 992px) {
+      margin-top: -55px;
+    }
+
+    .uniImgBox {
+      width: 144px;
+      height: 144px;
+      display: flex;
+      justify-content: center;
+      border: 3px solid $white;
+      border-radius: 12px;
+      border: 1px solid $borderColor;
+
+      // @media (min-width: 992px) {
+      //   width: 120px;
+      //   height: 120px;
+      // }
+
+      .uniImg {
+        border-radius: 8px;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .uniText {
+      color: $mainTextColor;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 28px;
+      margin-top: 20px;
+      text-transform: capitalize;
+    }
+  }
+}
+
+.uniInfoContainer {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background-color: $white;
+  border-radius: 16px;
+
+  .infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.titleText {
+  color: $mainTextColor;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.22px;
+}
+
+.infoWrapper {
+  display: flex;
+  padding: 16px;
+  gap: 16px;
+  flex-direction: column;
+  border: 1px solid $borderColor;
+  border-radius: 16px;
+
+  .infoItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $midBlackColor;
+      flex-shrink: 0;
+    }
+
+    .text {
+      color: $mainTextColor;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+    }
+    .aboutText {
+      color: $midBlackColor;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+  }
+
+  .socialBox {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .socialText {
+      color: $mainTextColor;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .socialWrapper {
+      display: flex;
+      align-items: center;
+
+      .socialBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+          width: 24px;
+          height: 24px;
+          color: $midBlackColor;
+        }
+      }
+    }
+  }
+}
+
+.publicStaffContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px;
+  background-color: $white;
+  border-radius: 16px;
+
+  .searchBox {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid $borderColor;
+    border-radius: 8px;
+
+    svg {
+      color: $midBlackColor;
+      flex-shrink: 0;
+    }
+
+    input {
+      width: 100%;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: $grayTextColor;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .contentBox {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+
+    .wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px;
+      border: 1px solid $borderColor;
+      border-radius: 16px;
+      position: relative;
+
+      &:hover .overlay {
+        opacity: 0.8;
+        transition: all 0.3s;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(255, 255, 255);
+        border-radius: 16px;
+        opacity: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+
+        .actionBtn {
+          padding: 0;
+
+          &.delete {
+            svg {
+              color: #f03d3d;
+            }
+          }
+
+          &.edit {
+            svg {
+              color: $primaryColor;
+            }
+          }
+
+          svg {
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+
+      img {
+        border-radius: 16px;
+        flex-shrink: 0;
+      }
+
+      .userWrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .box {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          .nametText {
+            color: $mainTextColor;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+          }
+
+          .chip {
+            padding: 4px 8px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #f1eeff;
+            color: #6347f4;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+          }
+
+          svg {
+            color: $midBlackColor;
+            width: 16px;
+            height: 16px;
+          }
+
+          .locationText {
+            color: $midBlackColor;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 26px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.updatesContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+  border-radius: 16px;
+  background-color: $white;
+
+  .headerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: space-between;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  .updateCard {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    border: 1px solid $borderColor;
+    border-radius: 16px;
+
+    .dividerBox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .typeWrapper {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      h6 {
+        color: $mainTextColor;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        text-transform: capitalize;
+      }
+    }
+
+    .contentWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      h2 {
+        color: $mainTextColor;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        text-transform: capitalize;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          color: $grayTextColor;
+        }
+      }
+    }
+  }
+}
+
+.contentText {
+  color: $midBlackColor;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.descriptionText {
+  color: $midBlackColor;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  word-wrap: break-word;
+
+  &.focused {
+    background-color: #f2f4ff;
+    padding: 8px;
+    border-radius: 8px;
+  }
+}
+
+.statusBox {
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  border: 2px solid $white;
+  filter: drop-shadow(0px 1px 2px rgba(17, 12, 34, 0.08));
+
+  &.news {
+    background-color: #0baa60;
+  }
+
+  &.update {
+    background-color: #e09400;
+  }
+
+  &.announcement {
+    background-color: #f03d3d;
+  }
+}
+
+.dateText {
+  color: $midBlackColor;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.uniWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .uniProfileBox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    img {
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .eventLocBox {
+      display: flex;
+      flex-direction: column;
+
+      .eventName {
+        color: $mainTextColor;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.starBtn {
+  svg {
+    color: #e09400;
+
+    &:focus {
+      color: #e09400;
+    }
+  }
+}
+
+.locBox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $midBlackColor;
+  }
+
+  .locText {
+    color: $midBlackColor;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: capitalize;
+  }
+}
+
+.eventDateBox {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+
+  @media (min-width: 1025px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.dateBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: $bgGrayColor;
+  padding: 4px 8px;
+  border-radius: 4px;
+  width: fit-content;
+
+  svg {
+    color: $midBlackColor;
+    flex-shrink: 0;
+  }
+
+  .dateText {
+    color: $midBlackColor;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+}
+
+.attendBtn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+
+  &.attend {
+    border: 1px solid #aeb7e9;
+    background-color: #f2f4ff;
+    color: $primaryColor;
+  }
+
+  &.attending {
+    background-color: $primaryColor;
+    color: $white;
+  }
+}
+
+.eventFooterBox {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  .attendBox {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    svg {
+      color: $mainTextColor;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    .attendText {
+      color: $mainTextColor;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+    }
+  }
+}
+
+.viewMoreBtn {
+  padding: 8px 12px;
+  box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+  background-color: $primaryColor;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  width: fit-content;
+}
+
+.listBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  padding: 16px;
+  text-align: left;
+  width: 100%;
+  color: $midBlackColor;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f2f4ff;
+    border-radius: 12px;
+  }
+
+  &.active {
+    background-color: #f2f4ff;
+    border-radius: 12px;
+    color: $primaryColor;
+  }
+}
+
+.discussionText {
+  color: $mainTextColor;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.28px;
+}
+
+.commentForm {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 16px;
+  border: 1px solid $borderColor;
+  background-color: $bgGrayColor;
+  position: relative;
+
+  .closeBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    svg {
+      color: $mainTextColor;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .commentBox {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    input {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid $borderColor;
+      width: 100%;
+      font-size: 16px;
+      color: $midBlackColor;
+      font-weight: 600;
+      line-height: 24px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .commentBtn {
+      padding: 14px;
+      background-color: $primaryColor;
+      border-radius: 8px;
+      box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+      transition: all 0.5s ease-in-out;
+
+      svg {
+        color: $white;
+      }
+
+      &.disbled {
+        background-color: #808080;
+      }
+    }
+  }
+}
+
+.commenterBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  // width: 80%;
+
+  img {
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 50%;
+  }
+
+  .commenterHeader {
+    display: flex;
+    flex-direction: column;
+
+    h4 {
+      color: $midBlackColor;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 18px;
+      word-wrap: break-word;
+      text-transform: capitalize;
+    }
+
+    h6 {
+      color: $midBlackColor;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 16px;
+      word-wrap: break-word;
+      text-transform: capitalize;
+    }
+  }
+}
+
+.commentCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid $borderColor;
+  background-color: $white;
+
+  &.reply {
+    background-color: $bgGrayColor;
+  }
+
+  .userSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .actionBox {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+
+      svg {
+        width: 20px;
+        height: 20px;
+        color: $midBlackColor;
+      }
+
+      .dateText {
+        text-align: right;
+        font-size: 12px;
+        color: $midBlackColor;
+        font-weight: 500;
+        line-height: 16px;
+        word-wrap: break-word;
+
+        span {
+          display: none;
+
+          @media (min-width: 768px) {
+            display: inline-block;
+            color: $grayTextColor;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .commentFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .likeBox {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+
+      .likeWrapper {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+
+        .likeBtn {
+          background-color: $bgGrayColor;
+          padding: 8px;
+
+          svg {
+            color: $midBlackColor;
+          }
+
+          &.isLiked {
+            svg {
+              color: #0a9c55;
+              fill: #0a9c55;
+            }
+          }
+
+          &.isUnLiked {
+            svg {
+              color: #f03d3d;
+              fill: #f03d3d;
+            }
+          }
+        }
+      }
+
+      .replyText {
+        font-size: 14px;
+        color: $midBlackColor;
+        font-weight: 500;
+        line-height: 20px;
+      }
+    }
+
+    .replyBtn {
+      padding: 8px 12px;
+      color: $primaryColor;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      border-radius: 8px;
+    }
+  }
+}
+
+.watchProfileBtn {
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuWrapper {
+  border-radius: 16px;
+  box-shadow: 0px 16px 20px -8px rgba(17, 12, 34, 0.1);
+  border: 1px solid $borderColor;
+}
+
+.menuItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.actionText {
+  font-size: 14px;
+  color: $midBlackColor;
+  font-weight: 600;
+  line-height: 20px;
+
+  &.delete {
+    color: #f03d3d;
+  }
+}
+
+.iconBtn {
+  padding: 0;
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $midBlackColor;
+  }
+
+  &.delete {
+    svg {
+      width: 16px;
+      height: 16px;
+      color: #f03d3d;
+    }
+  }
+}
+
+.editCommentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  textarea {
+    border: 1px solid $borderColor;
+    border-radius: 16px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .actionArea {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+
+    .actionBtn {
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+
+    .cancel {
+      border: 1px solid #aeb7e9;
+      background-color: #f2f4ff;
+      color: $primaryColor;
+    }
+
+    .save {
+      background-color: $primaryColor;
+      color: $white;
+    }
+  }
+}
+
+.quotedBox {
+  display: flex;
+  padding: 8px 12px;
+  background-color: $white;
+  background-color: #f2f4ff;
+  border: 1px solid $primaryColor;
+  border-radius: 8px;
+
+  .quotedText {
+    font-size: 14px;
+    color: $grayTextColor;
+    font-weight: 500;
+    line-height: 20px;
+    word-wrap: break-word;
+  }
+}
+
+.eventContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .eventBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .eventTitle {
+      font-size: 22px;
+      color: $mainTextColor;
+      font-weight: 600;
+      line-height: 28px;
+      text-transform: capitalize;
+    }
+  }
+
+  .locWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    padding: 0;
+
+    svg {
+      color: $midBlackColor;
+      flex-shrink: 0;
+    }
+
+    .dateText {
+      color: $midBlackColor;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+  }
+}
+
+.sliderContainer {
+  width: 100%;
+  padding-bottom: 8px;
+
+  .defaultImg {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    height: 180px;
+
+    @media (min-width: 768px) {
+      height: 320px;
+    }
+  }
+}
+
+.attendeesCard {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid $borderColor;
+  border-radius: 16px;
+
+  .profileImg {
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .attendeeBox {
+    display: flex;
+    flex-direction: column;
+
+    .attendeeHeader {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      button {
+        text-align: left;
+        padding: 0;
+      }
+
+      .attName {
+        color: $mainTextColor;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        text-transform: capitalize;
+      }
+    }
+
+    .attDesig {
+      color: #6347f4;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      text-transform: capitalize;
+      width: fit-content;
+      background-color: #f1eeff;
+      border-radius: 8px;
+      padding: 4px 8px;
+    }
+  }
+}
+
+.eventFilterBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .inputBox {
+    padding: 12px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid $borderColor;
+    border-radius: 12px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: $mainTextColor;
+    }
+
+    .inputSearch {
+      width: 100%;
+      font-size: 16px;
+      color: $midBlackColor;
+      font-weight: 600;
+      line-height: 24px;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: $grayTextColor;
+      }
+
+      &:disabled {
+        background-color: $white;
+      }
+    }
+  }
+}
+
+.mainEventDateBox {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.attendeesContainer {
+  display: none;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+  border-radius: 16px;
+  background-color: $white;
+
+  @media (min-width: 1025px) {
+    display: flex;
+  }
+
+  .attendeesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.attendeesContainerModal {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.attendeeModalFooter {
+  padding: 8px 0px;
+}
+
+.staffHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .iconBtn {
+    padding: 10px;
+    border: 1px solid $borderColor;
+    border-radius: 8px;
+    background-color: $primaryColor;
+    box-shadow: none;
+    transition: all 0.3s;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      color: $white;
+    }
+
+    &:hover {
+      border-color: #0065df;
+      background-color: #006bec;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .profilePhotoBox {
+    display: flex;
+    justify-content: center;
+
+    img {
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .label {
+      color: $midBlackColor;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+    }
+
+    .errorText {
+      font-size: 12px;
+      color: #f03d3d;
+      line-height: 16px;
+      font-weight: 500;
+    }
+
+    .inputText {
+      padding: 8px 10px;
+      border-radius: 8px;
+      width: 100%;
+      border: 1px solid $borderColor;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: $midBlackColor;
+
+      &:focus {
+        outline: none;
+      }
+      &::placeholder {
+        color: $grayTextColor;
+      }
+    }
+  }
+
+  .btn {
+    width: 100%;
+    box-shadow: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+  }
+}

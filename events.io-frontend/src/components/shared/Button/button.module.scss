@@ -1,0 +1,868 @@
+@import '@/scss/main.scss';
+
+.login_submit {
+  height: 38px;
+  font-size: 0.75rem;
+  margin: 1em auto;
+  font-weight: 700;
+  color: $white;
+  background: $secondary-color;
+  border-radius: 0.625rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  transition: $btn-transition;
+
+  // &:focus {
+  //   outline: none;
+  //   border: 1px solid $secondary-color;
+  // }
+}
+
+.signup_submit {
+  @extend %defaultButtonStyles;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  min-width: 160px;
+  margin: 1rem 0;
+  padding: 0.5rem 1.75rem;
+  font-weight: 700;
+  color: $white;
+  background: $secondary-color;
+  border-radius: 0.625rem;
+}
+
+.login_button {
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  font-weight: 500;
+  min-width: unset;
+  min-height: unset;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  @extend %defaultButtonStyles;
+
+  color: white;
+  background: #0b2fb6;
+  text-transform: capitalize;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+
+  .btn_link {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+  }
+}
+
+.interview_button {
+  @extend %defaultButtonStyles;
+  height: 34px;
+  color: $white;
+  background: $secondary-color;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+%employerDashboardBtn {
+  @extend %defaultButtonStyles;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $secondary-color;
+  background-color: $light-backg;
+  border-radius: 0.5rem;
+  border: $btn-border;
+  box-shadow: $btn-shadow;
+}
+
+.feedback_btn {
+  height: 42px;
+  width: 140px;
+  padding: 0.5rem 1rem;
+  color: $white;
+  background-color: #040d3f;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  border: none;
+  box-shadow: none;
+  gap: 4px;
+
+  span {
+    margin: 0;
+    color: $white;
+  }
+}
+
+.create_position_btn,
+.add_new_member {
+  @extend %employerDashboardBtn;
+  min-width: 190px;
+  color: $bg-light-success;
+  color: #0baa60;
+  background-color: #f3fdf8;
+  border: solid 1px #c6f1dd;
+
+  &:hover {
+    background-color: #c6f1dd;
+  }
+}
+
+.invite_team_btn,
+.invite_new_member_btn {
+  min-width: 190px;
+  @extend %employerDashboardBtn;
+
+  &:hover {
+    background-color: $light-backg;
+  }
+}
+
+.add_new_member,
+.invite_new_member_btn {
+  min-width: 70px;
+  gap: 0;
+}
+
+.search_button {
+  @extend %employerDashboardBtn;
+  width: 80%;
+  padding: 0.2rem 0.75rem;
+  // user-select: none;
+
+  .btn_link {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+  }
+
+  &:hover {
+    background: $secondary-color;
+    color: $white;
+  }
+}
+
+.job_description {
+  @extend %employerDashboardBtn;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+}
+
+.job_action {
+  @extend %employerDashboardBtn;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  color: #a8afbb;
+  background-color: $white;
+}
+
+.text_generator_btn {
+  @extend %employerDashboardBtn;
+
+  color: #6347f4;
+  font-size: 0.875rem;
+  gap: 0;
+  // padding: 0.25rem;
+
+  svg {
+    transform: rotate(15deg);
+  }
+}
+
+.normal {
+  height: 38px;
+  font-size: 0.75rem;
+  background: $secondary-color;
+  padding: 0.5rem 2.3rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+  margin: 1em auto;
+  color: white;
+  box-shadow: none;
+}
+
+.add_more {
+  height: 38px;
+  font-size: 0.75rem;
+  color: #0c27be;
+  font-size: 1rem;
+  text-transform: capitalize;
+  box-shadow: none;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.add_job {
+  background-color: $secondary-color;
+  min-width: auto;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  transition: all 0.3s;
+
+  span {
+    margin: 0;
+    color: $white;
+  }
+
+  &:hover {
+    border-color: #0065df;
+    background-color: #006bec;
+    transform: rotate(90deg);
+  }
+}
+
+.add_class_year {
+  @extend .add_job;
+  background-color: $btn-save;
+
+  svg {
+    font-size: 1rem;
+    color: $black;
+  }
+
+  &:hover {
+    border-color: transparent;
+    background-color: $btn-cancel;
+    transform: rotate(90deg);
+  }
+}
+
+.add_company_stuff {
+  background-color: $secondary-color;
+  width: 40px;
+  height: 40px;
+  min-width: auto;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  padding: 11px;
+  transition: all 0.3s;
+
+  span {
+    margin: 0;
+    color: $white;
+  }
+
+  svg {
+    padding: 0.1rem;
+    background-color: $white;
+    color: $secondary-color;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    border-color: #0065df;
+    background-color: #006bec;
+    transform: rotate(90deg);
+  }
+}
+
+.delete_video_link {
+  width: 48px;
+  height: 40px;
+  min-width: auto;
+  padding: 0;
+  color: $white;
+  background-color: $bg-danger;
+  border-radius: 0.5rem;
+
+  span {
+    margin: 0;
+  }
+
+  svg {
+    padding: 0.1rem;
+  }
+
+  &:hover {
+    color: $white;
+    background-color: $bg-danger;
+  }
+}
+
+.add_video_link {
+  @extend .delete_video_link;
+  background-color: $light-backg;
+  border: $btn-border;
+  box-shadow: $btn-shadow;
+
+  &:hover {
+    color: $white;
+    background-color: $light-backg;
+  }
+}
+
+.cancel {
+  font-size: 0.75rem;
+  background: #f0f2f5;
+  color: var(--dark);
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+  box-shadow: none;
+}
+
+.save {
+  font-size: 0.75rem;
+  background-color: #0c27be !important;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  text-transform: capitalize;
+  color: white !important;
+  box-shadow: none !important;
+}
+
+.interview_request_submit {
+  @extend .save_btn;
+  width: 80%;
+  padding: 0.875rem 2rem;
+  max-width: 300px;
+}
+
+.id_back {
+  padding: 16px 60px;
+  border-radius: 12px;
+  height: 56px;
+  font-size: 0.75rem;
+  border: 1px solid lightgray;
+  background: white;
+  font-size: 1rem;
+  text-transform: capitalize;
+  box-shadow: none;
+}
+
+.id_back_2,
+.id_continue {
+  padding: 12px 20px;
+  border-radius: 8px;
+  height: 41px;
+  font-size: 0.75rem;
+  font-size: 1rem;
+  text-transform: capitalize;
+  color: white;
+  box-shadow: none;
+}
+
+.id_back_2 {
+  background-color: #f2f4ff;
+  border: 1px solid #ced4f2;
+  color: #0c27be;
+}
+
+.id_back_2:hover {
+  background-color: #e2e4ef;
+  border: 1px solid #ced4f2;
+  color: #0c27be;
+  box-shadow: none !important;
+}
+
+.address_verification {
+  width: 225px;
+  border-radius: 12px;
+  height: 56px;
+  font-size: 0.75rem;
+  border: 1px solid #ececed;
+  background: #fff;
+  font-size: 1rem;
+  text-transform: capitalize;
+  box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+  color: black;
+}
+
+.add_company {
+  width: 190px;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  border: 1px solid $light-backg;
+  background: #ced4f2;
+  font-size: 1rem;
+  text-transform: capitalize;
+  box-shadow: none;
+  color: $secondary-color;
+}
+
+.send_verification_request {
+  border-radius: 9px;
+  width: 230px;
+  height: 41px;
+  font-size: 0.75rem;
+  background: $secondary-color;
+  font-size: 1rem;
+  text-transform: capitalize;
+  color: white;
+  box-shadow: none;
+}
+
+.next_btn {
+  @extend %defaultButtonStyles;
+
+  min-width: 120px;
+  height: 48px;
+  padding: 0.375rem 0.75rem;
+  padding: 0.75rem 1rem;
+  color: $white;
+  background: $secondary-color;
+  text-transform: capitalize;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 0.75rem;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px -1px rgba(17, 12, 34, 0.08);
+}
+
+.next_btn_red {
+  @extend .next_btn;
+  border: 1px solid #ffc7c7;
+  border-radius: 0.5rem;
+  color: #f03d3d;
+  background: #ffffff;
+  background-color: $white;
+  box-shadow: 0px 1px 0px 0px #110c2200;
+
+  &:hover {
+    background: #ffffff;
+  }
+}
+
+.next_btn_full_width {
+  @extend .next_btn;
+  width: 100%;
+  min-width: auto;
+}
+
+.previous_btn {
+  @extend .next_btn;
+
+  color: $auth-primary;
+  background-color: $btn-cancel;
+
+  &:hover {
+    background-color: $btn-save;
+  }
+}
+
+.previous_small {
+  @extend .previous_btn;
+  height: 32px;
+  min-width: 80px;
+  font-size: 0.675rem;
+  line-height: 0.875rem;
+  border-radius: 0.5rem;
+}
+
+.next_small {
+  @extend .next_btn;
+  height: 32px;
+  min-width: 80px;
+  font-size: 0.675rem;
+  line-height: 0.875rem;
+  border-radius: 0.5rem;
+}
+
+.save_btn {
+  @extend %defaultButtonStyles;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  width: 144px;
+  color: $auth-primary;
+  background-color: $btn-save;
+}
+
+.back_btn {
+  background: $btn-save;
+  height: 48px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  min-width: 144px;
+}
+
+.boolean_btn {
+  width: 60px;
+  height: 32px;
+  border-radius: 8px;
+  gap: 6px;
+  color: $secondary-color;
+  padding: 8px 10px;
+  border-radius: 8px;
+  box-shadow: $btn-shadow;
+  border: $btn-border;
+  background-color: $light-backg;
+
+  &.selected {
+    @extend .boolean_btn;
+    color: $white;
+    background-color: $secondary-color;
+  }
+}
+
+.card_btn_follower {
+  border: 1px solid $secondary-color;
+  color: $secondary-color !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.card_btn_has_followed {
+  border: 1px solid $secondary-color;
+  background: $secondary-color !important;
+  color: $white !important;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.prev_step {
+  text-transform: capitalize;
+  height: 38px;
+  font-size: 0.75rem;
+  padding: 0.5rem 1.8rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: none;
+  border: 1px solid #dcdcde;
+  background: #f0f2f5;
+  color: var(--dark);
+
+  &:hover {
+    box-shadow: none;
+    background: #767676;
+  }
+}
+
+.update_phone {
+  height: 38px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $white;
+  background: $secondary-color;
+  border-radius: 0.625rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  transition: $btn-transition;
+  margin-bottom: 15px;
+
+  // &:focus {
+  //   outline: none;
+  //   border: 1px solid $secondary-color;
+  // }
+}
+
+.interested {
+  background-color: $secondary-color;
+  color: $white;
+  text-transform: none;
+  white-space: nowrap;
+  padding: 0.3125rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+}
+
+.payment_btn {
+  background-color: $secondary-color;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.generate_btn {
+  color: #6347f4;
+  background: #f1eeff;
+  border-radius: 8px;
+  border: 1px solid #e2dcff;
+  font-weight: 600;
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: none;
+    background: #e2dcff;
+  }
+}
+
+.text_link {
+  color: $secondary-color;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: $secondary-color;
+    text-decoration: underline;
+  }
+}
+
+.outlined_mobile_modals {
+  @extend %defaultButtonStyles;
+  min-height: 36px;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 600;
+  color: $secondary-color;
+  background-color: $light-backg;
+  border-radius: 0.5rem;
+  border: $btn-border;
+  box-shadow: $btn-shadow;
+
+  &:hover {
+    color: $secondary-color;
+    background-color: $light-backg;
+  }
+}
+
+
+// Univercity profile
+
+.edit_updates_events {
+  @extend %defaultButtonStyles;
+  height: 36px;
+  min-width: 153px;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $secondary-color;
+  background-color: $light-backg;
+  border-radius: 0.5rem;
+  border: $btn-border;
+  box-shadow: $btn-shadow;
+
+  &:hover {
+    color: $secondary-color;
+    background-color: $light-backg;
+  }
+}
+
+.downloard_cv {
+  @extend .edit_updates_events;
+  color: $white;
+  background-color: $secondary-color;
+
+  &:hover {
+    color: $white;
+    background-color: $secondary-color;
+  }
+}
+
+.edit_matches_candidate {
+  @extend .edit_updates_events;
+  width: 32px;
+  height: 32px;
+  min-width: unset;
+  border-radius: 32px;
+
+  span {
+    margin: 0;
+    color: $secondary-color;
+  }
+}
+
+
+.alumni_message {
+  @extend .edit_updates_events;
+  height: 32px;
+  min-width: auto;
+  padding: 0.5rem 0.75rem;
+  gap: 0.25rem;
+
+  span {
+    margin: 0;
+  }
+}
+
+.alumni_paper {
+  @extend .alumni_message;
+  width: 32px;
+
+  svg {
+    font-size: 1.125rem !important;
+  }
+}
+
+
+.hire_via_vaurse {
+  @extend .edit_updates_events;
+  height: 26px;
+  max-height: none;
+  min-width: 109px;
+  gap: 4px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: $secondary-color;
+  background-color: $light-backg;
+  border-radius: 0.5rem;
+  border: $btn-border;
+  box-shadow: $btn-shadow;
+  white-space: nowrap;
+}
+
+.draft_btn {
+  @extend .edit_updates_events;
+  height: 48px;
+  min-width: 120px;
+  border-radius: 0.75rem;
+}
+
+.create_updates_events {
+  @extend .edit_updates_events;
+
+  span svg {
+    color: $white;
+    background-color: $secondary-color;
+    font-size: 1rem !important;
+    border-radius: 50%;
+  }
+}
+
+.updates_events_edit {
+  @extend .create_updates_events;
+  color: $white;
+  background-color: $secondary-color;
+
+  span svg {
+    font-size: 0.875rem !important;
+    color: $secondary-color;
+    background-color: $white;
+  }
+
+  &:hover {
+    color: $white;
+    background-color: $secondary-color;
+  }
+}
+
+.edit_btn {
+  @extend .edit_updates_events;
+  text-wrap: nowrap;
+  min-width: auto;
+  gap: 0.125rem;
+
+  span {
+    // margin-right: 0;
+  }
+
+  .Mui-disabled {
+    background: #000;
+
+    & svg {
+      filter: invert(77%) sepia(2%) saturate(613%) hue-rotate(216deg) brightness(91%) contrast(97%);
+    }
+  }
+
+  &:hover {
+    box-shadow: none;
+  }
+}
+
+.updated_btn {
+  color: $white;
+  background-color: $secondary-color;
+  height: 48px;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: auto 1rem;
+  min-width: 120px;
+
+  &:hover {
+    box-shadow: none;
+    background-color: $secondary-color;
+    opacity: 0.9;
+  }
+}
+
+.discard_btn {
+  @extend .updated_btn;
+  color: #4f4b5c;
+  background-color: #ececed;
+  box-shadow: none;
+
+  &:hover {
+    background-color: #ececed;
+  }
+}
+
+%available_btn {
+  @extend %defaultButtonStyles;
+  height: 36px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+}
+
+.yes {
+  @extend %available_btn;
+  color: $white;
+  background-color: #0baa60;
+
+  &:hover {
+    color: $white;
+    background-color: $bg-light-success;
+  }
+}
+
+.no {
+  @extend %available_btn;
+  color: #8d8a95;
+  background-color: transparent;
+
+  &:hover {
+    color: initial;
+    background-color: initial;
+  }
+}
+
+.remove_devise {
+  @extend %defaultButtonStyles;
+  height: 24px;
+  min-width: 55px;
+  font-size: 0.675rem;
+  line-height: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  color: #cf2a2a;
+  background-color: $bg-danger;
+  background: linear-gradient(0deg, #fff9f9, #fff9f9),
+    linear-gradient(0deg, #ffe0e0, #ffe0e0);
+  border: 1px solid #ffe0e0;
+  box-shadow: 0px 1px 2px -1px #110c2214;
+}
+
+.delete_accout {
+  @extend %defaultButtonStyles;
+  height: 36px;
+  width: 171px;
+  font-size: 0.675rem;
+  line-height: 1rem;
+  font-weight: 600;
+  border: 1px solid #ffc7c7;
+  border-radius: 0.5rem;
+  color: #f03d3d;
+  background: #ffffff;
+  background-color: $white;
+  box-shadow: 0px 1px 0px 0px #110c2200;
+
+  &:hover {
+    background: #ffffff;
+  }
+}
