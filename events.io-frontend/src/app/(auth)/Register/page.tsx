@@ -1,20 +1,20 @@
+'use client'
 import {
   Anchor,
   Button,
   Checkbox,
   Group,
-  Paper,
+  Container,
   PaperProps,
   PasswordInput,
   Stack,
-  Text,
+  Title,
   TextInput
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { upperFirst, useToggle } from '@mantine/hooks'
+import classes from './Register.module.scss'
 
 export default function RegisterationPage (props: PaperProps) {
-  const [type, toggle] = useToggle(['login', 'register'])
   const form = useForm({
     initialValues: {
       email: '',
@@ -31,24 +31,22 @@ export default function RegisterationPage (props: PaperProps) {
   })
 
   return (
-    <Paper radius='md' p='xl' withBorder {...props}>
-      <Text size='lg' fw={500}>
-        Welcome to Event.IO, {type} with
-      </Text>
+    <Container size={420} my={40}>
+      <Title size='lg' ta='center' className={classes.title}>
+        Start Selling tickets with Events.IO
+      </Title>
 
       <form onSubmit={form.onSubmit(() => {})}>
         <Stack>
-          {type === 'register' && (
-            <TextInput
-              label='Name'
-              placeholder='Your name'
-              value={form.values.name}
-              onChange={event =>
-                form.setFieldValue('name', event.currentTarget.value)
-              }
-              radius='md'
-            />
-          )}
+          <TextInput
+            label='Name'
+            placeholder='Your name'
+            value={form.values.name}
+            onChange={event =>
+              form.setFieldValue('name', event.currentTarget.value)
+            }
+            radius='md'
+          />
 
           <TextInput
             required
@@ -77,15 +75,13 @@ export default function RegisterationPage (props: PaperProps) {
             radius='md'
           />
 
-          {type === 'register' && (
-            <Checkbox
-              label='I accept terms and conditions'
-              checked={form.values.terms}
-              onChange={event =>
-                form.setFieldValue('terms', event.currentTarget.checked)
-              }
-            />
-          )}
+          <Checkbox
+            label='I accept terms and conditions'
+            checked={form.values.terms}
+            onChange={event =>
+              form.setFieldValue('terms', event.currentTarget.checked)
+            }
+          />
         </Stack>
 
         <Group justify='space-between' mt='xl'>
@@ -93,18 +89,16 @@ export default function RegisterationPage (props: PaperProps) {
             component='button'
             type='button'
             c='dimmed'
-            onClick={() => toggle()}
+            onClick={() => {}}
             size='xs'
           >
-            {type === 'register'
-              ? 'Already have an account? Login'
-              : "Don't have an account? Register"}
+            Already have an account? Login
           </Anchor>
           <Button type='submit' radius='xl'>
-            {upperFirst(type)}
+            Create Account
           </Button>
         </Group>
       </form>
-    </Paper>
+    </Container>
   )
 }
