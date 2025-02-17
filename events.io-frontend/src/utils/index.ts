@@ -10,6 +10,4 @@ export * from './formatDate';
 export * from './checkBaseUrl';
 
 export * from './shared/loadOptions';
-export * from './employer/loadEmployerOptions';
 
-export * from './candidate/loadCandidateOptions';
