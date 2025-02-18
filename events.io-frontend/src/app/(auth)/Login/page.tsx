@@ -13,6 +13,23 @@ import {
 import classes from './Login.module.scss'
 
 export default function Login () {
+  const { login, isLoading, error } = useLogin()
+
+async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault()
+  const formData = new FormData(event.currentTarget)
+
+  try {
+    await login({
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
+    })
+  } catch (err) {
+    // Error is handled by the hook
+    console.error('Login failed:', err)
+  }
+}
+
   return (
     <Container size={420} my={40}>
       <Title ta='center' className={classes.title}>
