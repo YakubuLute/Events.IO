@@ -4,8 +4,8 @@ import {
   Button,
   Checkbox,
   Group,
+  Paper,
   Container,
-  PaperProps,
   PasswordInput,
   Stack,
   Title,
@@ -14,7 +14,7 @@ import {
 import { useForm } from '@mantine/form'
 import classes from './Register.module.scss'
 
-export default function RegisterationPage (props: PaperProps) {
+export default function RegisterationPage () {
   const form = useForm({
     initialValues: {
       email: '',
@@ -32,73 +32,74 @@ export default function RegisterationPage (props: PaperProps) {
 
   return (
     <Container size={420} my={40}>
-      <Title size='lg' ta='center' className={classes.title}>
+      <Title size='lg' ta='center' className={`${classes.title} capitalize`}>
         Start Selling tickets with Events.IO
       </Title>
+      <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
+        <form onSubmit={form.onSubmit(() => {})}>
+          <Stack>
+            <TextInput
+              label='Name'
+              placeholder='Your name'
+              value={form.values.name}
+              onChange={event =>
+                form.setFieldValue('name', event.currentTarget.value)
+              }
+              radius='md'
+            />
 
-      <form onSubmit={form.onSubmit(() => {})}>
-        <Stack>
-          <TextInput
-            label='Name'
-            placeholder='Your name'
-            value={form.values.name}
-            onChange={event =>
-              form.setFieldValue('name', event.currentTarget.value)
-            }
-            radius='md'
-          />
+            <TextInput
+              required
+              label='Email'
+              placeholder='hello@mantine.dev'
+              value={form.values.email}
+              onChange={event =>
+                form.setFieldValue('email', event.currentTarget.value)
+              }
+              error={form.errors.email && 'Invalid email'}
+              radius='md'
+            />
 
-          <TextInput
-            required
-            label='Email'
-            placeholder='hello@mantine.dev'
-            value={form.values.email}
-            onChange={event =>
-              form.setFieldValue('email', event.currentTarget.value)
-            }
-            error={form.errors.email && 'Invalid email'}
-            radius='md'
-          />
+            <PasswordInput
+              required
+              label='Password'
+              placeholder='Your password'
+              value={form.values.password}
+              onChange={event =>
+                form.setFieldValue('password', event.currentTarget.value)
+              }
+              error={
+                form.errors.password &&
+                'Password should include at least 6 characters'
+              }
+              radius='md'
+            />
 
-          <PasswordInput
-            required
-            label='Password'
-            placeholder='Your password'
-            value={form.values.password}
-            onChange={event =>
-              form.setFieldValue('password', event.currentTarget.value)
-            }
-            error={
-              form.errors.password &&
-              'Password should include at least 6 characters'
-            }
-            radius='md'
-          />
+            <Checkbox
+              label='I accept terms and conditions'
+              checked={form.values.terms}
+              onChange={event =>
+                form.setFieldValue('terms', event.currentTarget.checked)
+              }
+            />
+          </Stack>
 
-          <Checkbox
-            label='I accept terms and conditions'
-            checked={form.values.terms}
-            onChange={event =>
-              form.setFieldValue('terms', event.currentTarget.checked)
-            }
-          />
-        </Stack>
-
-        <Group justify='space-between' mt='xl'>
-          <Anchor
-            component='button'
-            type='button'
-            c='dimmed'
-            onClick={() => {}}
-            size='xs'
-          >
-            Already have an account? Login
-          </Anchor>
-          <Button type='submit' radius='xl'>
+          <Group justify='space-between' mt='xl'>
+            <Anchor
+              component='button'
+              type='button'
+              c='dimmed'
+              onClick={() => {}}
+              size='xs'
+            >
+              Already have an account? Login
+            </Anchor>
+          </Group>
+          <Button fullWidth type='submit' mt={10} radius='xl'>
             Create Account
           </Button>
-        </Group>
-      </form>
+        </form>
+      </Paper>
     </Container>
   )
 }
