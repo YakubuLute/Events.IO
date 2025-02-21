@@ -1,0 +1,95 @@
+$html-font-size: 16px;
+
+@mixin d-flex($justify: flex-start, $align: stretch) {
+  display: flex;
+
+  @if $justify {
+    justify-content: $justify;
+  }
+
+  @if $align {
+    align-items: $align;
+  }
+}
+
+@mixin flex-column($align: stretch) {
+  display: flex;
+  flex-direction: column;
+
+  @if $align {
+    align-items: $align;
+  }
+}
+
+@function stripUnit($value) {
+  @return $value / ($value * 0 + 1);
+}
+@function pxToRem($pxValue) {
+  @return #{stripUnit($pxValue) / stripUnit($html-font-size)}rem;
+}
+
+@mixin media($size) {
+  @media screen and (min-width: $size) {
+    @content;
+  }
+}
+
+%defaultButtonStyles {
+  background-color: 'transparent';
+  box-shadow: none;
+  outline: none;
+  padding: 0;
+  font-weight: 500;
+  min-width: unset;
+  min-height: unset;
+  transition: $btn-transition;
+}
+
+%commonInputStyles {
+  min-height: 38px;
+  outline: none;
+  font-size: 0.875rem;
+  background-color: $input-backg;
+  border: 1px solid rgb(15, 15, 13);
+  box-shadow: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: $primary-color;
+  }
+
+  input {
+    @include d-flex(flex-start, center);
+    color: $primary-color;
+    background-color: transparent;
+  }
+}
+
+%seach-wrapper-properties {
+  @include d-flex($justify: flex-start);
+}
+
+%header-right-container {
+  flex-shrink: 0;
+  min-width: 160px;
+}
+
+%header-left-container {
+  @include d-flex(center, center);
+  flex-shrink: 1;
+  // width: 20%;
+}
+
+// @include media(992px) {
+//   %header-right-container {
+//     flex-shrink: 1;
+//     // width: 20%;
+//   }
+// }
+
+// @include media(1480px) {
+//   %header-right-container {
+//     width: auto;
+//   }
+// }

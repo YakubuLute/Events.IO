@@ -1,0 +1,19 @@
+.baseText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #110c22;
+}
+
+.cellText {
+  @extend .baseText;
+  line-height: 40px;
+}
+
+.select {
+  background: #d9d9d933;
+}
+
+.selectPaper {
+  width: 250px;
+  border-radius: 10px;
+}

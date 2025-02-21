@@ -1,0 +1,251 @@
+@import '@/scss/main.scss';
+
+// Parent --------------------------------------------------
+.container {
+  padding: 32px 0px;
+  align-items: center;
+}
+
+// Shared --------------------------------------------------
+.row {
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Header --------------------------------------------------
+.headerContainer {
+  width: 100%;
+}
+
+.headerLeftContainer {
+  gap: 16px;
+  align-items: center;
+}
+
+.headerTitle {
+  color: #071754;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.form {
+  min-width: 200px;
+}
+
+.select {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.selectLabel {
+  color: #4f4b5c;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.headerRightButton {
+  border-radius: 8px;
+  background: #0c27be;
+  box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 8px 20px !important;
+  text-transform: none;
+}
+
+.headerBackButton {
+  border-radius: 3.2px;
+  border: 1px solid rgba(135, 150, 165, 0.1);
+  background: #fff;
+  padding: 4.5px 9px 5.5px 9px;
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
+
+// Filter --------------------------------------------------
+.filterContainer {
+  width: 100%;
+  max-width: 300px;
+  padding: 24px 16px;
+  background-color: white;
+}
+
+.filterCard {
+  width: 100%;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0px -1px 0px 0px rgba(0, 0, 0, 0.02),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.05);
+}
+
+.filter_accordion_wrapper {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 1rem;
+  height: 75vh;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #ececec;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #a8abae;
+    border-radius: 50px;
+  }
+}
+
+.filterHeader {
+  width: 100%;
+  border-radius: 3px 3px 0px 0px;
+  border-bottom: 1px solid rgba(135, 150, 165, 0.1);
+  padding: 12px 20px;
+}
+
+.filterTitle {
+  color: #071754;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.filterMain {
+  padding: 12px 20px;
+}
+
+.filterInputText {
+  color: #92929d;
+  font-size: 14px;
+  padding: 0;
+}
+
+.filterInput {
+  padding-right: 12px;
+  padding-left: 2px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-radius: 10px;
+  background: #fafafb;
+  border: none;
+  height: 34px;
+  justify-content: center;
+}
+
+.filterCategory {
+  margin-top: 15px;
+  width: 100%;
+  gap: 8px;
+}
+
+.filterCategoryTitle {
+  color: #92929d;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.4px;
+  text-transform: uppercase;
+}
+
+.filterLabel {
+  gap: 2px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.filterLabelText {
+  color: #071754;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.filterLabelCount {
+  border-radius: 5px;
+  background: #f1f1f5;
+  padding: 6px 9px;
+  color: #696974;
+  font-size: 10px;
+}
+
+.filterCheckbox {
+  color: rgba(135, 150, 165, 0.15);
+}
+
+.filterCategoryButton {
+  border-radius: 4px;
+  border: 1px solid #0c27be;
+  background: #0c27be;
+  padding: 7px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+// Main --------------------------------------------------
+.mainContianer {
+  background-color: white !important;
+  padding: 24px 24px;
+}
+
+.list_wrapper {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 1rem;
+  height: 75vh;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #ececec;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #a8abae;
+    border-radius: 50px;
+  }
+}
+
+.mainTitle {
+  color: #071754;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+  margin-bottom: 14px;
+
+  & .mainSubTitle {
+    font-weight: 500;
+    margin-left: 2px;
+  }
+}
+
+// Candidate Platform Students List
+// Route: candidate/students
+.network_title {
+  font-size: 1.5rem;
+
+  & .network_subtitle {
+    margin-left: 8px;
+  }
+}
+
+.row_header {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.employeDate {
+  max-width: 100px;
+  background: red;
+}
+
+.totalText {
+  margin-bottom: 40px;
+}

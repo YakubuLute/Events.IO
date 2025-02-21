@@ -1,0 +1,26 @@
+.emptyBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px 0px;
+
+  .title {
+    color: #110c22;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 0px;
+  }
+
+  .desc {
+    color: #8d8a95;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+  }
+}

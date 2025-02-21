@@ -1,0 +1,491 @@
+@import '@/scss/main.scss';
+
+.messageBox {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border: 2px solid $primaryColor;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 200px;
+}
+
+.message {
+  color: $midBlackColor;
+  font-size: 22px;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .headerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .title {
+      color: $mainTextColor;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 28px;
+      letter-spacing: -0.22px;
+    }
+  }
+}
+.eventBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  img {
+    border-radius: 4px;
+    object-fit: cover;
+  }
+
+  .detailBox {
+    display: flex;
+    flex-direction: column;
+
+    .eventName {
+      color: $mainTextColor;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+    }
+
+    .eventOrganizer {
+      color: $midBlackColor;
+      font-weight: 10px;
+      font-weight: 500;
+      line-height: 14px;
+
+      span {
+        font-weight: 600;
+        color: $mainTextColor;
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.scanContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: $white;
+  border-radius: 12px;
+
+  .controlBox {
+    padding: 16px 8px;
+    border-bottom: 1px solid $borderColor;
+
+    .btnBox {
+      border-radius: 12px;
+      padding: 4px;
+      background-color: #f2f4ff;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+
+      .btn {
+        padding: 8px 10px;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        background-color: transparent;
+        box-shadow: none;
+        color: $grayTextColor;
+        transition: 0.3s;
+
+        &.active {
+          background-color: $primaryColor;
+          box-shadow: 0px 2px 4px -2px rgba(17, 12, 34, 0.12);
+          border-radius: 8px;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  .mainBox {
+    padding: 16px 8px;
+  }
+}
+
+.scanBoxInit {
+  width: 100%;
+  height: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 12px;
+  background-color: #040d3f;
+  position: relative;
+
+  svg {
+    color: $white;
+    flex-shrink: 0;
+  }
+
+  img {
+    position: absolute;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.label {
+  color: $mainTextColor;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.submitBtn {
+  padding: 8px 12px;
+  box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.footer {
+  .exitBtn {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ffc7c7;
+    background-color: #fff9f9;
+    box-shadow: 0px 1px 2px -1px rgba(17, 12, 34, 0.08);
+    color: #cf2a2a;
+  }
+}
+
+.qrReader {
+  width: 100%;
+  height: 550px;
+  margin: 0 auto;
+  position: relative;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .qrBox {
+    width: 100% !important;
+    left: 0 !important;
+  }
+
+  .qrFrame {
+    position: absolute;
+    fill: none;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+.confirmMessageBox {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  border-bottom: 1px solid $borderColor;
+  padding: 16px 0;
+
+  &.noBorder {
+    border-bottom: none;
+  }
+
+  .statusCircle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    &.successful {
+      background-color: #0baa60;
+    }
+
+    &.already_scanned {
+      background-color: #e09400;
+    }
+
+    &.failed {
+      background-color: #f03d3d;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+  }
+
+  .rightBox {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      color: $mainTextColor;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 32px;
+      letter-spacing: -0.28px;
+    }
+
+    .desc {
+      color: $midBlackColor;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+    }
+  }
+}
+
+.mainProfileBox {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  gap: 12px;
+  justify-content: center;
+
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .profileBox {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+
+    .nameBox {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      justify-content: center;
+
+      .nameText {
+        color: $mainTextColor;
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 28px;
+        letter-spacing: -0.22px;
+      }
+    }
+
+    .accountIdText {
+      padding: 2px 8px;
+      border-radius: 100px;
+      border: 1px solid $borderColor;
+      background-color: #f8f8f8;
+      width: fit-content;
+      text-align: center;
+      margin: 0 auto;
+      font-size: 10px;
+      font-weight: 500;
+      color: $mainTextColor;
+      line-height: 14px;
+    }
+
+    .jobTitle {
+      color: $mainTextColor;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      text-align: center;
+    }
+  }
+}
+
+.attendeesContainer {
+  display: flex;
+  flex-direction: column;
+  height: 550px;
+
+  .filterBox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid $borderColor;
+    padding: 16px 0px;
+
+    .title {
+      color: $mainTextColor;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+    }
+
+    .inputBox {
+      display: flex;
+      padding: 8px 12px;
+      gap: 8px;
+      border: 1px solid $borderColor;
+      border-radius: 8px;
+
+      svg {
+        color: $midBlackColor;
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+      }
+
+      input {
+        flex: 1;
+        border: none;
+        color: $midBlackColor;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+
+        &:focus {
+          outline: none;
+        }
+
+        &::placeholder {
+          color: $grayTextColor;
+        }
+      }
+    }
+  }
+
+  .listContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    padding: 16px 2px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    gap: 8px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 50px;
+    }
+
+    &:hover {
+      &::-webkit-scrollbar-track {
+        background-color: #ececec;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #a8abae;
+      }
+    }
+
+    .attendeeCard {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid $borderColor;
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+
+      .mainContainer {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+
+        img {
+          object-fit: cover;
+          border-radius: 16px;
+        }
+
+        .userDetailsBox {
+          display: flex;
+          flex-direction: column;
+
+          .nameText {
+            color: $mainTextColor;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+          }
+
+          .item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            svg {
+              width: 16px;
+              height: 16px;
+              flex-shrink: 0;
+            }
+
+            .text {
+              color: $midBlackColor;
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.optionBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.packageBox {
+  padding: 16px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid $borderColor;
+
+  &.smallPadding {
+    padding-top: 8px;
+    padding-bottom: 0px;
+  }
+
+  .packageText {
+    flex: 1 0 0;
+    color: $mainTextColor;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .packageChip {
+    padding: 4px 12px;
+    border-radius: 256px;
+    border: 2px solid $primaryColor;
+    color: $primaryColor;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: capitalize;
+  }
+}

@@ -1,0 +1,64 @@
+@import '@/scss/main.scss';
+
+.profileTab {
+  margin: 2rem 1rem;
+
+  .experiencePanel {
+    .titleTalent {
+      display: flex;
+      align-items: center;
+      padding: 30px 0 10px 0;
+    }
+
+    .talentSummary {
+      padding-top: 0px !important;
+      justify-content: space-between;
+    }
+
+    .talentHeading {
+      color: var(--dark);
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .lineTitleTalent {
+      margin-left: 30px;
+      flex: 1;
+      background: rgba(135, 150, 165, 0.1);
+      height: 1px;
+      width: 100%;
+    }
+
+    .editPersonal {
+      width: 16px;
+      height: 16px;
+    }
+
+    .summary {
+      font-size: 14px !important;
+      color: var(--text) !important;
+      text-align: justify;
+    }
+
+    .see_more_btn {
+      transition: all 0.3s ease-in-out;
+      
+      button {
+        animation: .5s linear 1s alternate;
+        margin-top: 4px;
+        color: #1569E0;
+        padding: 2px 6px;
+  
+        span {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+@include media(992px) {
+  .profileTab {
+    margin: 2rem 1.5rem;
+  }
+}

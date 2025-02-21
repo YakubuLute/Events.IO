@@ -1,0 +1,16 @@
+.video {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+
+  @media (min-width: 768px) {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.canvas {
+  display: none;
+  position: absolute;
+}

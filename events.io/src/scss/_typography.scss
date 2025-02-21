@@ -1,0 +1,23 @@
+@each $key, $size in $font-sizes {
+  .fs-#{$key} {
+    font-size: $size;
+  }
+}
+
+@each $key, $size in $line-heights {
+  .lh-#{$key} {
+    line-height: $size;
+  }
+}
+
+@each $key, $size in $font-weights {
+  .fw-#{$key} {
+    font-weight: $size;
+  }
+}
+
+@each $key, $color in $text-theme-colors {
+  .text-#{$key} {
+    color: $color;
+  }
+}
