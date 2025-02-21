@@ -63,7 +63,7 @@ export async function POST (req: Request) {
 
     // Create JWT token
     const token = await new SignJWT({
-      userId: user._id.toString(),
+      userId: user?._id?.toString() || user?.id?.toString(),
       email: user.email,
       role: user.role,
       isAdmin: user.isAdmin
@@ -74,7 +74,7 @@ export async function POST (req: Request) {
 
     // Create refresh token
     const refreshToken = await new SignJWT({
-      userId: user._id.toString()
+      userId: user?._id?.toString() || user?.id?.toString()
     })
       .setProtectedHeader({ alg: 'HS256' })
       .setExpirationTime('7d')
@@ -85,7 +85,7 @@ export async function POST (req: Request) {
       {
         message: 'Registration successful',
         user: {
-          id: user._id.toString(),
+          id: user?._id?.toString() || user?.id?.toString(),
           name: user.name,
           email: user.email,
           phone: user.phone,
