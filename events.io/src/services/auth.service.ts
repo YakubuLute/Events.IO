@@ -23,7 +23,7 @@ export const refreshAccessTokenFn = async (refreshToken: string) => {
     {
       refreshToken
     },
-    { skipAuthRefresh: true }
+    // { skipAuthRefresh: true }
   ) // Flag to skip interceptor
   return response.data
 }
