@@ -1,5 +1,0 @@
-@each $key, $color in $theme-colors {
-  .bg-#{$key} {
-    background-color: $color;
-  }
-}
