@@ -1,0 +1,88 @@
+@import '@/scss/main.scss';
+
+.container {
+  // border-radius: 12px !important;
+  // border: 1px solid #ececed !important;
+  // background: #fff !important;
+  // &:first-child {
+  //   border-radius: 12px !important;
+  //   border: 1px solid #ececed !important;
+  //   background: #fff !important;
+  // }
+
+  & > div {
+    min-height: 350px;
+  }
+
+  & > * {
+    border-radius: 8px;
+    border: 1px solid #ececed;
+  }
+
+  ul {
+    list-style: inside;
+    padding-left: 0 !important;
+  }
+
+  ul li {
+    padding-left: 12px !important;
+  }
+}
+
+.aboutEditor {
+  & > div {
+    min-height: 150px;
+  }
+
+  & > * {
+    border-radius: 12px;
+    border: 1px solid #ececed;
+  }
+
+  ul {
+    list-style: inside;
+    padding-left: 0 !important;
+  }
+
+  ul li {
+    padding-left: 10px !important;
+  }
+}
+
+.aboutEditorLong {
+  @extend .aboutEditor;
+
+  & > div {
+    min-height: 200px;
+  }
+}
+
+.toolbarContainer {
+  border: none !important;
+}
+
+.divider {
+  border-left: 1.5px solid rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  width: auto;
+}
+
+#label {
+  color: #4f4b5c;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding-left: 4px;
+  padding-bottom: 4px;
+}
+
+// .editorContainer {
+//   display: flex;
+//   width: 100%;
+//   flex-direction: column;
+//   border-radius: 1rem;
+// }
+
+// .editorMainContainer {
+//   margin: 3rem 0;
+// }

@@ -1,2 +1,5 @@
-clients/events.io/node_modules
+**/dist
 **/node_modules
+UI
+**/events.io_
+local.backup

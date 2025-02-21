@@ -1,0 +1,24 @@
+.paperContainer {
+  overflow-x: unset;
+  overflow-y: unset;
+  border-radius: 12px;
+  margin-top: -10px;
+  padding: 12px;
+  background-color: #2e293d;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  flex-direction: column;
+  box-shadow: none;
+}
+
+.popoverText {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 16px;
+
+  a {
+    color: #667dff;
+  }
+}

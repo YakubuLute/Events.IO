@@ -1,0 +1,135 @@
+@import '@/scss/main.scss';
+
+
+.avatarPersonal {
+  margin: 0 auto;
+  padding-right: 1rem;
+
+
+  .percentage {
+    width: 35px;
+    height: 22px;
+    @include d-flex(center, center);
+    border-radius: 4px;
+    background-color: #c6f1dd;
+    font-size: 0.625rem;
+    font-weight: 500;
+    color: #0c7844;
+    text-align: right;
+  }
+
+  .avatar {
+    width: 166px;
+    height: 154px;
+    border-radius: 0.75rem;
+  }
+
+  .personalInformation {
+    position: relative;
+    text-align: center;
+    margin-top: 1rem;
+
+    .name_verify {
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0.25rem;
+      text-transform: capitalize;
+
+      h3 {
+        font-size: 1rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+        text-transform: capitalize;
+        color: $black;
+      }
+
+      svg {
+        font-size: 1.75rem;
+        color: #1c92ff; //$light-secondary-color;
+      }
+    }
+
+    .job_title {
+      color: $primary-color;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1.25rem;
+      text-transform: capitalize;
+    }
+
+    .social_media {
+      @include d-flex(center, center);
+    }
+
+    svg {
+      color: #a8afbb;
+      padding: 0.25rem;
+    }
+
+    .shortlist_bookmark {
+      @include d-flex(center, center);
+      margin-top: 1rem;
+    }
+
+    .shortlist_btn button {
+      @extend %defaultButtonStyles;
+      width: 166px;
+      height: 32px;
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #0BAA60;
+      background-color: #f3fdf8;
+      border: solid 1px #c6f1dd;
+      border-radius: 0.5rem;
+
+      &:hover {
+        background-color: #C6F1DD;
+      }
+    }
+
+    .bookmark_btn {
+      position: absolute;
+      right: 0.5rem;
+      font-size: 1.5rem;
+      justify-self: flex-end;
+      padding: 0;
+
+      svg {
+        color: #a8afbb;
+      }
+
+    }
+  }
+
+  .editAvatarPersonal {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+
+  .personalInformationCols {
+    @include d-flex(center, flex-start);
+    text-align: center !important;
+    flex-wrap: wrap;
+
+    .col {
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 100%;
+      padding: 1rem 0px;
+    }
+
+    .span {
+      color: var(--dark);
+      font-size: 0.9rem;
+    }
+
+    .small {
+      color: var(--text);
+      font-size: 0.75rem;
+    }
+  }
+}
