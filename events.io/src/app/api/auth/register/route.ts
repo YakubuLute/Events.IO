@@ -2,12 +2,11 @@
 import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
 import { SignJWT } from 'jose'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
 import { User } from '@/models/models'
 import { IUser } from '@/interface/interface'
 
-// signup schema
+// Define the signup schema based on IUser
 const signupSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
@@ -19,7 +18,7 @@ const signupSchema = z
       .optional()
       .default('user')
   })
-  .strict() // Prevents extra fields in input
+  .strict()
 
 export async function POST (req: Request) {
   try {
@@ -36,19 +35,19 @@ export async function POST (req: Request) {
 
     const { name, email, password, phone, role } = result.data
 
-    // Check if user already exists (by email or phone)
+    // Check if user already exists
     const existingUser = await User.findOne({
       $or: [{ email }, { phone }]
     })
     if (existingUser) {
       return NextResponse.json(
         { error: 'User with this email or phone already exists' },
-        { status: 409 } // Conflict status code (user already exists)
+        { status: 409 }
       )
     }
 
-    // Hashing the password
-    const passwordHash = await hash(password, 12) // 12 salt rounds
+    // Hash the password
+    const passwordHash = await hash(password, 12)
 
     // Create new user
     const user = (await User.create({
@@ -56,7 +55,7 @@ export async function POST (req: Request) {
       email,
       passwordHash,
       phone,
-      role: role || 'user', // Default to 'user'
+      role: role || 'user',
       isAdmin: false,
       isVerified: false,
       createdAt: new Date()
@@ -64,7 +63,7 @@ export async function POST (req: Request) {
 
     // Create JWT token
     const token = await new SignJWT({
-      userId: user?._id?.toString() || user?.id?.toString(),
+      userId: user._id.toString(),
       email: user.email,
       role: user.role,
       isAdmin: user.isAdmin
@@ -73,35 +72,20 @@ export async function POST (req: Request) {
       .setExpirationTime('24h')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-    // Set cookie
-    cookies().set('auth-token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 24 // 24 hours
-    })
-
-    // Optional: Create refresh token (for consistency with signin)
+    // Create refresh token
     const refreshToken = await new SignJWT({
-      userId: user?._id?.toString() || user?.id?.toString()
+      userId: user._id.toString()
     })
       .setProtectedHeader({ alg: 'HS256' })
       .setExpirationTime('7d')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-    cookies().set('refresh-token', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 24 * 7 // 7 days expiration date
-    })
-
-    // Return response
-    return NextResponse.json(
+    // Prepare response with cookies
+    const response = NextResponse.json(
       {
         message: 'Registration successful',
         user: {
-          id: user?._id?.toString() || user?.id?.toString(),
+          id: user._id.toString(),
           name: user.name,
           email: user.email,
           phone: user.phone,
@@ -113,6 +97,23 @@ export async function POST (req: Request) {
       },
       { status: 201 }
     )
+
+    // Set cookies on the response
+    response.cookies.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 // 24 hours
+    })
+
+    response.cookies.set('refresh-token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    })
+
+    return response
   } catch (error) {
     console.error('Signup error:', error)
     return NextResponse.json(
