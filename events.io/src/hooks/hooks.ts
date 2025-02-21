@@ -1,7 +1,6 @@
-
 import { useMutation, useQuery } from '@tanstack/react-query'
-import eventService from '../services/eventService'
-import { IUser, IEvent } from '../interface'
+import eventService from '@/services/events.service'
+import { IUser, IEvent } from '@/interface/interface'
 
 // Signup Hook
 export const useUserSignup = ({
