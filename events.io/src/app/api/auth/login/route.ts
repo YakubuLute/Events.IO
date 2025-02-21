@@ -2,12 +2,11 @@
 import { NextResponse } from 'next/server'
 import { compare } from 'bcryptjs'
 import { SignJWT } from 'jose'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
 import { User } from '@/models/models'
 import { IUser } from '@/interface/interface'
 
-// login schema logic
+// Login schema logic
 const loginSchema = z
   .object({
     email: z.string().email().optional(),
@@ -66,32 +65,16 @@ export async function POST (req: Request) {
       .setExpirationTime('24h')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-
-    // Set cookie to the client
-    cookies.set('auth-token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 24 // 24 hours expiration 
-    })
-
-    // Create refresh token (optional, for use with useUserSigninWithRefreshToken)
+    // Create refresh token
     const refreshToken = await new SignJWT({
-      userId: user?.id?.toString() || user?._id?.toString(),
+      userId: user?._id?.toString() || user?.id?.toString()
     })
       .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('7d') // Longer expiry for refresh token
+      .setExpirationTime('7d')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-    cookies().set('refresh-token', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
-    })
-
-    // Return user data
-    return NextResponse.json({
+    // Prepare response with cookies
+    const response = NextResponse.json({
       message: 'Login successful',
       user: {
         id: user?._id?.toString() || user?.id?.toString(),
@@ -104,6 +87,23 @@ export async function POST (req: Request) {
       token,
       refreshToken
     })
+
+    // Set cookies on the response
+    response.cookies.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 // 24 hours
+    })
+
+    response.cookies.set('refresh-token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    })
+
+    return response
   } catch (error) {
     console.error('Login error:', error)
     return NextResponse.json(

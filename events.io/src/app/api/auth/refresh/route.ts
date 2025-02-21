@@ -24,7 +24,7 @@ export async function POST (req: Request) {
       )
 
     const newToken = await new SignJWT({
-      userId: user._id.toString(),
+      userId: user?._id?.toString() || user?.id?.toString(),
       email: user.email,
       role: user.role,
       isAdmin: user.isAdmin
@@ -33,7 +33,9 @@ export async function POST (req: Request) {
       .setExpirationTime('24h')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-    const newRefreshToken = await new SignJWT({ userId: user._id.toString() })
+    const newRefreshToken = await new SignJWT({
+      userId: user?._id?.toString() || user?.id?.toString()
+    })
       .setProtectedHeader({ alg: 'HS256' })
       .setExpirationTime('7d')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
@@ -53,7 +55,7 @@ export async function POST (req: Request) {
     return response
   } catch (error) {
     return NextResponse.json(
-      { error: 'Invalid refresh token' },
+      { error: `Invalid refresh token ${error}` },
       { status: 401 }
     )
   }
