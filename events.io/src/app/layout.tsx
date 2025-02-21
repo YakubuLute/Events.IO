@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from 'next'
 // import { Geist, Geist_Mono } from 'next/font/google'
+import { Notifications } from '@mantine/notifications'
 
 import '@mantine/core/styles.css'
 
@@ -31,7 +32,11 @@ export default function RootLayout ({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <HeaderProvider>{children}</HeaderProvider>
+          <HeaderProvider>
+            <Notifications />
+
+            {children}
+          </HeaderProvider>
         </MantineProvider>
       </body>
     </html>

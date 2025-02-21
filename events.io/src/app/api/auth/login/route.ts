@@ -1,15 +1,22 @@
-// src/app/api/auth/login/route.ts
+// src/app/api/auth/signin/route.ts
 import { NextResponse } from 'next/server'
 import { compare } from 'bcryptjs'
-import { prisma } from '@/lib/db'
 import { SignJWT } from 'jose'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
+import { User } from '@/models/models'
+import { IUser } from '@/interface/interface'
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string()
-})
+// Login schema logic
+const loginSchema = z
+  .object({
+    email: z.string().email().optional(),
+    phone: z.string().optional(),
+    password: z.string().min(1, 'Password is required')
+  })
+  .refine(data => data.email || data.phone, {
+    message: 'Either email or phone must be provided',
+    path: ['email', 'phone']
+  })
 
 export async function POST (req: Request) {
   try {
@@ -24,12 +31,12 @@ export async function POST (req: Request) {
       )
     }
 
-    const { email, password } = result.data
+    const { email, phone, password } = result.data
 
-    // Find user
-    const user = await prisma.user.findUnique({
-      where: { email }
-    })
+    // Find user by email or phone
+    const user = (await User.findOne({
+      $or: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])]
+    })) as IUser
 
     if (!user) {
       return NextResponse.json(
@@ -39,7 +46,7 @@ export async function POST (req: Request) {
     }
 
     // Verify password
-    const isPasswordValid = await compare(password, user.password)
+    const isPasswordValid = await compare(password, user.passwordHash)
     if (!isPasswordValid) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
@@ -47,31 +54,56 @@ export async function POST (req: Request) {
       )
     }
 
-    // Create JWT token
+    // Create JWT token with additional user data
     const token = await new SignJWT({
-      userId: user.id,
-      email: user.email
+      userId: user?._id?.toString() || user?.id?.toString(),
+      email: user.email,
+      role: user.role,
+      isAdmin: user.isAdmin
     })
       .setProtectedHeader({ alg: 'HS256' })
       .setExpirationTime('24h')
-      .sign(new TextEncoder().encode(process.env.JWT_SECRET))
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-    // Set cookie
-    cookies().set('auth-token', token, {
+    // Create refresh token
+    const refreshToken = await new SignJWT({
+      userId: user?._id?.toString() || user?.id?.toString()
+    })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('7d')
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
+
+    // Prepare response with cookies
+    const response = NextResponse.json({
+      message: 'Login successful',
+      user: {
+        id: user?._id?.toString() || user?.id?.toString(),
+        email: user.email,
+        name: user.name,
+        phoneNumber: user.phoneNumber,
+        role: user.role,
+        isAdmin: user.isAdmin
+      },
+      token,
+      refreshToken
+    })
+
+    // Set cookies on the response
+    response.cookies.set('auth-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24 // 24 hours
+      maxAge: 60 * 60 * 24 // 24 hours expiration date
     })
 
-    return NextResponse.json({
-      message: 'Login successful',
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name
-      }
+    response.cookies.set('refresh-token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
     })
+
+    return response
   } catch (error) {
     console.error('Login error:', error)
     return NextResponse.json(

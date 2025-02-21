@@ -17,15 +17,11 @@ import {
   ITokenSchema
 } from '@/interface/interface'
 import { UserRole } from '@/enums/shared'
+import { connectDB } from '@/utils/db/connection'
 
 // Connect to MongoDB (configure this in your app setup)
-mongoose.connect(
-  process.env.MONGODB_URI || 'mongodb://localhost/event-management',
-  {
-    useUnifiedTopology: true
-  }
-)
 
+connectDB()
 // User Schema
 const UserSchema = new Schema<IUser>(
   {
@@ -48,7 +44,7 @@ const UserSchema = new Schema<IUser>(
     accountVerificationOTPExpiration: Date,
     verifyToken: String,
     verificationTokenExpiration: Date,
-    phone: { type: Number, required: true },
+    phoneNumber: { type: Number, required: true },
     countryCode: { type: String, required: true },
     street: String,
     apartment: String,

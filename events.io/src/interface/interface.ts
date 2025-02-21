@@ -21,6 +21,7 @@ export interface IUser extends Document {
   name: string
   email: string
   passwordHash: string
+  password?: string
   isAdmin: boolean
   role: 'user' | 'organizer' | 'admin' | 'vendor'
   resetPasswordOTP?: number
@@ -33,7 +34,7 @@ export interface IUser extends Document {
   accountVerificationOTPExpiration?: Date
   verifyToken?: string
   verificationTokenExpiration?: Date
-  phone: number
+  phoneNumber: number
   street?: string
   apartment?: string
   city?: string
@@ -228,4 +229,21 @@ export interface IReview {
   rating: number
   comment?: string
   createdAt: Date
+}
+
+
+export interface RegisterFormValues {
+  email: string
+  name: string
+  phoneNumber: string
+  countryCode: string
+  password: string
+  terms: boolean
+}
+
+export  interface LoginFormValues {
+  email: string
+  phoneNumber: string
+  countryCode: string
+  password: string
 }

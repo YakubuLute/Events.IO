@@ -1,7 +1,0 @@
-.rounded {
-  @each $key, $radius in $base-border-radiuses {
-    &-#{$key} {
-      border-radius: #{$radius};
-    }
-  }
-}

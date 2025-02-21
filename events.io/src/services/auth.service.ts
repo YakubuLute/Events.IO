@@ -1,83 +1,98 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios, { AxiosInstance } from 'axios'
 
-import { COOKIES_KEY } from '@/utils/setCookies';
+const BASE_URL = '/api'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
+// can be option but considering we might
+// add a google location when creating event I think we might need
+const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-export const authApi = axios.create({
+// axios instance
+const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  withCredentials: false,
+  withCredentials: true, 
   headers: {
     Accept: 'application/json',
-    'User-Timezone': userTimezone,
-  },
-});
-
-export default axios.create({
-  baseURL: BASE_URL,
-  withCredentials: false,
-  headers: {
-    Accept: 'application/json',
-    'User-Timezone': userTimezone,
-  },
-});
-
-export const refreshAccessTokenFn = async (access_token: string) => {
-  const response = await authApi.post('/candidates/auth/token/refresh', {
-    refreshToken: access_token,
-  });
-  return response.data;
-};
-
-// Request interceptor
-authApi.interceptors.request.use(
-  async (config) => {
-    // get access token from the cache
-    const access_token = Cookies.get(COOKIES_KEY.ACCESS_TOKEN);
-    if (access_token) {
-      config.headers['Authorization'] = `Bearer ${access_token}`;
-    }
-
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
+    'User-Timezone': userTimezone // Optional for now
   }
-);
+})
+
+// Refresh token function
+export const refreshAccessTokenFn = async (refreshToken: string) => {
+  const response = await api.post<{ token: string; refreshToken: string }>(
+    '/auth/refresh',
+    {
+      refreshToken
+    },
+    // { skipAuthRefresh: true }
+  ) // Flag to skip interceptor
+  return response.data
+}
+
+// Request Interceptor
+api.interceptors.request.use(
+  config => {
+    // No need to manually set Authorization header since cookies are used
+    // Our middleware reads auth-token from cookies automatically
+    return config
+  },
+  error => Promise.reject(error)
+)
 
 // Response Interceptor
-authApi.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    const refreshToken = Cookies.get(COOKIES_KEY.REFRESH_TOKEN) as string;
-    const originalRequest = error.config;
-    // console.log('error -----', error);
-    if (error.status === 401 && !originalRequest.sent) {
-      originalRequest.sent = true;
-      const response = await refreshAccessTokenFn(refreshToken);
-      const { token, expiresIn } = response.data;
-      originalRequest.headers['Authorization'] = `Bearer ${token}`;
-      Cookies.set(COOKIES_KEY.ACCESS_TOKEN, token, { httpOnly: true });
-      Cookies.set(COOKIES_KEY.EXPIRE_IN, expiresIn);
-      return authApi(originalRequest);
-    } else if (
-      error.response.data.message.includes('Authentication token missing') &&
-      error.response.data.errCode === 'ERR0000' &&
-      !document.location.pathname.startsWith('/profiles/candidate')
+api.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config
+
+    // Check if it's a 401 and not already retried
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.skipAuthRefresh
     ) {
-      // document.location.href = '/candidate/signin';
-      console.log('Authorization Error: ', error);
-    } else if (error.message === 'Network Error') {
-      console.log('Network Error: ', error);
-    } else if (error.response && error.response.status >= 500) {
-      // handle server error
-      console.log('Server Error: ', error);
+      originalRequest._retry = true // Mark as retried
+
+      try {
+        // Get refresh token from cookies (assumes client can access it, or fetch from API)
+        const refreshToken = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('refresh-token='))
+          ?.split('=')[1]
+
+        if (!refreshToken) throw new Error('No refresh token available')
+
+        const { token: newAccessToken, refreshToken: newRefreshToken } =
+          await refreshAccessTokenFn(refreshToken)
+
+        // Update cookies (client-side, less ideal; ideally server updates them)
+        document.cookie = `auth-token=${newAccessToken}; Path=/; HttpOnly; Secure=${
+          process.env.NODE_ENV === 'production'
+        }; SameSite=Strict; Max-Age=${60 * 60 * 24}`
+        document.cookie = `refresh-token=${newRefreshToken}; Path=/; HttpOnly; Secure=${
+          process.env.NODE_ENV === 'production'
+        }; SameSite=Strict; Max-Age=${60 * 60 * 24 * 7}`
+
+        // Retry original request with new token (cookie-based, no header needed)
+        return api(originalRequest)
+      } catch (refreshError) {
+        console.error('Token refresh failed:', refreshError)
+        // Redirect to signin if refresh fails
+        if (typeof window !== 'undefined') {
+          window.location.href = '/login'
+        }
+        return Promise.reject(refreshError)
+      }
     }
-    return Promise.reject(error);
+
+    // Handle other errors
+    if (error.message === 'Network Error') {
+      console.error('Network Error:', error)
+    } else if (error.response?.status >= 500) {
+      console.error('Server Error:', error)
+    }
+
+    return Promise.reject(error)
   }
-);
+)
+
+export default api

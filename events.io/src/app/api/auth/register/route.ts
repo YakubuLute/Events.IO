@@ -1,22 +1,29 @@
-// src/app/api/auth/register/route.ts
+// src/app/api/auth/signup/route.ts
 import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
-import { prisma } from '@/lib/db'
+import { SignJWT } from 'jose'
 import { z } from 'zod'
+import { User } from '@/models/models'
+import { IUser } from '@/interface/interface'
 
-// Validation schema
-const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  name: z.string().min(2)
-})
+const signupSchema = z
+  .object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email('Invalid email address'),
+    phoneNumber: z.string().min(1, 'Phone number is required'),
+    countryCode: z.string().min(1, 'Country code is required'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    role: z
+      .enum(['user', 'organizer', 'admin', 'vendor'])
+      .optional()
+      .default('user')
+  })
+  .strict()
 
 export async function POST (req: Request) {
   try {
     const body = await req.json()
-
-    // Validate input
-    const result = registerSchema.safeParse(body)
+    const result = signupSchema.safeParse(body)
     if (!result.success) {
       return NextResponse.json(
         { error: 'Invalid input', details: result.error.issues },
@@ -24,44 +31,81 @@ export async function POST (req: Request) {
       )
     }
 
-    const { email, password, name } = result.data
+    const { name, email, phoneNumber, countryCode, password, role } =
+      result.data
 
-    // Check if user exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
+    const existingUser = await User.findOne({
+      $or: [{ email }, { phoneNumber: `${countryCode}${phoneNumber}` }]
     })
-
     if (existingUser) {
       return NextResponse.json(
-        { error: 'User already exists' },
-        { status: 400 }
+        { error: 'User with this email or phone number already exists' },
+        { status: 409 }
       )
     }
 
-    // Hash password
-    const hashedPassword = await hash(password, 12)
+    const passwordHash = await hash(password, 12)
+    const user = (await User.create({
+      name,
+      email,
+      phoneNumber,
+      countryCode,
+      passwordHash,
+      role: role || 'user',
+      isAdmin: false,
+      isVerified: false,
+      createdAt: new Date()
+    })) as IUser
 
-    // Create user
-    const user = await prisma.user.create({
-      data: {
-        email,
-        name,
-        password: hashedPassword
+    const token = await new SignJWT({
+      userId: user?._id?.toString(),
+      email: user.email,
+      role: user.role,
+      isAdmin: user.isAdmin
+    })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('24h')
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
+
+    const refreshToken = await new SignJWT({ userId: user?._id?.toString() })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('7d')
+      .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
+
+    const response = NextResponse.json(
+      {
+        message: 'Registration successful',
+        user: {
+          id: user?._id?.toString(),
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          countryCode: user.countryCode,
+          role: user.role,
+          isAdmin: user.isAdmin
+        },
+        token,
+        refreshToken
       },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        createdAt: true
-      }
+      { status: 201 }
+    )
+
+    response.cookies.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24
+    })
+    response.cookies.set('refresh-token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7
     })
 
-    return NextResponse.json({
-      message: 'User registered successfully',
-      user
-    })
+    return response
   } catch (error) {
-    console.error('Registration error:', error)
+    console.error('Signup error:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
