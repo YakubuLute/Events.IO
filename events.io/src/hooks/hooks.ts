@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import eventService from '@/services/events.service'
 import { IUser, IEvent } from '@/interface/interface'
 
+const service = new eventService()
 // Signup Hook
 export const useUserSignup = ({
   onSuccess,
@@ -13,7 +14,7 @@ export const useUserSignup = ({
   return useMutation({
     mutationKey: ['userSignup'],
     mutationFn: async (userData: Partial<IUser>) =>
-      await eventService.signup(userData),
+      await service.signup(userData),
     onSuccess,
     onError
   })
@@ -34,7 +35,7 @@ export const useUserSignin = ({
   return useMutation({
     mutationKey: ['userSignin'],
     mutationFn: async (credentials: { email: string; password: string }) =>
-      await eventService.signin(credentials),
+      await service.signin(credentials),
     onSuccess,
     onError
   })
@@ -45,7 +46,7 @@ export const useUserSigninWithRefreshToken = () => {
   return useMutation({
     mutationKey: ['userSigninWithRefreshToken'],
     mutationFn: async (refreshToken: string) =>
-      await eventService.signinWithRefreshToken(refreshToken)
+      await service.signinWithRefreshToken(refreshToken)
   })
 }
 
@@ -60,7 +61,7 @@ export const useCreateEvent = ({
   return useMutation({
     mutationKey: ['createEvent'],
     mutationFn: async (eventData: Partial<IEvent>) =>
-      await eventService.createEvent(eventData),
+      await service.createEvent(eventData),
     onSuccess,
     onError
   })
@@ -82,7 +83,7 @@ export const useUpdateEvent = ({
     }: {
       eventId: string
       eventData: Partial<IEvent>
-    }) => await eventService.updateEvent(eventId, eventData),
+    }) => await service.updateEvent(eventId, eventData),
     onSuccess,
     onError
   })
@@ -99,7 +100,7 @@ export const useDeleteEvent = ({
   return useMutation({
     mutationKey: ['deleteEvent'],
     mutationFn: async (eventId: string) =>
-      await eventService.deleteEvent(eventId),
+      await service.deleteEvent(eventId),
     onSuccess,
     onError
   })
@@ -109,7 +110,7 @@ export const useDeleteEvent = ({
 export const useUserEvents = (userId: string, enabled = true) => {
   return useQuery({
     queryKey: ['userEvents', userId],
-    queryFn: async () => await eventService.getUserEvents(userId),
+    queryFn: async () => await service.getUserEvents(userId),
     enabled: !!userId && enabled,
     retry: 2
   })
@@ -119,7 +120,7 @@ export const useUserEvents = (userId: string, enabled = true) => {
 export const useCurrentUser = (enabled = true) => {
   return useQuery({
     queryKey: ['currentUser'],
-    queryFn: async () => await eventService.getCurrentUser(),
+    queryFn: async () => await service.getCurrentUser(),
     enabled,
     retry: 2
   })
@@ -129,7 +130,7 @@ export const useCurrentUser = (enabled = true) => {
 export const useOrganizers = (enabled = true) => {
   return useQuery({
     queryKey: ['organizers'],
-    queryFn: async () => await eventService.getOrganizers(),
+    queryFn: async () => await service.getOrganizers(),
     enabled,
     retry: 2
   })
@@ -139,7 +140,7 @@ export const useOrganizers = (enabled = true) => {
 export const useAllEvents = (enabled = true) => {
   return useQuery({
     queryKey: ['allEvents'],
-    queryFn: async () => await eventService.getAllEvents(),
+    queryFn: async () => await service.getAllEvents(),
     enabled,
     retry: 2
   })
@@ -149,7 +150,7 @@ export const useAllEvents = (enabled = true) => {
 export const useSendEmailOtp = () => {
   return useQuery({
     queryKey: ['sendEmailOtp'],
-    queryFn: async () => await eventService.sendEmailOtp(),
+    queryFn: async () => await service.sendEmailOtp(),
     enabled: false,
     retry: 2
   })
@@ -165,7 +166,7 @@ export const useVerifyEmailOtp = ({
 }) => {
   const { isPending, mutate } = useMutation({
     mutationKey: ['verifyEmailOtp'],
-    mutationFn: async (otp: string) => await eventService.verifyEmailOtp(otp),
+    mutationFn: async (otp: string) => await service.verifyEmailOtp(otp),
     onSuccess,
     onError
   })
