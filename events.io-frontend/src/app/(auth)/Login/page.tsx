@@ -13,22 +13,22 @@ import {
 import classes from './Login.module.scss'
 
 export default function Login () {
-  const { login, isLoading, error } = useLogin()
+  // const { login, isLoading, error } = useLogin()
 
-async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault()
-  const formData = new FormData(event.currentTarget)
+  async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
 
-  try {
-    await login({
-      email: formData.get('email') as string,
-      password: formData.get('password') as string
-    })
-  } catch (err) {
-    // Error is handled by the hook
-    console.error('Login failed:', err)
+    try {
+      await login({
+        email: formData.get('email') as string,
+        password: formData.get('password') as string
+      })
+    } catch (err) {
+      // Error is handled by the hook
+      console.error('Login failed:', err)
+    }
   }
-}
 
   return (
     <Container size={420} my={40}>
@@ -42,24 +42,26 @@ async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
         </Anchor>
       </Text>
 
-      <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
-        <TextInput label='Email' placeholder='name@company.com' required />
-        <PasswordInput
-          label='Password'
-          placeholder='Your password'
-          required
-          mt='md'
-        />
-        <Group justify='space-between' mt='lg'>
-          <Checkbox label='Remember me' />
-          <Anchor component='button' size='sm'>
-            Forgot password?
-          </Anchor>
-        </Group>
-        <Button fullWidth mt='xl'>
-          Sign in
-        </Button>
-      </Paper>
+      <form action='' onSubmit={handleSubmit}>
+        <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
+          <TextInput label='Email' placeholder='name@company.com' required />
+          <PasswordInput
+            label='Password'
+            placeholder='Your password'
+            required
+            mt='md'
+          />
+          <Group justify='space-between' mt='lg'>
+            <Checkbox label='Remember me' />
+            <Anchor component='button' size='sm'>
+              Forgot password?
+            </Anchor>
+          </Group>
+          <Button fullWidth type='submit' mt='xl'>
+            Sign in
+          </Button>
+        </Paper>
+      </form>
     </Container>
   )
 }
