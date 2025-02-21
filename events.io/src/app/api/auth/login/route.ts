@@ -80,7 +80,7 @@ export async function POST (req: Request) {
         id: user?._id?.toString() || user?.id?.toString(),
         email: user.email,
         name: user.name,
-        phone: user.phone,
+        phoneNumber: user.phoneNumber,
         role: user.role,
         isAdmin: user.isAdmin
       },
@@ -93,7 +93,7 @@ export async function POST (req: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24 // 24 hours
+      maxAge: 60 * 60 * 24 // 24 hours expiration date
     })
 
     response.cookies.set('refresh-token', refreshToken, {

@@ -33,7 +33,7 @@ export interface IUser extends Document {
   accountVerificationOTPExpiration?: Date
   verifyToken?: string
   verificationTokenExpiration?: Date
-  phone: number
+  phoneNumber: number
   street?: string
   apartment?: string
   city?: string
