@@ -1,0 +1,58 @@
+@import '@/scss/main.scss';
+
+.select_chip_form {
+  width: 100%;
+  border-radius: 0.5rem;
+
+  & > div {
+    display: block;
+    width: 100%;
+    min-height: 30px !important;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.4285714286;
+    color: #495057;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    color: var(--text);
+    background: #f7f8fa;
+    border: 1px solid #dcdcde;
+    border-radius: 0.5rem;
+  }
+}
+
+/* Define your custom styles for the selected MenuItem */
+
+.menuItem {
+  margin-bottom: 0.25rem;
+}
+
+.selectedItem {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+}
+
+.focusItem {
+  // background-color: red;
+}
+
+/* Define your custom styles for the Chip */
+
+.chip_skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+
+  .chip_item {
+    // padding: 2px; // change the chip background color
+
+    span {
+      padding: 1px 0.675rem;
+    }
+  }
+}
+
+.chip_coworkers {
+  @extend .chip_skills;
+}

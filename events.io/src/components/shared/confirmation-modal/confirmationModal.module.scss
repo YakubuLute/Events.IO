@@ -1,0 +1,47 @@
+@import '@/scss/main.scss';
+
+.dialog_paper {
+  background-color: $white;
+  border-radius: 0.875rem;
+  min-height: 440px;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  width: 98%;
+  max-width: 520px;
+  margin: 0 auto;
+  transform: translate(-50%, -50%);
+  padding: 2rem 0 1rem;
+}
+
+.dialog_content {
+  @include flex-column(center);
+  gap: 1rem;
+
+  .alert_img {
+    margin: 1rem auto
+  }
+
+  .alert_title {
+    font-size: 1.75rem;
+    line-height: 2rem;
+    font-weight: 700;
+    color: $black;
+	text-align: center;
+  }
+
+  .alert_desc {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: $auth-primary;
+    text-align: center;
+  }
+
+  .alert_btns {
+    @include d-flex(center, center);
+    column-gap: 1rem;
+    margin: 1rem auto;
+  }
+}
+

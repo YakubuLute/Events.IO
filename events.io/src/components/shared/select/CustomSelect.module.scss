@@ -1,0 +1,160 @@
+@import '@/scss/main.scss';
+
+.select_field {
+  border: none;
+}
+
+.selectForm {
+  width: 100%;
+  div {
+    display: block;
+    width: 100%;
+    height: calc(2rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.4285714286;
+    color: #495057;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    color: var(--text);
+    background: #f7f8fa;
+    border: 1px solid #dcdcde;
+  }
+}
+
+.verify_select {
+  width: 100%;
+  div {
+    display: block;
+    width: 100%;
+    height: calc(2rem + 2px);
+    font-size: 0.875rem;
+    line-height: 1.4285714286;
+    color: var(--text);
+    padding: 12px 16px;
+    border: 1px solid $btn-cancel;
+    border-radius: 12px;
+    background: white;
+  }
+
+  fieldset{
+    border: none;
+  }
+
+  .selectedItem {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: rgba(0, 0, 0, 0.08);
+    font-weight: 500;
+  }
+}
+
+/* Define your custom styles for the selected MenuItem */
+
+.menuItem {
+    margin-bottom: 0.25rem;
+  }
+  
+.selectedItem {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgba(0, 0, 0, 0.08);
+  font-weight: 500;
+}
+
+.position_creation {
+  width: 100%;
+  border: none;
+  border-radius: 0.5rem;
+
+  div {
+    @include d-flex($align: center);
+    width: 100%;
+    height: 24px !important;
+    padding: 0.525rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.4285714286;
+    color: #495057;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.5rem;
+    color: var(--text);
+    background-color: #f7f8fa;
+  }
+
+  &.error div {
+    border-color: $bg-danger;
+  }
+}
+
+.input_label {
+  color: $placeholder-color;
+  font-size: 0.875rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.input_label_root {
+  @extend .input_label;
+  @include d-flex($align: center);
+  height: 100%;
+  width: 100%;
+  padding: 0.525rem 0.75rem;
+  transform: none;
+}
+
+.input_label_focus {
+  border-top: 1px solid $primary-color;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.input_label_focus_error {
+  border-top: 1px solid $bg-danger !important;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.input_label_error {
+  border-top: 1px solid $bg-danger !important;
+}
+
+.input_label_filled {
+  // border-top: 1px solid $primary-color;
+  // display: none;
+}
+
+.position_date_chat {
+@extend .position_creation;
+
+  div {
+    height: 26px !important;
+    // min-width: 190px !important;
+    padding: 0.5rem 0.75rem;
+    border: solid 1px $btn-cancel;
+    background-color: $white;
+  }
+}
+
+.school_update {
+  @extend .position_creation;
+
+  div {
+    width: 100%;
+    // height: 36px !important;
+    padding: 0.5rem 0.75rem;
+    border: solid 1px $btn-cancel;
+    background-color: $white;
+  }
+}
+
+.school_update_upcoming_event {
+  @extend .position_creation;
+
+  div {
+    width: 100%;
+    height: 30px !important;
+    padding: 0.5rem 0.75rem;
+    border: solid 1px $btn-cancel;
+    background-color: $white;
+  }
+}

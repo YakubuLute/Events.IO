@@ -1,0 +1,65 @@
+@import '@/scss/main.scss';
+
+.landingPageContainer {
+  overflow-y: scroll;
+  height: 100vh;
+  padding: 1rem 0;
+  -ms-scrollbar-width: none;
+  -webkit-scrollbar-width: none;
+  -moz-scollbar-width: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .landingPageTitle {
+    max-width: 880px;
+    width: 94%;
+    margin: 1rem auto;
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 2rem;
+    // color: #110c22;
+    color: $primary-color; // #06135F
+  }
+}
+
+.platformCard {
+  border-radius: 24px;
+  padding: 1.25rem;
+  z-index: 10;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 0.94;
+  }
+}
+
+@include media (768px) {
+  .landingPageContainer {
+
+    .landingPageTitle {
+      font-size: 2.75rem;
+      line-height: 3.25rem;
+      margin-top: 1.25rem;
+    }
+  }
+
+  .platformCard {
+    padding: 2.5rem;
+  }
+}
+
+@include media (1280px) {
+  .landingPageContainer {
+    padding-bottom: 0;
+    overflow-y: auto;
+
+    .landingPageTitle {
+      margin-top: 100px;
+    }
+  }
+}
