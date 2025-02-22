@@ -1,5 +1,12 @@
-import mongoose from 'mongoose'
+import mongoose, { ConnectOptions } from 'mongoose'
 
+// Define connection options
+const options: ConnectOptions = {
+  serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
+  maxPoolSize: 10 // Limit connection pool size
+}
+
+// Function to connect to MongoDB
 export const connectDB = async (): Promise<void> => {
   if (mongoose.connection.readyState === 1) {
     console.log('Already connected to MongoDB')
@@ -17,10 +24,16 @@ export const connectDB = async (): Promise<void> => {
   }
 
   try {
-    const conn = await mongoose.connect(mongoUri)
-    console.log(`MongoDB Connected successfully: ${conn.connection.host}`)
+    await mongoose.connect(mongoUri, options)
+    console.log(`MongoDB Connected successfully: ${mongoose.connection.host}`)
   } catch (error) {
     console.error('Error connecting to MongoDB:', error)
-    throw error // Let the caller handle it
+    throw error
   }
 }
+
+// Ensure the connection is closed when the process exits (optional)
+process.on('SIGINT', async () => {
+  await mongoose.connection.close()
+  process.exit(0)
+})
