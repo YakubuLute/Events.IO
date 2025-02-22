@@ -11,7 +11,6 @@ class EventService {
     }>('/auth/signup', userData)
     return response.data
   }
-
   async signin (credentials: {
     email?: string
     phoneNumber?: string

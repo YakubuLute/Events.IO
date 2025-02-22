@@ -1,4 +1,3 @@
-// src/app/login/page.tsx
 'use client'
 import {
   Button,
@@ -44,8 +43,7 @@ export default function LoginPage () {
         message: 'Logged in successfully!',
         color: 'green'
       })
-      window.location.href = '/dashboard' // TODO: Replace with nextRoute
-      
+      // Redirect: window.location.href = '/dashboard';
     },
     onError: error => {
       notifications.show({
@@ -96,13 +94,9 @@ export default function LoginPage () {
             <TextInput
               label='Phone Number (optional)'
               placeholder='1234567890'
-              type='number'
               value={form.values.phoneNumber}
               onChange={event =>
-                form.setFieldValue(
-                  'phoneNumber',
-                  Number(event.currentTarget.value)
-                )
+                form.setFieldValue('phoneNumber', event.currentTarget.value)
               }
               error={form.errors.phoneNumber}
               radius='md'

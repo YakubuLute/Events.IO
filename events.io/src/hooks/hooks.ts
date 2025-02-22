@@ -34,8 +34,15 @@ export const useUserSignin = ({
 }) => {
   return useMutation({
     mutationKey: ['userSignin'],
-    mutationFn: async (credentials: { email: string; password: string }) =>
-      await service.signin(credentials),
+    mutationFn: async (credentials: {
+      email?: string
+      phoneNumber?: string
+      countryCode?: string
+      password: string
+    }) => {
+      const data = await service.signin(credentials)
+      return data
+    },
     onSuccess,
     onError
   })
@@ -99,8 +106,7 @@ export const useDeleteEvent = ({
 }) => {
   return useMutation({
     mutationKey: ['deleteEvent'],
-    mutationFn: async (eventId: string) =>
-      await service.deleteEvent(eventId),
+    mutationFn: async (eventId: string) => await service.deleteEvent(eventId),
     onSuccess,
     onError
   })
