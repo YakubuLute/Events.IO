@@ -230,3 +230,20 @@ export interface IReview {
   comment?: string
   createdAt: Date
 }
+
+
+export interface RegisterFormValues {
+  email: string
+  name: string
+  phoneNumber: string
+  countryCode: string
+  password: string
+  terms: boolean
+}
+
+export  interface LoginFormValues {
+  email: string
+  phoneNumber: string
+  countryCode: string
+  password: string
+}

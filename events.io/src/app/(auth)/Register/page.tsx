@@ -17,6 +17,7 @@ import classes from './Register.module.scss'
 import { useUserSignup } from '@/hooks/hooks'
 import { notifications } from '@mantine/notifications'
 import { countryCodes } from '@/utils/countryCodeList'
+import { RegisterFormValues } from '@/interface/interface'
 
 export default function RegistrationPage () {
   const form = useForm({
@@ -61,7 +62,7 @@ export default function RegistrationPage () {
     }
   })
 
-  const handleSubmit = (values: typeof form.values) => {
+  const handleSubmit = (values: RegisterFormValues) => {
     signup({
       name: values.name,
       email: values.email,
@@ -111,7 +112,7 @@ export default function RegistrationPage () {
               data={countryCodes}
               value={form.values.countryCode}
               onChange={value =>
-                form.setFieldValue('countryCode', value || '+1')
+                form.setFieldValue('countryCode', value || '+233')
               }
               error={form.errors.countryCode}
               radius='md'

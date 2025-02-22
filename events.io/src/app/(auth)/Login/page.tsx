@@ -9,13 +9,14 @@ import {
   Select,
   Title
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
+import { useForm, UseFormReturnType } from '@mantine/form'
 import { useUserSignin } from '@/hooks/hooks'
 import { notifications } from '@mantine/notifications'
 import { countryCodes } from '@/utils/countryCodeList'
+import { LoginFormValues } from '@/interface/interface'
 
 export default function LoginPage () {
-  const form = useForm({
+  const form: UseFormReturnType<LoginFormValues> = useForm<LoginFormValues>({
     initialValues: {
       email: '',
       phoneNumber: '',
