@@ -12,7 +12,12 @@ class EventService {
     return response.data
   }
 
-  async signin (credentials: { email: string; password: string }) {
+  async signin (credentials: {
+    email?: string
+    phoneNumber?: string
+    countryCode?: string
+    password: string
+  }) {
     const response = await api.post<{
       user: IUser
       token: string
