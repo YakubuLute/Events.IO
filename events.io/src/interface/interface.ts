@@ -21,6 +21,7 @@ export interface IUser extends Document {
   name: string
   email: string
   passwordHash: string
+  password?: string
   isAdmin: boolean
   role: 'user' | 'organizer' | 'admin' | 'vendor'
   resetPasswordOTP?: number

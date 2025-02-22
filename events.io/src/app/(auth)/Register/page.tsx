@@ -9,19 +9,22 @@ import {
   PasswordInput,
   Stack,
   Title,
-  TextInput
+  TextInput,
+  Select
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import classes from './Register.module.scss'
-import { useUserSignup } from '@/hooks/eventHooks'
+import { useUserSignup } from '@/hooks/hooks'
 import { notifications } from '@mantine/notifications'
+import { countryCodes } from '@/utils/countryCodeList'
 
 export default function RegistrationPage () {
   const form = useForm({
     initialValues: {
       email: '',
       name: '',
-      phone: '',
+      phoneNumber: '',
+      countryCode: '+233', // Default to Ghana
       password: '',
       terms: true
     },
@@ -29,8 +32,9 @@ export default function RegistrationPage () {
     validate: {
       name: val => (val.length < 1 ? 'Name is required' : null),
       email: val => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      phone: val =>
-        /^\d{7,15}$/.test(val) ? null : 'Invalid phone number (7-15 digits)',
+      phoneNumber: val =>
+        /^\d{7,15}$/.test(val) ? null : 'Phone number must be 7-15 digits',
+      countryCode: val => (val ? null : 'Country code is required'),
       password: val =>
         val.length <= 6 ? 'Password must be at least 6 characters' : null,
       terms: val =>
@@ -45,8 +49,8 @@ export default function RegistrationPage () {
         message: `Account created for ${data.user.name}!`,
         color: 'green'
       })
-      form.reset() // Clear form on success
-      // Optionally redirect: window.location.href = '/dashboard';
+      form.reset()
+    window.location.href = '/login';
     },
     onError: error => {
       notifications.show({
@@ -61,9 +65,10 @@ export default function RegistrationPage () {
     signup({
       name: values.name,
       email: values.email,
-      phone: values.phone,
+      phoneNumber: Number(values.phoneNumber),
+      countryCode: values.countryCode,
       password: values.password,
-      role: 'user' // Default role; adjust if needed
+      role: 'user'
     })
   }
 
@@ -99,15 +104,29 @@ export default function RegistrationPage () {
               radius='md'
             />
 
+            <Select
+              required
+              label='Country Code'
+              placeholder='Select country code'
+              data={countryCodes}
+              value={form.values.countryCode}
+              onChange={value =>
+                form.setFieldValue('countryCode', value || '+1')
+              }
+              error={form.errors.countryCode}
+              radius='md'
+              searchable
+            />
+
             <TextInput
               required
-              label='Phone'
+              label='Phone Number'
               placeholder='1234567890'
-              value={form.values.phone}
+              value={form.values.phoneNumber}
               onChange={event =>
-                form.setFieldValue('phone', event.currentTarget.value)
+                form.setFieldValue('phoneNumber', event.currentTarget.value)
               }
-              error={form.errors.phone}
+              error={form.errors.phoneNumber}
               radius='md'
             />
 
@@ -138,7 +157,7 @@ export default function RegistrationPage () {
               component='button'
               type='button'
               c='dimmed'
-              onClick={() => (window.location.href = '/login')} // Redirect to login
+              onClick={() => (window.location.href = '/login')}
               size='xs'
             >
               Already have an account? Login
