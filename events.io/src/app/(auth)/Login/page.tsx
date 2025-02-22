@@ -14,6 +14,10 @@ import { useUserSignin } from '@/hooks/hooks'
 import { notifications } from '@mantine/notifications'
 import { countryCodes } from '@/utils/countryCodeList'
 import { LoginFormValues } from '@/interface/interface'
+import { connectDB } from '@/utils/db/connection'
+
+// connect to mongoDB
+await connectDB()
 
 export default function LoginPage () {
   const form: UseFormReturnType<LoginFormValues> = useForm<LoginFormValues>({

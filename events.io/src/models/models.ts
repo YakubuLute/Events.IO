@@ -19,10 +19,8 @@ import {
 import { UserRole } from '@/enums/shared'
 import { connectDB } from '@/utils/db/connection'
 
-// Connect to MongoDB (configure this in your app setup)
+await connectDB()
 
-connectDB()
-// User Schema
 const UserSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
