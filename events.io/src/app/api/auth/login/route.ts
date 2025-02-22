@@ -22,7 +22,7 @@ const loginSchema = z
 
 export async function POST (req: Request) {
   try {
-    await connectDB() // This might throw an error
+    await connectDB() 
 
     const body = await req.json()
     const result = loginSchema.safeParse(body)

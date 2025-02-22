@@ -5,6 +5,7 @@ import { SignJWT } from 'jose'
 import { z } from 'zod'
 import { User } from '@/models/models'
 import { IUser } from '@/interface/interface'
+import { connectDB } from '@/utils/db/connection'
 
 const signupSchema = z
   .object({
@@ -21,6 +22,7 @@ const signupSchema = z
   .strict()
 
 export async function POST (req: Request) {
+  await connectDB()
   try {
     const body = await req.json()
     const result = signupSchema.safeParse(body)
