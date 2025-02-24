@@ -1,5 +1,5 @@
-import mongoose, { Schema, model, models, Model } from 'mongoose'
-
+// src/models/models.ts
+import mongoose, { Schema, model, Model } from 'mongoose'
 import {
   IUser,
   IEvent,
@@ -19,6 +19,7 @@ import {
 } from '@/interface/interface'
 import { UserRole } from '@/enums/shared'
 
+// User Schema
 const UserSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
@@ -259,23 +260,9 @@ const EventSchema = new Schema<IEvent>(
 )
 
 // Models
-const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema)
-const Event =
-  mongoose.models.Event || mongoose.model<IEvent>('Event', EventSchema)
-const Token =
-  mongoose.models.Token || mongoose.model<ITokenSchema>('Token', TokenSchema)
-
-// export models
-  export { User, Event, Token }
-
-  // Helper function to check connection status
-export function getMongooseStatus () {
-  return {
-    connection: mongoose.connection?.readyState,
-    models: {
-      User: !!mongoose.models.User,
-      Event: !!mongoose.models.Event,
-      Token: !!mongoose.models.Token
-    }
-  }
-}
+export const User: Model<IUser> =
+  mongoose.models.User || model<IUser>('User', UserSchema)
+export const Event: Model<IEvent> =
+  mongoose.models.Event || model<IEvent>('Event', EventSchema)
+export const Token: Model<ITokenSchema> =
+  mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema)
