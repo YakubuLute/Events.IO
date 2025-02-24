@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
 import { SignJWT } from 'jose'
 import { z } from 'zod'
-import { User } from '@/models/models'
+import { User, getMongooseStatus } from '@/models/models'
 import { IUser } from '@/interface/interface'
-import { connectDB } from '@/utils/db/connection'
+import { connectDB } from '@/lib/mongoose'
 
 const signupSchema = z
   .object({
@@ -23,6 +23,8 @@ const signupSchema = z
 
 export async function POST (req: Request) {
   await connectDB()
+  getMongooseStatus()
+
   try {
     const body = await req.json()
     const result = signupSchema.safeParse(body)

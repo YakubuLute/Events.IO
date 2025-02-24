@@ -5,7 +5,10 @@ import { SignJWT } from 'jose'
 import { z } from 'zod'
 import { User } from '@/models/models'
 import { IUser } from '@/interface/interface'
-import { connectDB } from '@/utils/db/connection'
+import { connectDB } from '@/lib/mongoose'
+
+// Force Node.js runtime (not Edge)
+export const runtime = 'nodejs'
 
 const loginSchema = z
   .object({
@@ -22,7 +25,7 @@ const loginSchema = z
 
 export async function POST (req: Request) {
   try {
-    await connectDB() 
+    await connectDB()
 
     const body = await req.json()
     const result = loginSchema.safeParse(body)
