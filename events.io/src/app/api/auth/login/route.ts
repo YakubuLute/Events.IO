@@ -5,24 +5,29 @@ import { SignJWT } from 'jose'
 import { z } from 'zod'
 import { User } from '@/models/models'
 import { IUser } from '@/interface/interface'
+import  connectDB from '@/lib/mongoose'
 
-// Login schema logic
+// Force Node.js runtime (not Edge)
+export const runtime = 'nodejs'
+
 const loginSchema = z
   .object({
     email: z.string().email().optional(),
-    phone: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    countryCode: z.string().optional(),
     password: z.string().min(1, 'Password is required')
   })
-  .refine(data => data.email || data.phone, {
-    message: 'Either email or phone must be provided',
-    path: ['email', 'phone']
+  .refine(data => data.email || (data.phoneNumber && data.countryCode), {
+    message:
+      'Either email or both phoneNumber and countryCode must be provided',
+    path: ['email', 'phoneNumber', 'countryCode']
   })
 
 export async function POST (req: Request) {
   try {
-    const body = await req.json()
+    await connectDB()
 
-    // Validate input
+    const body = await req.json()
     const result = loginSchema.safeParse(body)
     if (!result.success) {
       return NextResponse.json(
@@ -31,11 +36,13 @@ export async function POST (req: Request) {
       )
     }
 
-    const { email, phone, password } = result.data
+    const { email, phoneNumber, countryCode, password } = result.data
 
-    // Find user by email or phone
     const user = (await User.findOne({
-      $or: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])]
+      $or: [
+        ...(email ? [{ email }] : []),
+        ...(phoneNumber && countryCode ? [{ phoneNumber, countryCode }] : [])
+      ]
     })) as IUser
 
     if (!user) {
@@ -45,7 +52,6 @@ export async function POST (req: Request) {
       )
     }
 
-    // Verify password
     const isPasswordValid = await compare(password, user.passwordHash)
     if (!isPasswordValid) {
       return NextResponse.json(
@@ -54,9 +60,8 @@ export async function POST (req: Request) {
       )
     }
 
-    // Create JWT token with additional user data
     const token = await new SignJWT({
-      userId: user?._id?.toString() || user?.id?.toString(),
+      userId: user?._id?.toString(),
       email: user.email,
       role: user.role,
       isAdmin: user.isAdmin
@@ -65,22 +70,19 @@ export async function POST (req: Request) {
       .setExpirationTime('24h')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-    // Create refresh token
-    const refreshToken = await new SignJWT({
-      userId: user?._id?.toString() || user?.id?.toString()
-    })
+    const refreshToken = await new SignJWT({ userId: user?._id?.toString() })
       .setProtectedHeader({ alg: 'HS256' })
       .setExpirationTime('7d')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
-    // Prepare response with cookies
     const response = NextResponse.json({
       message: 'Login successful',
       user: {
-        id: user?._id?.toString() || user?.id?.toString(),
+        id: user?._id?.toString(),
         email: user.email,
         name: user.name,
         phoneNumber: user.phoneNumber,
+        countryCode: user.countryCode,
         role: user.role,
         isAdmin: user.isAdmin
       },
@@ -88,26 +90,27 @@ export async function POST (req: Request) {
       refreshToken
     })
 
-    // Set cookies on the response
     response.cookies.set('auth-token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24 // 24 hours expiration date
+      maxAge: 60 * 60 * 24
     })
-
     response.cookies.set('refresh-token', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
+      maxAge: 60 * 60 * 24 * 7
     })
 
     return response
   } catch (error) {
     console.error('Login error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Internal server error',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     )
   }

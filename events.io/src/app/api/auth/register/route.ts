@@ -1,10 +1,13 @@
-// src/app/api/auth/signup/route.ts
 import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
 import { SignJWT } from 'jose'
 import { z } from 'zod'
-import { User } from '@/models/models'
+import { getUserModel } from '@/models/models'
 import { IUser } from '@/interface/interface'
+import connectDB  from '@/lib/mongoose'
+
+// Force Node.js runtime (not Edge)
+export const runtime = 'nodejs'
 
 const signupSchema = z
   .object({
@@ -21,6 +24,8 @@ const signupSchema = z
   .strict()
 
 export async function POST (req: Request) {
+  await connectDB() // Ensure DB connection
+
   try {
     const body = await req.json()
     const result = signupSchema.safeParse(body)
@@ -33,6 +38,8 @@ export async function POST (req: Request) {
 
     const { name, email, phoneNumber, countryCode, password, role } =
       result.data
+
+    const User = await getUserModel() // Implement lazy-loaded model
 
     const existingUser = await User.findOne({
       $or: [{ email }, { phoneNumber: `${countryCode}${phoneNumber}` }]

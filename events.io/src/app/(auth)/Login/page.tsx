@@ -38,7 +38,7 @@ export default function LoginPage () {
   })
 
   const { mutate: signin, isPending } = useUserSignin({
-    onSuccess: data => {
+    onSuccess: () => {
       notifications.show({
         title: 'Success',
         message: 'Logged in successfully!',

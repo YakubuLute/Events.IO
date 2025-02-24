@@ -2,8 +2,8 @@ import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
 import { IconButton } from '@mui/material'
 
-import BriefcaseIcon from '@/components/ui/icons/briefcaseIcon'
-import HamburgerIcon from '@/components/ui/icons/hamburgerIcon'
+import BriefcaseIcon from '@/components/icons/briefcaseIcon'
+import HamburgerIcon from '@/components/icons/hamburgerIcon'
 import { useHeaderContext } from '@/contexts/headerContext'
 import { getCurrentUser } from '@/utils'
 

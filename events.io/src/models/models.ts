@@ -1,3 +1,4 @@
+// src/models/models.ts
 import mongoose, { Schema, model, Model } from 'mongoose'
 import {
   IUser,
@@ -17,11 +18,8 @@ import {
   ITokenSchema
 } from '@/interface/interface'
 import { UserRole } from '@/enums/shared'
-import { connectDB } from '@/utils/db/connection'
+import connectDB from '@/lib/mongoose'
 
-// Connect to MongoDB (configure this in your app setup)
-
-connectDB()
 // User Schema
 const UserSchema = new Schema<IUser>(
   {
@@ -44,7 +42,7 @@ const UserSchema = new Schema<IUser>(
     accountVerificationOTPExpiration: Date,
     verifyToken: String,
     verificationTokenExpiration: Date,
-    phoneNumber: { type: Number, required: true },
+    phoneNumber: { type: String, required: true },
     countryCode: { type: String, required: true },
     street: String,
     apartment: String,
@@ -262,10 +260,11 @@ const EventSchema = new Schema<IEvent>(
   { timestamps: true }
 )
 
-// Models
-export const User: Model<IUser> =
-  mongoose.models.User || model<IUser>('User', UserSchema)
-export const Event: Model<IEvent> =
-  mongoose.models.Event || model<IEvent>('Event', EventSchema)
-export const Token: Model<ITokenSchema> =
-  mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema)
+// export mon
+export default mongoose.models?.User ||
+  mongoose.model<IUser>('User', UserSchema)
+
+export const Event =
+  mongoose.models?.Event || model<IEvent>('Event', EventSchema)
+export const Token =
+  mongoose.models?.Token || model<ITokenSchema>('Token', TokenSchema)

@@ -103,7 +103,7 @@ export const SeachSelect: React.FC<SelectProps> = (props) => {
       }}
       onClose={() => {
         setOpen(false);
-        // setOptionsLoad([]); // Reset options when the user closes the dropdown
+        setOptionsLoad([]);
       }}
       options={optionsLoad}
       loading={loading}
@@ -124,7 +124,7 @@ export const SeachSelect: React.FC<SelectProps> = (props) => {
         <Box
           component="li"
           sx={{ backgroundColor: selected ? '#f7f8fa' : 'transparent' }}
-          key={option?.id}
+          // key={option?.id}
           {...props}
         >
           {id === 'country' ? (
