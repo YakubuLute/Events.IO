@@ -1,4 +1,3 @@
-
 import mongoose, { ConnectOptions } from 'mongoose'
 
 // Define connection options
