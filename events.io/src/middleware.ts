@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 import { User } from '@/models/models'
+import { connectDB } from '@/lib/mongoose'
 
 // Define route access rules
 const routeRules = {
@@ -24,6 +25,7 @@ const matchesRoute = (pathname: string, routes: string[]) =>
 
 export async function middleware (request: NextRequest) {
   const { pathname } = request.nextUrl
+  await connectDB() // connect to mongodb
 
   // Skip static routes
   if (matchesRoute(pathname, routeRules.static)) {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
 import { SignJWT } from 'jose'
 import { z } from 'zod'
-import { User } from '@/models/models'
+import { getUserModel } from '@/models/models'
 import { IUser } from '@/interface/interface'
 import { connectDB } from '@/lib/mongoose'
 
@@ -24,7 +24,7 @@ const signupSchema = z
   .strict()
 
 export async function POST (req: Request) {
-  await connectDB() // Ensure DB connection before using User model
+  await connectDB() // Ensure DB connection
 
   try {
     const body = await req.json()
@@ -38,6 +38,8 @@ export async function POST (req: Request) {
 
     const { name, email, phoneNumber, countryCode, password, role } =
       result.data
+
+    const User = await getUserModel() // Use lazy-loaded model
 
     const existingUser = await User.findOne({
       $or: [{ email }, { phoneNumber: `${countryCode}${phoneNumber}` }]

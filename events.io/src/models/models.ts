@@ -18,6 +18,7 @@ import {
   ITokenSchema
 } from '@/interface/interface'
 import { UserRole } from '@/enums/shared'
+import { connectDB } from '@/lib/mongoose'
 
 // User Schema
 const UserSchema = new Schema<IUser>(
@@ -259,36 +260,37 @@ const EventSchema = new Schema<IEvent>(
   { timestamps: true }
 )
 
-
-let UserModel: Model<IUser>;
-let EventModel: Model<IEvent>;
-let TokenModel: Model<ITokenSchema>;
+let UserModel: Model<IUser>
+let EventModel: Model<IEvent>
+let TokenModel: Model<ITokenSchema>
 
 export const getUserModel = async (): Promise<Model<IUser>> => {
   if (!UserModel) {
-    await connectDB(); // Ensure connection before defining model
-    UserModel = mongoose.models.User || model<IUser>('User', UserSchema);
+    await connectDB()
+    UserModel = mongoose.models.User || model<IUser>('User', UserSchema)
   }
-  return UserModel;
-};
+  return UserModel
+}
 
 export const getEventModel = async (): Promise<Model<IEvent>> => {
   if (!EventModel) {
-    await connectDB(); // Ensure connection before defining model
-    EventModel = mongoose.models.Event || model<IEvent>('Event', EventSchema);
+    await connectDB() // Ensure connection before defining model
+    EventModel = mongoose.models.Event || model<IEvent>('Event', EventSchema)
   }
-  return EventModel;
-};
+  return EventModel
+}
 
 export const getTokenModel = async (): Promise<Model<ITokenSchema>> => {
   if (!TokenModel) {
-    await connectDB(); // Ensure connection before defining model
-    TokenModel = mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema);
+    await connectDB() // Ensure connection before defining model
+    TokenModel =
+      mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema)
   }
-  return TokenModel;
-};
+  return TokenModel
+}
 
-// Optionally, you can still export direct models for convenience, but use getters in routes
-export const User = mongoose.models.User || model<IUser>('User', UserSchema);
-export const Event = mongoose.models.Event || model<IEvent>('Event', EventSchema);
-export const Token = mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema);
+export const User = mongoose.models.User || model<IUser>('User', UserSchema)
+export const Event =
+  mongoose.models.Event || model<IEvent>('Event', EventSchema)
+export const Token =
+  mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema)
