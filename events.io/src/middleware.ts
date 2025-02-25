@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 // import User from '@/models/models'
-import connectDB from '@/lib/mongoose'
+// import connectDB from '@/lib/mongoose'
 
 // Define route access rules
 const routeRules = {
-  public: ['/login', '/register', '/forgot-password', '/'],
+  public: ['/login', '/register', '/forgot-password', '/reset-password', '/'],
   static: ['/favicon.ico', '/_next/static', '/_next/image'],
   organizerOnly: ['/dashboard/events/create', '/dashboard/events/[id]/edit'],
   adminOnly: ['/admin', '/admin/users']
@@ -16,6 +16,7 @@ const routeRules = {
 // Utility to check if a path matches a route or pattern
 const matchesRoute = (pathname: string, routes: string[]) =>
   routes.some(route => {
+    console.log('Get current route: ', route)
     if (route.includes('[id]')) {
       const pattern = new RegExp(`^${route.replace('[id]', '[^/]+')}$`)
       return pattern.test(pathname)

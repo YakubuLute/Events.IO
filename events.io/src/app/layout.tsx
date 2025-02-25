@@ -12,6 +12,7 @@ import {
   MantineProvider
 } from '@mantine/core'
 import { theme } from '../../theme'
+import QueryProvider from '@/contexts/queryProvider'
 
 export const metadata: Metadata = {
   title: 'Events.IO',
@@ -31,8 +32,10 @@ export default function RootLayout ({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <Notifications />
-          {children}
+          <QueryProvider>
+            <Notifications />
+            {children}
+          </QueryProvider>
         </MantineProvider>
       </body>
     </html>
