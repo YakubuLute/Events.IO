@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 import { User } from '@/models/models'
-import { connectDB } from '@/lib/mongoose'
+import connectDB from '@/lib/mongoose'
 
 // Define route access rules
 const routeRules = {

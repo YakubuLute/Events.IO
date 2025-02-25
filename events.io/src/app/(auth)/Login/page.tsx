@@ -15,7 +15,6 @@ import { notifications } from '@mantine/notifications'
 import { countryCodes } from '@/utils/countryCodeList'
 import { LoginFormValues } from '@/interface/interface'
 
-
 export default function LoginPage () {
   const form: UseFormReturnType<LoginFormValues> = useForm<LoginFormValues>({
     initialValues: {
@@ -39,7 +38,7 @@ export default function LoginPage () {
   })
 
   const { mutate: signin, isPending } = useUserSignin({
-    onSuccess: data => {
+    onSuccess: () => {
       notifications.show({
         title: 'Success',
         message: 'Logged in successfully!',
