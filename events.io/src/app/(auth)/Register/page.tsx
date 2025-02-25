@@ -51,7 +51,7 @@ export default function RegistrationPage () {
         color: 'green'
       })
       form.reset()
-    window.location.href = '/login';
+      window.location.href = '/login'
     },
     onError: error => {
       notifications.show({
@@ -66,7 +66,7 @@ export default function RegistrationPage () {
     signup({
       name: values.name,
       email: values.email,
-      phoneNumber: Number(values.phoneNumber),
+      phoneNumber: values.phoneNumber,
       countryCode: values.countryCode,
       password: values.password,
       role: 'user'

@@ -74,7 +74,7 @@ export default function LoginPage () {
           <Stack>
             <TextInput
               label='Email (optional)'
-              placeholder='hello@mantine.dev'
+              placeholder='name@domain.com'
               value={form.values.email}
               onChange={event =>
                 form.setFieldValue('email', event.currentTarget.value)
