@@ -9,20 +9,15 @@ import Toolbar from '@mui/material/Toolbar'
 import { Stack } from '@mui/material'
 
 import styles from './header.module.scss'
-import { useHeaderContext } from '@/contexts/headerContext'
 import Menu from '@/components/shared/icons/menu'
 
 // mantime UI
 import { Button } from '@mantine/core'
 
 const Header = () => {
-  const { screenSize } = useHeaderContext()
-  const { sideBarOpen } = useHeaderContext()
-  const isLargeScreen = screenSize === 'desktop'
+  // const isLargeScreen = screenSize === 'desktop'
 
   const navigate = useRouter()
-  // const userType = userDecoded?.userType;
-  // const user = getCurrentUser()
 
   const navItemsComponent = (
     <div className={styles.home_login_button}>
@@ -33,7 +28,6 @@ const Header = () => {
       >
         Login
       </Button>
-
       <Menu />
     </div>
   )
@@ -58,9 +52,9 @@ const Header = () => {
         position: { xs: 'sticky', xl: 'fixed' }
       }}
     >
-      <Toolbar classes={{ root: styles.header_toolbar }}>
-        <>{logoAndMobileComponent}</>
-        <>{navItemsComponent}</>
+      <Toolbar>
+        {logoAndMobileComponent}
+        <div className={styles.nav_items}>{navItemsComponent}</div>
       </Toolbar>
     </AppBar>
   )
