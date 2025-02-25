@@ -290,9 +290,13 @@ export const getTokenModel = async (): Promise<Model<ITokenSchema>> => {
   }
   return TokenModel
 }
+export const User =
+  mongoose.models.User ||
+  (mongoose.modelNames().includes('User')
+    ? mongoose.model<IUser>('User')
+    : mongoose.model<IUser>('User', UserSchema))
 
-export const User = mongoose.models.User || model<IUser>('User', UserSchema)
 export const Event =
   mongoose.models.Event || model<IEvent>('Event', EventSchema)
 export const Token =
-  mongoose.models.Token || model<IToken>('Token', TokenSchema)
+  mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema)

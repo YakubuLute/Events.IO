@@ -6,7 +6,7 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI in .env')
 }
 
-let isConnected = false // Track connection status
+let isConnected = false // Track the connection status
 
 export const connectDB = async () => {
   if (isConnected) {
