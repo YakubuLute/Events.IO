@@ -4,10 +4,10 @@
   overflow-y: scroll;
   height: 100vh;
   padding: 1rem 0;
+  scrollbar-width: none;
   -ms-scrollbar-width: none;
   -webkit-scrollbar-width: none;
   -moz-scollbar-width: none;
-  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     width: 0;
