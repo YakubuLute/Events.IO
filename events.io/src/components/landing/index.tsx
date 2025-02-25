@@ -5,10 +5,9 @@ import { useRouter } from 'next/navigation'
 import { Box, Container } from '@mantine/core'
 
 import Header from '@/components/layout/Header/'
-import { getCurrentUser } from '@/utils'
 import styles from './landing.module.scss'
-import LandingFooter from './landingFooter'
-import LandingMain from './landingMain'
+import LandingMain from './main'
+import Footer from '../layout/Footer'
 
 export default function LandingComponent () {
   // const user = getCurrentUser()
@@ -21,7 +20,7 @@ export default function LandingComponent () {
         <Container className='max-w-[1208px]'>
           <LandingMain />
         </Container>
-        <LandingFooter />
+        <Footer/>
       </Box>
     </Box>
   )
