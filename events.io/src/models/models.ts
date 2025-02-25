@@ -260,6 +260,8 @@ const EventSchema = new Schema<IEvent>(
   { timestamps: true }
 )
 
+await connectDB()
+
 let UserModel: Model<IUser>
 let EventModel: Model<IEvent>
 let TokenModel: Model<ITokenSchema>
@@ -293,4 +295,4 @@ export const User = mongoose.models.User || model<IUser>('User', UserSchema)
 export const Event =
   mongoose.models.Event || model<IEvent>('Event', EventSchema)
 export const Token =
-  mongoose.models.Token || model<ITokenSchema>('Token', TokenSchema)
+  mongoose.models.Token || model<IToken>('Token', TokenSchema)

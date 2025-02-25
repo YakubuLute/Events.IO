@@ -1,39 +1,25 @@
-import mongoose, { ConnectOptions } from 'mongoose'
+import mongoose from 'mongoose'
 
-// Define connection options
-const options: ConnectOptions = {
-  serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds
-  maxPoolSize: 10 // Limit connection pool size
+const MONGODB_URI = process.env.MONGODB_URI
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI in .env')
 }
 
-// Singleton pattern to ensure one connection
-let isConnected = false
+let isConnected = false // Track connection status
 
-export const connectDB = async (): Promise<void> => {
+export const connectDB = async () => {
   if (isConnected) {
     console.log('Already connected to MongoDB')
     return
   }
 
-  const mongoUri = process.env.MONGODB_URI
-  console.log(
-    'Attempting to connect with MONGODB_URI:',
-    mongoUri || 'undefined'
-  )
-  if (!mongoUri) {
-    console.error('MONGODB_URI is not defined in environment variables')
-    throw new Error('MONGODB_URI is missing')
-  }
-
   try {
-    await mongoose.connect(mongoUri, options) // connect to mongodb server
+    await mongoose.connect(MONGODB_URI)
     isConnected = true
-
-    // log reponse to console
-    console.log(`MongoDB Connected successfully: ${mongoose.connection.host}`)
+    console.log('MongoDB connected successfully')
   } catch (error) {
-    // log error response
-    console.error('Error connecting to MongoDB:', error)
+    console.error('MongoDB connection error:', error)
     throw error
   }
 }
