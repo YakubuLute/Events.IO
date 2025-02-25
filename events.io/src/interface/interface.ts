@@ -34,7 +34,7 @@ export interface IUser extends Document {
   accountVerificationOTPExpiration?: Date
   verifyToken?: string
   verificationTokenExpiration?: Date
-  phoneNumber: number
+  phoneNumber: string
   street?: string
   apartment?: string
   city?: string
@@ -231,7 +231,6 @@ export interface IReview {
   createdAt: Date
 }
 
-
 export interface RegisterFormValues {
   email: string
   name: string
@@ -241,7 +240,7 @@ export interface RegisterFormValues {
   terms: boolean
 }
 
-export  interface LoginFormValues {
+export interface LoginFormValues {
   email: string
   phoneNumber: string
   countryCode: string

@@ -39,7 +39,7 @@ export async function POST (req: Request) {
     const { name, email, phoneNumber, countryCode, password, role } =
       result.data
 
-    const User = await getUserModel() // Use lazy-loaded model
+    const User = await getUserModel() // Implement lazy-loaded model
 
     const existingUser = await User.findOne({
       $or: [{ email }, { phoneNumber: `${countryCode}${phoneNumber}` }]
