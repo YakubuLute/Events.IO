@@ -72,6 +72,11 @@ export default function RegistrationPage () {
       role: 'user'
     })
   }
+  const values = countryCodes.map(item => item.value)
+  const duplicates = values.filter(
+    (item, index) => values.indexOf(item) !== index
+  )
+  console.log('Duplicate values:', duplicates)
 
   return (
     <Container size={420} my={40}>
