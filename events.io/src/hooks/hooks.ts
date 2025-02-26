@@ -57,6 +57,38 @@ export const useUserSigninWithRefreshToken = () => {
   })
 }
 
+// Refresh Token Hook
+export const useRefreshToken = ({
+  onSuccess,
+  onError
+}: {
+  onSuccess?: (data: { token: string; refreshToken: string }) => void
+  onError?: (error: Error) => void
+}) => {
+  return useMutation({
+    mutationKey: ['refreshToken'],
+    mutationFn: async () => await service.refreshToken(),
+    onSuccess,
+    onError
+  })
+}
+
+// Logout Hook
+export const useLogout = ({
+  onSuccess,
+  onError
+}: {
+  onSuccess?: (data: { message: string }) => void
+  onError?: (error: Error) => void
+}) => {
+  return useMutation({
+    mutationKey: ['logout'],
+    mutationFn: async () => await service.logout(),
+    onSuccess,
+    onError
+  })
+}
+
 // Create Event Hook
 export const useCreateEvent = ({
   onSuccess,
