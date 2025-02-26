@@ -54,6 +54,7 @@ export default function RegistrationPage () {
       window.location.href = '/login'
     },
     onError: error => {
+      console.log('Error registering account:', error)
       notifications.show({
         title: 'Error',
         message: error.message || 'Failed to create account',

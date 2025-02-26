@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 
 const BASE_URL = '/api'
-
 // can be option but considering we might
 // add a google location when creating event I think we might need
 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -9,7 +8,7 @@ const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 // axios instance
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, 
+  withCredentials: true,
   headers: {
     Accept: 'application/json',
     'User-Timezone': userTimezone // Optional for now
@@ -22,7 +21,7 @@ export const refreshAccessTokenFn = async (refreshToken: string) => {
     '/auth/refresh',
     {
       refreshToken
-    },
+    }
     // { skipAuthRefresh: true }
   ) // Flag to skip interceptor
   return response.data

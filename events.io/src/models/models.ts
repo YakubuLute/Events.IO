@@ -18,7 +18,7 @@ import {
   ITokenSchema
 } from '@/interface/interface'
 import { UserRole } from '@/enums/shared'
-import connectDB from '@/lib/mongoose'
+
 
 // User Schema
 const UserSchema = new Schema<IUser>(

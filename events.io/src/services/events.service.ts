@@ -8,7 +8,7 @@ class EventService {
       user: IUser
       token: string
       refreshToken: string
-    }>('/auth/signup', userData)
+    }>('/auth/register', userData)
     return response.data
   }
   async signin (credentials: {
