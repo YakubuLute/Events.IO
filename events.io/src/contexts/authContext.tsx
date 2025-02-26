@@ -1,84 +1,59 @@
 // src/contexts/auth-context.tsx
 'use client'
 
-import {
-  createContext,
-  useContext,
-  useCallback,
-  useState,
-  useEffect
-} from 'react'
-import { useRouter } from 'next/navigation'
-
-interface User {
-  id: string
-  email: string
-  name: string
-}
+import { createContext, useContext, useState, useEffect } from 'react'
+import { useCurrentUser } from '@/hooks/hooks'
+import { IUser } from '@/interface/interface'
 
 interface AuthContextType {
-  user: User | null
+  user: Partial<IUser> | null
+  setUser: (user: Partial<IUser> | null) => void
   isLoading: boolean
-  login: (email: string, password: string) => Promise<void>
-  logout: () => Promise<void>
-  checkAuth: () => Promise<void>
+  userError: string | null
+  setUserError: (error: string | null) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider ({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
-  const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState<Partial<IUser> | null>(null)
+  const [userError, setUserError] = useState<string | null>(null)
 
-  const checkAuth = useCallback(async () => {
-    try {
-      const response = await fetch('/api/auth/me')
-      if (response.ok) {
-        const data = await response.json()
-        setUser(data.user)
-      } else {
-        setUser(null)
-      }
-    } catch (error) {
-      console.log('Error fetching user data', error)
-      setUser(null)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
-
-  const login = async (email: string, password: string) => {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    })
-
-    if (!response.ok) {
-      const data = await response.json()
-      throw new Error(data.error)
-    }
-
-    const data = await response.json()
-    setUser(data.user)
-    router.push('/dashboard')
-    router.refresh()
-  }
-
-  const logout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' })
-    setUser(null)
-    router.push('/login')
-    router.refresh()
-  }
+  const {
+    data: currentUser,
+    isLoading: isUserLoading,
+    error
+  } = useCurrentUser()
 
   useEffect(() => {
-    checkAuth()
-  }, [checkAuth])
+    if (currentUser && !isUserLoading) {
+      setUser({
+        id: currentUser.id,
+        email: currentUser.email,
+        name: currentUser.name,
+        phoneNumber: currentUser.phoneNumber,
+        countryCode: currentUser.countryCode,
+        role: currentUser.role,
+        isAdmin: currentUser.isAdmin,
+        isVerified: currentUser.isVerified,
+        createdAt: currentUser.createdAt
+      })
+    } else if (!currentUser && !isUserLoading) {
+      setUser(null)
+    }
+    if (error) {
+      setUserError(error.message)
+    } else if (!error) {
+      setUserError(null)
+    }
+    setIsLoading(isUserLoading)
+  }, [currentUser, isUserLoading, userError, setUserError, error])
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout, checkAuth }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, setUser, userError, setUserError }}
+    >
       {children}
     </AuthContext.Provider>
   )
