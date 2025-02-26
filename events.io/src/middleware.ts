@@ -47,7 +47,7 @@ export async function middleware (request: NextRequest) {
   // Fetch user from DB if authenticated (optional, for role check)
   let user = null
   if (isAuthenticated && userPayload?.userId) {
-    user = await User.findById(userPayload.userId).select('role')
+    user = await User?.findById(userPayload.userId).select('role')
   }
 
   // Public routes: redirect authenticated users to dashboard

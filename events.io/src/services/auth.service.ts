@@ -10,7 +10,8 @@ import axios, {
 const BASE_URL = '/api'
 const AUTH_ROUTES = {
   REFRESH: '/auth/refresh',
-  LOGIN: '/auth/login'
+  LOGIN: '/auth/login',
+  LOGOUT: '/auth/logout'
 }
 
 // Define all interfaces
@@ -55,22 +56,28 @@ const logger: Logger = {
 
 // Type-safe auth service
 interface AuthService {
-  logout: () => void
   getRefreshToken: () => string | null
   setCookies: (accessToken: string, refreshToken: string) => void
 }
 
-const authService: AuthService = {
-  logout: (): void => {
-    logger.info('Logging out user due to authentication failure')
-    document.cookie = 'auth-token=; Path=/; Max-Age=0'
-    document.cookie = 'refresh-token=; Path=/; Max-Age=0'
-
-    if (typeof window !== 'undefined') {
+export const logout = async (): Promise<void> => {
+  try {
+    const loggedOut = await api.post<{ message: string }>(AUTH_ROUTES.LOGOUT)
+    logger.info('User logged out successfully')
+    if (loggedOut.data.message) {
       window.location.href = AUTH_ROUTES.LOGIN
     }
-  },
+  } catch (error) {
+    const axiosError = error as AxiosError<unknown>
+    logger.error(`Logout failed: ${axiosError.message || 'Unknown error'}`, {
+      status: axiosError.response?.status,
+      data: axiosError.response?.data
+    })
+    throw error
+  }
+}
 
+const authService: AuthService = {
   getRefreshToken: (): string | null => {
     return (
       document.cookie
@@ -171,7 +178,7 @@ api.interceptors.response.use(
 
         if (!refreshToken) {
           logger.error('No refresh token available for token refresh')
-          authService.logout()
+          await logout()
           return Promise.reject(
             new Error('Authentication failed: No refresh token available')
           )
@@ -204,7 +211,7 @@ api.interceptors.response.use(
         return api(newRequestConfig)
       } catch (refreshError) {
         logger.error('Token refresh failed, logging out user', refreshError)
-        authService.logout()
+        await logout()
         return Promise.reject(
           new Error('Authentication failed: Unable to refresh token')
         )
