@@ -34,6 +34,18 @@ class EventService {
     return response.data
   }
 
+  async refreshToken (refreshToken: string) {
+    try {
+      const response = await api.post<{ token: string; refreshToken: string }>(
+        '/auth/refresh',
+        { refreshToken }
+      )
+      return response.data
+    } catch (error: any) {
+      console.error('Token refresh failed:', error.message)
+      throw error
+    }
+  }
   async createEvent (eventData: Partial<IEvent>) {
     const response = await api.post<IEvent>('/events/create', eventData)
     return response.data
