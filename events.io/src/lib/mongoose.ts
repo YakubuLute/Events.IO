@@ -1,73 +1,31 @@
-// import mongoose from 'mongoose'
-
-// const MONGODB_URI = process.env.MONGODB_URI
-
-// if (!MONGODB_URI) {
-//   throw new Error('Please define the MONGODB_URI in .env')
-// }
-
-// let isConnected = false
-
-// const connectDB = async () => {
-//   if (isConnected) {
-//     console.log('Already connected to MongoDB')
-//     return
-//   }
-
-//   try {
-//     await mongoose.connect(MONGODB_URI, {
-//       dbName: 'events.io'
-//     })
-
-//     isConnected = true
-//     console.log('MongoDB connected successfully')
-//   } catch (error) {
-//     console.error('MongoDB connection error:', error)
-//     throw error
-//   }
-// }
-
-// export default connectDB
-
+'use server'
 import mongoose from 'mongoose'
-declare global {
-  var mongoose: any
+
+const MONGODB_URI = process.env.MONGODB_URI
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI in .env')
 }
 
-let cached = global.mongoose
+let isConnected = false
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
-}
-
-async function connectDB () {
-  const MONGODB_URI = process.env.MONGODB_URI!
-
-  if (!MONGODB_URI) {
-    throw new Error(
-      'Please define the MONGODB_URI environment variable inside .env.local'
-    )
+const connectDB = async () => {
+  if (isConnected) {
+    console.log('Already connected to MongoDB')
+    return
   }
 
-  if (cached.conn) {
-    return cached.conn
-  }
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false
-    }
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then(mongoose => {
-      return mongoose
-    })
-  }
   try {
-    cached.conn = await cached.promise
-  } catch (e) {
-    cached.promise = null
-    throw e
-  }
+    await mongoose.connect(MONGODB_URI, {
+      dbName: 'events.io'
+    })
 
-  return cached.conn
+    isConnected = true
+    console.log('MongoDB connected successfully')
+  } catch (error) {
+    console.error('MongoDB connection error:', error)
+    throw error
+  }
 }
 
 export default connectDB

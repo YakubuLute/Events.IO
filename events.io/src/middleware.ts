@@ -2,12 +2,17 @@
 import { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
-// import User from '@/models/models'
-// import connectDB from '@/lib/mongoose'
+import User from '@/models/models'
 
 // Define route access rules
 const routeRules = {
-  public: ['/login', '/register', '/forgot-password', '/reset-password', '/'],
+  public: [
+    'auth/login',
+    'auth/register',
+    'auth/forgot-password',
+    'auth/reset-password',
+    '/'
+  ],
   static: ['/favicon.ico', '/_next/static', '/_next/image'],
   organizerOnly: ['/dashboard/events/create', '/dashboard/events/[id]/edit'],
   adminOnly: ['/admin', '/admin/users']
@@ -26,7 +31,6 @@ const matchesRoute = (pathname: string, routes: string[]) =>
 
 export async function middleware (request: NextRequest) {
   const { pathname } = request.nextUrl
-  // await connectDB() // connect to mongodb
 
   // Skip static routes
   if (matchesRoute(pathname, routeRules.static)) {
@@ -42,9 +46,9 @@ export async function middleware (request: NextRequest) {
 
   // Fetch user from DB if authenticated (optional, for role check)
   let user = null
-  // if (isAuthenticated && userPayload?.userId) {
-  //   user = await User.findById(userPayload.userId).select('role')
-  // }
+  if (isAuthenticated && userPayload?.userId) {
+    user = await User.findById(userPayload.userId).select('role')
+  }
 
   // Public routes: redirect authenticated users to dashboard
   if (matchesRoute(pathname, routeRules.public)) {

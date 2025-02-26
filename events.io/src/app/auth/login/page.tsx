@@ -7,7 +7,8 @@ import {
   TextInput,
   PasswordInput,
   Select,
-  Title
+  Title,
+  Group
 } from '@mantine/core'
 import { useForm, UseFormReturnType } from '@mantine/form'
 import { useUserSignin } from '@/hooks/hooks'
@@ -82,26 +83,31 @@ export default function LoginPage () {
               error={form.errors.email}
               radius='md'
             />
-            <Select
-              label='Country Code (optional)'
-              placeholder='Select country code'
-              data={countryCodes}
-              value={form.values.countryCode}
-              onChange={value => form.setFieldValue('countryCode', value || '')}
-              error={form.errors.countryCode}
-              radius='md'
-              searchable
-            />
-            <TextInput
-              label='Phone Number (optional)'
-              placeholder='1234567890'
-              value={form.values.phoneNumber}
-              onChange={event =>
-                form.setFieldValue('phoneNumber', event.currentTarget.value)
-              }
-              error={form.errors.phoneNumber}
-              radius='md'
-            />
+            <Group justify='space-between' align='center'>
+              <Select
+                flex={1}
+                label='Country Code'
+                placeholder='Select country code'
+                data={countryCodes}
+                value={form.values.countryCode}
+                onChange={value =>
+                  form.setFieldValue('countryCode', value || '')
+                }
+                error={form.errors.countryCode}
+                radius='md'
+                searchable
+              />
+              <TextInput
+                label='Phone Number (optional)'
+                placeholder='1234567890'
+                value={form.values.phoneNumber}
+                onChange={event =>
+                  form.setFieldValue('phoneNumber', event.currentTarget.value)
+                }
+                error={form.errors.phoneNumber}
+                radius='md'
+              />
+            </Group>
             <PasswordInput
               required
               label='Password'

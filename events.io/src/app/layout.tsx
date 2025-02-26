@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout ({ children }: { children: any }) {
+  
   return (
     <html lang='en' {...mantineHtmlProps}>
       <head>

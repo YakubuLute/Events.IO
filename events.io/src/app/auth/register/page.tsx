@@ -72,11 +72,6 @@ export default function RegistrationPage () {
       role: 'user'
     })
   }
-  const values = countryCodes.map(item => item.value)
-  const duplicates = values.filter(
-    (item, index) => values.indexOf(item) !== index
-  )
-  console.log('Duplicate values:', duplicates)
 
   return (
     <Container size={420} my={40}>
@@ -101,7 +96,7 @@ export default function RegistrationPage () {
             <TextInput
               required
               label='Email'
-              placeholder='hello@mantine.dev'
+              placeholder='name@domain.com'
               value={form.values.email}
               onChange={event =>
                 form.setFieldValue('email', event.currentTarget.value)
@@ -110,32 +105,34 @@ export default function RegistrationPage () {
               radius='md'
             />
 
-            <Select
-              required
-              label='Country Code'
-              placeholder='Select country code'
-              data={countryCodes}
-              value={form.values.countryCode}
-              onChange={value =>
-                form.setFieldValue('countryCode', value || '+233')
-              }
-              error={form.errors.countryCode}
-              radius='md'
-              searchable
-            />
+            <Group justify='space-between' align='center'>
+              <Select
+                required
+                flex={1}
+                label='Country Code'
+                placeholder='Select country code'
+                data={countryCodes}
+                value={form.values.countryCode}
+                onChange={value =>
+                  form.setFieldValue('countryCode', value || '+233')
+                }
+                error={form.errors.countryCode}
+                radius='md'
+                searchable
+              />
 
-            <TextInput
-              required
-              label='Phone Number'
-              placeholder='1234567890'
-              value={form.values.phoneNumber}
-              onChange={event =>
-                form.setFieldValue('phoneNumber', event.currentTarget.value)
-              }
-              error={form.errors.phoneNumber}
-              radius='md'
-            />
-
+              <TextInput
+                required
+                label='Phone Number'
+                placeholder='1234567890'
+                value={form.values.phoneNumber}
+                onChange={event =>
+                  form.setFieldValue('phoneNumber', event.currentTarget.value)
+                }
+                error={form.errors.phoneNumber}
+                radius='md'
+              />
+            </Group>
             <PasswordInput
               required
               label='Password'
@@ -163,7 +160,7 @@ export default function RegistrationPage () {
               component='button'
               type='button'
               c='dimmed'
-              onClick={() => (window.location.href = '/login')}
+              onClick={() => (window.location.href = '/auth/login')}
               size='xs'
             >
               Already have an account? Login
