@@ -1,5 +1,5 @@
 // src/models/models.ts
-import mongoose, { Schema, model, Model } from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 import {
   IUser,
   IEvent,

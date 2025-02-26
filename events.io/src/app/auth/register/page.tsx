@@ -51,7 +51,7 @@ export default function RegistrationPage () {
         color: 'green'
       })
       form.reset()
-      window.location.href = '/login'
+      window.location.href = '/auth/login'
     },
     onError: error => {
       console.log('Error registering account:', error)
