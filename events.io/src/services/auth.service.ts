@@ -257,15 +257,14 @@
 //   }
 // )
 
-// export default api
-/* eslint-disable @typescript-eslint/no-explicit-any */
+//* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, {
   AxiosInstance,
   AxiosError,
   AxiosResponse,
-  InternalAxiosRequestConfig,
-  AxiosRequestConfig
+  InternalAxiosRequestConfig
 } from 'axios'
+import { AxiosRequestConfig } from 'axios'
 
 // Extend AxiosRequestConfig to include skipAuthRefresh
 declare module 'axios' {

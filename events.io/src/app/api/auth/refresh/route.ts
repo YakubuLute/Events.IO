@@ -1,3 +1,4 @@
+
 import { NextResponse, NextRequest } from 'next/server'
 import { SignJWT, jwtVerify } from 'jose'
 
@@ -12,7 +13,7 @@ export async function POST (req: NextRequest) {
       )
     }
 
-    // Validate the refresh token (jwtVerify handles expiration automatically)
+    // Validate the refresh token
     const { payload } = await jwtVerify(
       refreshToken,
       new TextEncoder().encode(process.env.JWT_SECRET!)
@@ -25,6 +26,7 @@ export async function POST (req: NextRequest) {
       )
     }
 
+    // Generate new access token (24 hours)
     const newAccessToken = await new SignJWT({
       userId: payload.userId as string,
       email: payload.email as string,
@@ -35,6 +37,7 @@ export async function POST (req: NextRequest) {
       .setExpirationTime('24h')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
+    // Generate new refresh token (7 days)
     const newRefreshToken = await new SignJWT({
       userId: payload.userId as string
     })
@@ -42,11 +45,13 @@ export async function POST (req: NextRequest) {
       .setExpirationTime('7d')
       .sign(new TextEncoder().encode(process.env.JWT_SECRET!))
 
+    // Create response with new tokens
     const response = NextResponse.json(
       { token: newAccessToken, refreshToken: newRefreshToken },
       { status: 200 }
     )
 
+    // Set new cookies server-side
     response.cookies.set('auth-token', newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
