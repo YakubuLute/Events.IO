@@ -1,8 +1,15 @@
-// src/contexts/auth-context.tsx
+// src/contexts/auth-context.tsx (with middleware integration)
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback
+} from 'react'
 import { useCurrentUser } from '@/hooks/hooks'
+import { jwtVerify } from 'jose'
 import { IUser } from '@/interface/interface'
 
 interface AuthContextType {
@@ -20,35 +27,72 @@ export function AuthProvider ({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Partial<IUser> | null>(null)
   const [userError, setUserError] = useState<string | null>(null)
 
+  // Read x-is-authenticated header set by middleware
+  const isAuthenticated =
+    typeof window !== 'undefined'
+      ? new Headers(
+          document.querySelector('head')?.getAttribute('data-auth') || ''
+        ).get('x-is-authenticated') === 'true'
+      : false
+
+  // Use useCurrentUser conditionally based on middleware auth header
   const {
     data: currentUser,
     isLoading: isUserLoading,
     error
-  } = useCurrentUser()
+  } = useCurrentUser(isAuthenticated) // Enable only if authenticated
 
+  // Sync user state with useCurrentUser, but only if authenticated
   useEffect(() => {
-    if (currentUser && !isUserLoading) {
-      setUser({
-        id: currentUser.id,
-        email: currentUser.email,
-        name: currentUser.name,
-        phoneNumber: currentUser.phoneNumber,
-        countryCode: currentUser.countryCode,
-        role: currentUser.role,
-        isAdmin: currentUser.isAdmin,
-        isVerified: currentUser.isVerified,
-        createdAt: currentUser.createdAt
-      })
-    } else if (!currentUser && !isUserLoading) {
-      setUser(null)
+    const initializeAuth = async () => {
+      setIsLoading(true)
+      setUserError(null)
+
+      try {
+        if (!isAuthenticated) {
+          setUser(null)
+          setIsLoading(false)
+          return
+        }
+
+        // If authenticated, useCurrentUser will fetch the user
+        if (currentUser && !isUserLoading) {
+          setUser({
+            id: currentUser.id,
+            email: currentUser.email,
+            name: currentUser.name,
+            phoneNumber: currentUser.phoneNumber,
+            countryCode: currentUser.countryCode,
+            role: currentUser.role,
+            isAdmin: currentUser.isAdmin,
+            isVerified: currentUser.isVerified,
+            createdAt: currentUser.createdAt
+          })
+        } else if (!currentUser && !isUserLoading) {
+          setUser(null)
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error)
+        setUser(null)
+        setUserError('Authentication failed. Please log in again.')
+      } finally {
+        setIsLoading(false)
+      }
     }
+
+    initializeAuth()
+  }, [currentUser, isUserLoading, isAuthenticated])
+
+  // Handle errors from useCurrentUser
+  useEffect(() => {
     if (error) {
+      console.error('Error fetching user data', error)
       setUserError(error.message)
+      setUser(null) // Clear user on error (e.g., 401 or 400)
     } else if (!error) {
       setUserError(null)
     }
-    setIsLoading(isUserLoading)
-  }, [currentUser, isUserLoading, userError, setUserError, error])
+  }, [error])
 
   return (
     <AuthContext.Provider

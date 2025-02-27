@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse, NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
@@ -46,28 +45,28 @@ export async function middleware (request: NextRequest) {
 
   // Verify token server-side (minimal validation)
   let userPayload: TokenPayload | null = null
+  let isAuthenticated = false
   if (authToken) {
     try {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
-      const { payload, protectedHeader } = await jwtVerify(authToken, secret)
+      const { payload } = await jwtVerify(authToken, secret)
       userPayload = payload as TokenPayload
+      isAuthenticated = !!userPayload.userId
     } catch (error: any) {
       console.error('Token verification failed:', error)
-      // Handle expired or invalid tokens gracefully
       if (error.code === 'ERR_JWT_EXPIRED') {
-        return NextResponse.next() 
+        isAuthenticated = false // Treat expired token as unauthenticated
       }
     }
   }
 
-  const isAuthenticated = !!userPayload?.userId
+  // Create response to set auth header for client
+  const response = NextResponse.next()
+  response.headers.set('x-is-authenticated', isAuthenticated.toString())
 
   // Public routes: allow access regardless of authentication, but don’t redirect authenticated users away
   if (matchesRoute(pathname, routeRules.public)) {
-    if (isAuthenticated) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-    return NextResponse.next()
+    return response // Allow public routes to proceed, even for authenticated users
   }
 
   // If not authenticated and not a public route, redirect to login
@@ -129,11 +128,10 @@ export async function middleware (request: NextRequest) {
   }
 
   // Attach user data to request headers for API routes or pages
-  const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-user-id', userPayload?.userId || '')
-  requestHeaders.set('x-user-role', role || '')
+  response.headers.set('x-user-id', userPayload?.userId || '')
+  response.headers.set('x-user-role', role || '')
 
-  return NextResponse.next({ request: { headers: requestHeaders } })
+  return response
 }
 
 export const config = {

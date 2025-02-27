@@ -144,7 +144,7 @@ api.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        const { token, refreshToken } = await refreshAccessTokenFn()
+        // const { token, refreshToken } = await refreshAccessTokenFn()
 
         // Retry the original request
         const newRequestConfig: AxiosRequestConfig = {
