@@ -1,65 +1,29 @@
-@import '@/scss/main.scss';
 
-.landingPageContainer {
-  overflow-y: scroll;
-  height: 100vh;
-  padding: 1rem 0;
-  -ms-scrollbar-width: none;
-  -webkit-scrollbar-width: none;
-  -moz-scollbar-width: none;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-
-  .landingPageTitle {
-    max-width: 880px;
-    width: 94%;
-    margin: 1rem auto;
-    text-align: center;
-    font-size: 1.75rem;
-    font-weight: 600;
-    line-height: 2rem;
-    // color: #110c22;
-    color: $primary-color; // #06135F
-  }
+.hero {
+  @apply bg-gradient-to-r from-purple-500 to-violet-600 text-white;
 }
 
-.platformCard {
-  border-radius: 24px;
-  padding: 1.25rem;
-  z-index: 10;
-  transition: all 0.3s ease;
-
-  &:hover {
-    opacity: 0.94;
-  }
+.heroTitle {
+  @apply text-4xl font-bold mb-4;
 }
 
-@include media (768px) {
-  .landingPageContainer {
-
-    .landingPageTitle {
-      font-size: 2.75rem;
-      line-height: 3.25rem;
-      margin-top: 1.25rem;
-    }
-  }
-
-  .platformCard {
-    padding: 2.5rem;
-  }
+.heroSubtitle {
+  @apply max-w-2xl;
 }
 
-@include media (1280px) {
-  .landingPageContainer {
-    padding-bottom: 0;
-    overflow-y: auto;
-
-    .landingPageTitle {
-      margin-top: 100px;
-    }
-  }
+.eventCard {
+  @apply hover:shadow-lg transition-shadow duration-300;
 }
+
+.eventImage {
+  @apply object-cover;
+}
+
+.featuresSection {
+  @apply bg-gray-100;
+}
+
+.footer {
+  @apply w-full;
+}
+
