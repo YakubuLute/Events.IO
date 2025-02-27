@@ -55,14 +55,27 @@ export async function middleware (request: NextRequest) {
     } catch (error: any) {
       console.error('Token verification failed:', error)
       if (error.code === 'ERR_JWT_EXPIRED') {
-        isAuthenticated = false // Treat expired token as unauthenticated
+        isAuthenticated = false // Treats expired token as unauthenticated
       }
     }
   }
 
-  // Create response to set auth header for client
+  // Create response
   const response = NextResponse.next()
+
+  // Set headers for downstream use
   response.headers.set('x-is-authenticated', isAuthenticated.toString())
+  response.headers.set('x-user-id', userPayload?.userId || '')
+  response.headers.set('x-user-role', userPayload?.role || '')
+
+  // Inject auth state into HTML for client-side access
+  if (typeof window === 'undefined') {
+    // Server-side only
+    response.headers.set(
+      'x-html-inject',
+      `<script>document.documentElement.setAttribute('data-authenticated', '${isAuthenticated}')</script>`
+    )
+  }
 
   // Public routes: allow access regardless of authentication, but don’t redirect authenticated users away
   if (matchesRoute(pathname, routeRules.public)) {
@@ -126,10 +139,6 @@ export async function middleware (request: NextRequest) {
       return NextResponse.redirect(new URL('/auth/login', request.url)) // Fallback to login on DB error
     }
   }
-
-  // Attach user data to request headers for API routes or pages
-  response.headers.set('x-user-id', userPayload?.userId || '')
-  response.headers.set('x-user-role', role || '')
 
   return response
 }

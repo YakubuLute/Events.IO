@@ -172,7 +172,7 @@ export default function LandingPage () {
               <IconStar size={20} color='yellow' />
             </Group>
             <Text size='lg' fw={500}>
-              '''Events.IO transformed how I organize events!'''
+              {'Events.IO transformed how I organize events!'}
             </Text>
             <Text size='sm' c='dimmed' mt='xs'>
               – Jane Doe, Event Organizer
@@ -187,7 +187,7 @@ export default function LandingPage () {
               <IconStar size={20} color='gray' />
             </Group>
             <Text size='lg' fw={500}>
-              'Amazing platform for finding local events.'
+              {'Amazing platform for finding local events.'}
             </Text>
             <Text size='sm' c='dimmed' mt='xs'>
               – John Smith, Attendee

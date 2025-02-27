@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
 import axios, {
   AxiosInstance,
   AxiosError,
@@ -9,7 +8,7 @@ import axios, {
 } from 'axios'
 import { AxiosRequestConfig } from 'axios'
 
-// Extend AxiosRequestConfig to include skipAuthRefresh
+// Extending AxiosRequestConfig to include skipAuthRefresh
 declare module 'axios' {
   interface AxiosRequestConfig {
     skipAuthRefresh?: boolean
@@ -29,11 +28,10 @@ interface TokenResponse {
   refreshToken: string
 }
 
-// Custom config with our additional properties
-interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
-  _retry?: boolean
-  skipAuthRefresh?: boolean
-}
+// interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
+//   _retry?: boolean
+//   skipAuthRefresh?: boolean
+// }
 
 // For use in interceptors
 interface InternalExtendedAxiosRequestConfig
@@ -65,7 +63,6 @@ const logger: Logger = {
 
 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-// Create the API instance with type safety
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true, // Ensures cookies (including HttpOnly) are sent with requests
@@ -75,7 +72,7 @@ const api: AxiosInstance = axios.create({
   }
 })
 
-// Refresh token function (relies on cookie, no payload needed)
+// Refresh token function (relies on cookie, no payload needed, remmember we've updated the refresh route)
 export const refreshAccessTokenFn = async (): Promise<TokenResponse> => {
   try {
     const response = await api.post<TokenResponse>(
