@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import axios, {
   AxiosInstance,
   AxiosError,
   AxiosResponse,
-  InternalAxiosRequestConfig
+  InternalAxiosRequestConfig,
+  AxiosRequestConfig
 } from 'axios'
-import { AxiosRequestConfig } from 'axios'
 
-// Extending AxiosRequestConfig to include skipAuthRefresh
+// Extend AxiosRequestConfig to include skipAuthRefresh
 declare module 'axios' {
   interface AxiosRequestConfig {
     skipAuthRefresh?: boolean
@@ -28,10 +27,11 @@ interface TokenResponse {
   refreshToken: string
 }
 
-// interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
-//   _retry?: boolean
-//   skipAuthRefresh?: boolean
-// }
+// Custom config with our additional properties
+interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
+  _retry?: boolean
+  skipAuthRefresh?: boolean
+}
 
 // For use in interceptors
 interface InternalExtendedAxiosRequestConfig
@@ -63,6 +63,7 @@ const logger: Logger = {
 
 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
+// Create the API instance with type safety
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   withCredentials: true, // Ensures cookies (including HttpOnly) are sent with requests
@@ -72,7 +73,7 @@ const api: AxiosInstance = axios.create({
   }
 })
 
-// Refresh token function (relies on cookie, no payload needed, remmember we've updated the refresh route)
+// Refresh token function (relies on cookie, no payload needed)
 export const refreshAccessTokenFn = async (): Promise<TokenResponse> => {
   try {
     const response = await api.post<TokenResponse>(
@@ -141,7 +142,8 @@ api.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        // const { token, refreshToken } = await refreshAccessTokenFn()
+        const { token, refreshToken } = await refreshAccessTokenFn()
+        // No need to set cookies client-side; server handles it via Set-Cookie
 
         // Retry the original request
         const newRequestConfig: AxiosRequestConfig = {

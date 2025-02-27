@@ -49,13 +49,13 @@ export async function middleware (request: NextRequest) {
   if (authToken) {
     try {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
-      const { payload } = await jwtVerify(authToken, secret)
+      const { payload, protectedHeader } = await jwtVerify(authToken, secret)
       userPayload = payload as TokenPayload
       isAuthenticated = !!userPayload.userId
     } catch (error: any) {
       console.error('Token verification failed:', error)
       if (error.code === 'ERR_JWT_EXPIRED') {
-        isAuthenticated = false // Treats expired token as unauthenticated
+        isAuthenticated = false // Treat expired token as unauthenticated
       }
     }
   }
@@ -63,19 +63,10 @@ export async function middleware (request: NextRequest) {
   // Create response
   const response = NextResponse.next()
 
-  // Set headers for downstream use
+  // Set headers for downstream use and client-side access
   response.headers.set('x-is-authenticated', isAuthenticated.toString())
   response.headers.set('x-user-id', userPayload?.userId || '')
   response.headers.set('x-user-role', userPayload?.role || '')
-
-  // Inject auth state into HTML for client-side access
-  if (typeof window === 'undefined') {
-    // Server-side only
-    response.headers.set(
-      'x-html-inject',
-      `<script>document.documentElement.setAttribute('data-authenticated', '${isAuthenticated}')</script>`
-    )
-  }
 
   // Public routes: allow access regardless of authentication, but don’t redirect authenticated users away
   if (matchesRoute(pathname, routeRules.public)) {

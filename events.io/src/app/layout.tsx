@@ -4,22 +4,26 @@ import { Notifications } from '@mantine/notifications'
 import './globals.css'
 import '@mantine/core/styles.css'
 
-import React from 'react'
+import React, { ReactNode } from 'react'
 import {
   ColorSchemeScript,
-  mantineHtmlProps,
-  MantineProvider
+  MantineProvider,
+  mantineHtmlProps
 } from '@mantine/core'
 import { theme } from '../../theme'
 import QueryProvider from '@/contexts/queryProvider'
 import { AuthProvider } from '@/contexts/authContext'
+import { headers } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'Events.IO',
   description: 'An event management app built by LtECH'
 }
 
-export default function RootLayout ({ children }: { children: any }) {
+export default function RootLayout ({ children }: { children: ReactNode }) {
+  const headersList = headers()
+  const isAuthenticated = headersList.get('x-is-authenticated') === 'true'
+
   return (
     <html lang='en' {...mantineHtmlProps}>
       <head>
@@ -32,11 +36,15 @@ export default function RootLayout ({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <QueryProvider>
-            <AuthProvider>
-              <Notifications>{children}</Notifications>
-            </AuthProvider>
-          </QueryProvider>
+          <React.StrictMode>
+            <QueryProvider>
+              <AuthProvider>
+                <Notifications position='top-right' zIndex={1000}>
+                  {children}
+                </Notifications>
+              </AuthProvider>
+            </QueryProvider>
+          </React.StrictMode>
         </MantineProvider>
       </body>
     </html>

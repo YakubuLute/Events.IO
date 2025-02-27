@@ -1,7 +1,15 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  // Enable source maps in production for debugging (optional, but resolves 404s for .mjs.map files)
+  productionBrowserSourceMaps: true,
+  swcMinify: true, // Optimize with SWC
+  output: 'standalone', // Ensure static assets are included for deployment
 
-export default nextConfig;
+  webpack: (config, { isServer }) => {
+    config.devtool = 'source-map' // Ensure source maps are generated
+    return config
+  }
+}
+
+export default nextConfig

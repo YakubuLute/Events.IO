@@ -1,9 +1,15 @@
 // src/contexts/auth-context.tsx
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback
+} from 'react'
 import { useCurrentUser } from '@/hooks/hooks'
-// import { jwtVerify } from 'jose'
+import { jwtVerify } from 'jose'
 import { IUser } from '@/interface/interface'
 
 interface AuthContextType {
@@ -16,23 +22,26 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export function AuthProvider ({ children }: { children: React.ReactNode }) {
+export function AuthProvider ({
+  children,
+  isAuthenticated: initialIsAuthenticated
+}: {
+  children: React.ReactNode
+  isAuthenticated?: boolean
+}) {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<Partial<IUser> | null>(null)
   const [userError, setUserError] = useState<string | null>(null)
 
-  // Read x-is-authenticated from data attribute set by middleware
-  const isAuthenticated =
-    typeof window !== 'undefined'
-      ? document.documentElement.getAttribute('data-authenticated') === 'true'
-      : false
+  // Use initialIsAuthenticated from server-side props, falling back to false if not provided
+  const isAuthenticated = initialIsAuthenticated || false
 
-  // Use useCurrentUser conditionally based on middleware auth state
+  // Use useCurrentUser conditionally based on isAuthenticated
   const {
     data: currentUser,
     isLoading: isUserLoading,
     error
-  } = useCurrentUser(isAuthenticated) // Enable only if authenticated
+  } = useCurrentUser(isAuthenticated)
 
   // Sync user state with useCurrentUser, but only if authenticated
   useEffect(() => {
