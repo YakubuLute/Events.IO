@@ -61,12 +61,15 @@ const logger: Logger = {
   }
 }
 
-const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+const userTimezone =
+  typeof window !== 'undefined'
+    ? Intl.DateTimeFormat().resolvedOptions().timeZone
+    : 'UTC'
 
 // Create an API instance with type safety
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, 
+  withCredentials: true,
   headers: {
     Accept: 'application/json',
     'User-Timezone': userTimezone
@@ -101,7 +104,7 @@ export const logout = async (): Promise<void> => {
   try {
     await api.post<{ message: string }>(AUTH_ROUTES.LOGOUT)
     logger.info('User logged out successfully')
-    // No client-side redirect here; rely on server or frontend to handle
+    // No client-side redirect here; we will rely on server or frontend to handle
   } catch (error) {
     const axiosError = error as AxiosError<unknown>
     logger.error(`Logout failed: ${axiosError.message || 'Unknown error'}`, {
@@ -111,6 +114,9 @@ export const logout = async (): Promise<void> => {
     throw new Error(`Logout failed: ${axiosError.message || 'Unknown error'}`)
   }
 }
+
+// Keep track of refresh token promise
+let refreshTokenPromise: Promise<TokenResponse> | null = null
 
 // Request Interceptor
 api.interceptors.request.use(
@@ -126,7 +132,7 @@ api.interceptors.request.use(
 // Response Interceptor
 api.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => response,
-  async (error: AxiosError): Promise<never> => {
+  async (error: AxiosError): Promise<any> => {
     const axiosError = error as AxiosError
     const originalRequest =
       axiosError.config as InternalExtendedAxiosRequestConfig
@@ -138,26 +144,41 @@ api.interceptors.response.use(
       !originalRequest.skipAuthRefresh
     ) {
       logger.warn('Received 401 error, attempting token refresh')
-
       originalRequest._retry = true
 
       try {
+        // Use existing refresh promise if one is in progress
+        if (!refreshTokenPromise) {
+          refreshTokenPromise = refreshAccessTokenFn()
+        }
+
+        // Wait for the token refresh
+        await refreshTokenPromise
+
+        // Reset the promise after it resolves
+        refreshTokenPromise = null
 
         // Retry the original request
         const newRequestConfig: AxiosRequestConfig = {
-          url: originalRequest.url,
-          method: originalRequest.method,
-          data: originalRequest.data,
-          params: originalRequest.params,
-          headers: originalRequest.headers,
-          withCredentials: originalRequest.withCredentials,
-          baseURL: originalRequest.baseURL
+          ...originalRequest,
+          // _retry: true
         }
 
         return api(newRequestConfig)
       } catch (refreshError) {
         logger.error('Token refresh failed, logging out user', refreshError)
-        await logout()
+        refreshTokenPromise = null
+
+        // Only attempt to logout if we're in a browser environment
+        if (typeof window !== 'undefined') {
+          try {
+            await logout()
+          } catch (logoutError) {
+            // If logout also fails, we just continue with rejection
+            logger.error('Logout also failed', logoutError)
+          }
+        }
+
         return Promise.reject(
           new Error('Authentication failed: Unable to refresh token')
         )
