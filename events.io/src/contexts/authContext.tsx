@@ -9,8 +9,8 @@ import {
   useCallback
 } from 'react'
 import { useCurrentUser } from '@/hooks/hooks'
-import { jwtVerify } from 'jose'
 import { IUser } from '@/interface/interface'
+import api from '@/services/auth.service' // Your Axios instance
 
 interface AuthContextType {
   user: Partial<IUser> | null
@@ -22,19 +22,49 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-export function AuthProvider ({
-  children,
-  isAuthenticated: initialIsAuthenticated
-}: {
-  children: React.ReactNode
-  isAuthenticated?: boolean
-}) {
+export function AuthProvider ({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<Partial<IUser> | null>(null)
   const [userError, setUserError] = useState<string | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  // Use initialIsAuthenticated from server-side props, falling back to false if not provided
-  const isAuthenticated = initialIsAuthenticated || false
+  // Fetch auth state from /api/auth/check
+  useEffect(() => {
+    const checkAuth = async () => {
+      setIsLoading(true)
+      setUserError(null)
+
+      try {
+        const response = await api.get('/api/auth/check')
+        const { isAuthenticated, user: authUser } = response.data
+
+        setIsAuthenticated(isAuthenticated)
+        if (isAuthenticated && authUser) {
+          setUser({
+            id: authUser.id,
+            email: authUser.email || '',
+            name: authUser.name || '',
+            phoneNumber: authUser.phoneNumber,
+            countryCode: authUser.countryCode,
+            role: authUser.role,
+            isAdmin: authUser.isAdmin,
+            isVerified: authUser.isVerified,
+            createdAt: authUser.createdAt
+          })
+        } else {
+          setUser(null)
+        }
+      } catch (error) {
+        console.error('Error checking auth:', error)
+        setUser(null)
+        setUserError('Authentication failed. Please log in again.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    checkAuth()
+  }, [])
 
   // Use useCurrentUser conditionally based on isAuthenticated
   const {
@@ -45,43 +75,21 @@ export function AuthProvider ({
 
   // Sync user state with useCurrentUser, but only if authenticated
   useEffect(() => {
-    const initializeAuth = async () => {
-      setIsLoading(true)
-      setUserError(null)
-
-      try {
-        if (!isAuthenticated) {
-          setUser(null)
-          setIsLoading(false)
-          return
-        }
-
-        // If authenticated, useCurrentUser will fetch the user
-        if (currentUser && !isUserLoading) {
-          setUser({
-            id: currentUser.id,
-            email: currentUser.email,
-            name: currentUser.name,
-            phoneNumber: currentUser.phoneNumber,
-            countryCode: currentUser.countryCode,
-            role: currentUser.role,
-            isAdmin: currentUser.isAdmin,
-            isVerified: currentUser.isVerified,
-            createdAt: currentUser.createdAt
-          })
-        } else if (!currentUser && !isUserLoading) {
-          setUser(null)
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error)
-        setUser(null)
-        setUserError('Authentication failed. Please log in again.')
-      } finally {
-        setIsLoading(false)
-      }
+    if (currentUser && !isUserLoading && isAuthenticated) {
+      setUser({
+        id: currentUser.id,
+        email: currentUser.email,
+        name: currentUser.name,
+        phoneNumber: currentUser.phoneNumber,
+        countryCode: currentUser.countryCode,
+        role: currentUser.role,
+        isAdmin: currentUser.isAdmin,
+        isVerified: currentUser.isVerified,
+        createdAt: currentUser.createdAt
+      })
+    } else if (!currentUser && !isUserLoading) {
+      setUser(null)
     }
-
-    initializeAuth()
   }, [currentUser, isUserLoading, isAuthenticated])
 
   // Handle errors from useCurrentUser
