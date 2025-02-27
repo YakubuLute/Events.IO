@@ -1,15 +1,9 @@
-// src/contexts/auth-context.tsx (with middleware integration)
+// src/contexts/auth-context.tsx
 'use client'
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback
-} from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import { useCurrentUser } from '@/hooks/hooks'
-import { jwtVerify } from 'jose'
+// import { jwtVerify } from 'jose'
 import { IUser } from '@/interface/interface'
 
 interface AuthContextType {
@@ -27,15 +21,13 @@ export function AuthProvider ({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<Partial<IUser> | null>(null)
   const [userError, setUserError] = useState<string | null>(null)
 
-  // Read x-is-authenticated header set by middleware
+  // Read x-is-authenticated from data attribute set by middleware
   const isAuthenticated =
     typeof window !== 'undefined'
-      ? new Headers(
-          document.querySelector('head')?.getAttribute('data-auth') || ''
-        ).get('x-is-authenticated') === 'true'
+      ? document.documentElement.getAttribute('data-authenticated') === 'true'
       : false
 
-  // Use useCurrentUser conditionally based on middleware auth header
+  // Use useCurrentUser conditionally based on middleware auth state
   const {
     data: currentUser,
     isLoading: isUserLoading,
