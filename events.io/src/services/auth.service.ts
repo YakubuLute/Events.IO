@@ -145,7 +145,6 @@ api.interceptors.response.use(
 
       try {
         const { token, refreshToken } = await refreshAccessTokenFn()
-        // No need to set cookies client-side; server handles it via Set-Cookie
 
         // Retry the original request
         const newRequestConfig: AxiosRequestConfig = {
