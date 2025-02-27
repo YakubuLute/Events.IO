@@ -1,4 +1,4 @@
-// src/contexts/auth-context.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import {
@@ -8,7 +8,6 @@ import {
   useEffect,
   useCallback
 } from 'react'
-import { useCurrentUser } from '@/hooks/hooks'
 import { IUser } from '@/interface/interface'
 import api from '@/services/auth.service'
 
@@ -16,96 +15,124 @@ interface AuthContextType {
   user: Partial<IUser> | null
   setUser: (user: Partial<IUser> | null) => void
   isLoading: boolean
+  isAuthenticated: boolean
   userError: string | null
   setUserError: (error: string | null) => void
+  logout: () => Promise<void>
+  refreshUserData: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+// Initial context value to prevent hydration issues
+const initialAuthContext: AuthContextType = {
+  user: null,
+  setUser: () => {},
+  isLoading: true,
+  isAuthenticated: false,
+  userError: null,
+  setUserError: () => {},
+  logout: async () => {},
+  refreshUserData: async () => {}
+}
+
+const AuthContext = createContext<AuthContextType>(initialAuthContext)
 
 export function AuthProvider ({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<Partial<IUser> | null>(null)
   const [userError, setUserError] = useState<string | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      setIsLoading(true)
-      setUserError(null)
+  // Function to fetch user data
+  const fetchUserData = useCallback(async () => {
+    setIsLoading(true)
+    setUserError(null)
 
-      try {
-        const response = await api.get('/auth/check')
-        console.log('Response: ', response)
-        const { isAuthenticated, user: authUser } = response.data
+    try {
+      const response = await api.get('/auth/check')
+      const { isAuthenticated: authStatus, user: authUser } = response.data
 
-        setIsAuthenticated(isAuthenticated)
-        if (isAuthenticated && authUser) {
-          setUser({
-            id: authUser.id,
-            email: authUser.email || '',
-            name: authUser.name || '',
-            phoneNumber: authUser.phoneNumber,
-            countryCode: authUser.countryCode,
-            role: authUser.role,
-            isAdmin: authUser.isAdmin,
-            isVerified: authUser.isVerified,
-            createdAt: authUser.createdAt
-          })
-        } else {
-          setUser(null)
-        }
-      } catch (error) {
-        console.error('Error checking auth:', error)
+      setIsAuthenticated(authStatus)
+
+      if (authStatus && authUser) {
+        setUser({
+          id: authUser.id,
+          email: authUser.email || '',
+          name: authUser.name || '',
+          phoneNumber: authUser.phoneNumber,
+          countryCode: authUser.countryCode,
+          role: authUser.role,
+          isAdmin: authUser.isAdmin,
+          isVerified: authUser.isVerified,
+          createdAt: authUser.createdAt
+        })
+      } else {
         setUser(null)
-        setUserError('Authentication failed. Please log in again.')
-      } finally {
-        setIsLoading(false)
       }
+      return { success: true }
+    } catch (error: any) {
+      console.error('Error checking auth:', error)
+      setUser(null)
+      setIsAuthenticated(false)
+      setUserError(
+        error.message || 'Authentication failed. Please log in again.'
+      )
+      return { success: false, error }
+    } finally {
+      setIsLoading(false)
     }
-
-    checkAuth()
   }, [])
 
-  // Use useCurrentUser conditionally based on isAuthenticated
-  const {
-    data: currentUser,
-    isLoading: isUserLoading,
-    error
-  } = useCurrentUser(isAuthenticated)
+  // Function to refresh user data (can be called after actions that change user state)
+  const refreshUserData = useCallback(async () => {
+    return fetchUserData()
+  }, [fetchUserData])
 
-  // Sync user state with useCurrentUser, but only if authenticated
-  useEffect(() => {
-    if (currentUser && !isUserLoading && isAuthenticated) {
-      setUser({
-        id: currentUser.id,
-        email: currentUser.email,
-        name: currentUser.name,
-        phoneNumber: currentUser.phoneNumber,
-        countryCode: currentUser.countryCode,
-        role: currentUser.role,
-        isAdmin: currentUser.isAdmin,
-        isVerified: currentUser.isVerified,
-        createdAt: currentUser.createdAt
-      })
-    } else if (!currentUser && !isUserLoading) {
+  // Logout function
+  const logout = useCallback(async () => {
+    try {
+      await api.post('/auth/logout')
       setUser(null)
+      setIsAuthenticated(false)
+    } catch (error) {
+      console.error('Logout error:', error)
+      setUserError('Logout failed. Please try again.')
     }
-  }, [currentUser, isUserLoading, isAuthenticated])
+  }, [])
 
-  // Handle errors from useCurrentUser
+  // Effect for initial data fetch - only runs once
   useEffect(() => {
-    if (error) {
-      console.error('Error fetching user data', error)
-      setUserError(error.message)
-      setUser(null) // Clear user on error (e.g., 401 or 400)
-    } else if (!error) {
-      setUserError(null)
+    // Set mounted to true to indicate client-side rendering
+    setMounted(true)
+
+    // Only fetch on client-side to avoid hydration mismatches
+    if (typeof window !== 'undefined') {
+      fetchUserData()
     }
-  }, [error])
+  }, [fetchUserData])
+
+  // If not mounted yet (server-side), return the initial provider
+  // This prevents hydration mismatch errors
+  if (!mounted) {
+    return (
+      <AuthContext.Provider value={initialAuthContext}>
+        {children}
+      </AuthContext.Provider>
+    )
+  }
 
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, setUser, userError, setUserError }}
+      value={{
+        user,
+        setUser,
+        isLoading,
+        isAuthenticated,
+        userError,
+        setUserError,
+        logout,
+        refreshUserData
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -114,7 +141,7 @@ export function AuthProvider ({ children }: { children: React.ReactNode }) {
 
 export function useAuth () {
   const context = useContext(AuthContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context
