@@ -18,7 +18,7 @@ import {
   IconStar,
   IconMapPin
 } from '@tabler/icons-react'
-import classes from './LandingPage.module.css'
+import styles from './landing-main.module.scss'
 
 // Placeholder events data (replace with API call later)
 const placeholderEvents = [
@@ -49,17 +49,17 @@ export default function LandingPage () {
   return (
     <>
       {/* Hero Section */}
-      <div className={classes.hero}>
+      <div className={styles.hero}>
         <Container size='lg' py={100}>
           <Stack align='center' gap='xl'>
-            <Title order={1} className={classes.heroTitle} ta='center'>
+            <Title order={1} className={styles.heroTitle} ta='center'>
               Welcome to Events.IO
             </Title>
             <Text
               size='xl'
               c='dimmed'
               ta='center'
-              className={classes.heroSubtitle}
+              className={styles.heroSubtitle}
             >
               Discover, create, and manage unforgettable events with ease. Join
               thousands of organizers and attendees worldwide!
@@ -88,14 +88,14 @@ export default function LandingPage () {
               shadow='md'
               radius='md'
               padding='xl'
-              className={classes.eventCard}
+              className={styles.eventCard}
             >
               <Card.Section>
                 <Image
                   src={event.image}
                   height={200}
                   alt={event.title}
-                  className={classes.eventImage}
+                  className={styles.eventImage}
                 />
               </Card.Section>
               <Stack gap='sm' mt='md'>
@@ -122,7 +122,7 @@ export default function LandingPage () {
       </Container>
 
       {/* Features Section */}
-      <Container size='lg' py={60} className={classes.featuresSection}>
+      <Container size='lg' py={60} className={styles.featuresSection}>
         <Title order={2} ta='center' mb='xl'>
           Why Choose Events.IO?
         </Title>
@@ -201,7 +201,7 @@ export default function LandingPage () {
 
 /*
 
-export const classes = {
+export const styles = {
   hero: 'bg-gradient-to-r from-purple-500 to-violet-600 text-white',
   heroTitle: 'text-4xl font-bold mb-4',
   heroSubtitle: 'max-w-2xl',
