@@ -10,7 +10,7 @@ import {
 } from 'react'
 import { useCurrentUser } from '@/hooks/hooks'
 import { IUser } from '@/interface/interface'
-import api from '@/services/auth.service' // Your Axios instance
+import api from '@/services/auth.service'
 
 interface AuthContextType {
   user: Partial<IUser> | null
@@ -28,14 +28,14 @@ export function AuthProvider ({ children }: { children: React.ReactNode }) {
   const [userError, setUserError] = useState<string | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  // Fetch auth state from /api/auth/check
   useEffect(() => {
     const checkAuth = async () => {
       setIsLoading(true)
       setUserError(null)
 
       try {
-        const response = await api.get('/api/auth/check')
+        const response = await api.get('/auth/check')
+        console.log('Response: ', response)
         const { isAuthenticated, user: authUser } = response.data
 
         setIsAuthenticated(isAuthenticated)

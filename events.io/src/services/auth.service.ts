@@ -7,7 +7,7 @@ import axios, {
   AxiosRequestConfig
 } from 'axios'
 
-// Extend AxiosRequestConfig to include skipAuthRefresh
+// Extending AxiosRequestConfig to include skipAuthRefresh
 declare module 'axios' {
   interface AxiosRequestConfig {
     skipAuthRefresh?: boolean
@@ -63,10 +63,10 @@ const logger: Logger = {
 
 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-// Create the API instance with type safety
+// Create an API instance with type safety
 const api: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, // Ensures cookies (including HttpOnly) are sent with requests
+  withCredentials: true, 
   headers: {
     Accept: 'application/json',
     'User-Timezone': userTimezone
@@ -142,8 +142,6 @@ api.interceptors.response.use(
       originalRequest._retry = true
 
       try {
-        const { token, refreshToken } = await refreshAccessTokenFn()
-        // No need to set cookies client-side; server handles it via Set-Cookie
 
         // Retry the original request
         const newRequestConfig: AxiosRequestConfig = {

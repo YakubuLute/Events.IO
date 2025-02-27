@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from 'next'
 import { Notifications } from '@mantine/notifications'
 import './globals.css'
@@ -13,16 +12,13 @@ import {
 import { theme } from '../../theme'
 import QueryProvider from '@/contexts/queryProvider'
 import { AuthProvider } from '@/contexts/authContext'
-import { headers } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'Events.IO',
   description: 'An event management app built by LtECH'
 }
 
-export default function RootLayout ({ children }: { children: ReactNode }) {
-  const headersList = headers()
-  const isAuthenticated = headersList.get('x-is-authenticated') === 'true'
+export default  function RootLayout ({ children }: { children: ReactNode }) {
 
   return (
     <html lang='en' {...mantineHtmlProps}>
