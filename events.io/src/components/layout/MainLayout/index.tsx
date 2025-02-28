@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import Header from '../Header'
-import SideBar from '../SideBar/SideBar'
+// import Header from '../Header'
+// import SideBar from '../SideBar/SideBar'
 
 interface Props {
   children: React.ReactNode

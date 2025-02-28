@@ -1,25 +1,29 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from 'next'
-// import { Geist, Geist_Mono } from 'next/font/google'
-import { Notifications } from '@mantine/notifications'
-
+import './globals.css'
 import '@mantine/core/styles.css'
 
-import React from 'react'
+import React, { ReactNode } from 'react'
 import {
   ColorSchemeScript,
-  mantineHtmlProps,
-  MantineProvider
+  MantineProvider,
+  mantineHtmlProps
 } from '@mantine/core'
 import { theme } from '../../theme'
-import HeaderProvider from '@/contexts/headerContext'
+import QueryProvider from '@/contexts/queryProvider'
+import { AuthProvider } from '@/contexts/authContext'
 
 export const metadata: Metadata = {
-  title: 'Events.IO',
-  description: 'An event management app built by LtECH'
+  title: 'Events.IO - Discover Unforgettable Events',
+  description:
+    'Join Events.IO to create, manage, and discover events worldwide.',
+  openGraph: {
+    title: 'Events.IO',
+    description: 'Event management made easy.',
+    images: ['/og-image.jpg']
+  }
 }
 
-export default function RootLayout ({ children }: { children: any }) {
+export default function RootLayout ({ children }: { children: ReactNode }) {
   return (
     <html lang='en' {...mantineHtmlProps}>
       <head>
@@ -32,11 +36,11 @@ export default function RootLayout ({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <HeaderProvider>
-            <Notifications />
-
-            {children}
-          </HeaderProvider>
+          <React.StrictMode>
+            <QueryProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </QueryProvider>
+          </React.StrictMode>
         </MantineProvider>
       </body>
     </html>

@@ -1,69 +1,139 @@
+// components/Header.tsx
 'use client'
 
-import React from 'react'
-// next navigation
-import { useRouter } from 'next/navigation'
-// MUI imports
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import { Stack } from '@mui/material'
+import React, { useMemo } from 'react'
+// import { useRouter } from 'next/navigation'
+import {
+  Box,
+  Container,
+  Group,
+  Button,
+  Text,
+  Drawer,
+  Stack
+} from '@mantine/core'
+import { IconMenu2 } from '@tabler/icons-react'
+import { useAuth } from '@/contexts/authContext'
+import { useDisclosure } from '@mantine/hooks'
+import classes from './header.module.scss'
 
-import styles from './header.module.scss'
-import { useHeaderContext } from '@/contexts/headerContext'
-import Menu from '@/components/shared/icons/menu'
+const HeaderComponent = () => {
+  // const router = useRouter()
+  const { user, logout } = useAuth()
+  const [opened, { toggle, close }] = useDisclosure()
 
-// mantime UI
-import { Button } from '@mantine/core'
-
-const Header = () => {
-  const { screenSize } = useHeaderContext()
-  const { sideBarOpen } = useHeaderContext()
-  const isLargeScreen = screenSize === 'desktop'
-
-  const navigate = useRouter()
-  // const userType = userDecoded?.userType;
-  // const user = getCurrentUser()
-
-  const navItemsComponent = (
-    <div className={styles.home_login_button}>
-      <Button
-        onClick={() => {
-          navigate.push('/auth/login')
-        }}
-      >
-        Login
-      </Button>
-
-      <Menu />
-    </div>
-  )
-  const logoAndMobileComponent = (
-    <Stack
-      direction='row'
-      display={{ sx: 'flex', xl: '' }}
-      width={{ xxl: '240px' }}
-      spacing={2}
-    ></Stack>
-  )
+  // Memoizing navigation items to prevent unnecessary re-renders
+  const navItems = useMemo(() => {
+    if (user) {
+      return (
+        <>
+          <Button
+            component='a'
+            href='/dashboard'
+            variant='subtle'
+            color='yellow'
+            radius='md'
+            className={classes.navLink}
+          >
+            Dashboard
+          </Button>
+          <Button
+            onClick={() => {
+              logout()
+              close()
+            }}
+            variant='filled'
+            color='yellow'
+            radius='md'
+            className={classes.navLink}
+          >
+            Logout
+          </Button>
+        </>
+      )
+    } else {
+      return (
+        <>
+          <Button
+            component='a'
+            href='/auth/login'
+            variant='subtle'
+            color='yellow'
+            radius='md'
+            className={classes.navLink}
+          >
+            Login
+          </Button>
+          <Button
+            component='a'
+            href='/auth/register'
+            variant='filled'
+            color='yellow'
+            radius='md'
+            className={classes.navLink}
+          >
+            Register
+          </Button>
+        </>
+      )
+    }
+  }, [user, logout, close])
 
   return (
-    <AppBar
-      color='inherit'
-      component='header'
-      // position="sticky"
-      classes={{ root: styles.header_container }}
-      sx={{
-        boxShadow: 'none',
-        top: 0,
-        position: { xs: 'sticky', xl: 'fixed' }
-      }}
-    >
-      <Toolbar classes={{ root: styles.header_toolbar }}>
-        <>{logoAndMobileComponent}</>
-        <>{navItemsComponent}</>
-      </Toolbar>
-    </AppBar>
+    <>
+      <Box h={60} bg='dark' className={classes.header}>
+        <Container size='lg' className={classes.container}>
+          <Group justify='space-between' align='center' h='100%'>
+            <Text
+              component='a'
+              href='/'
+              className={classes.logo}
+              fw={700}
+              size='xl'
+              c='yellow'
+            >
+              Events.IO
+            </Text>
+
+            {/* Desktop Navigation Links */}
+            <Group gap='md' visibleFrom='sm'>
+              {navItems}
+            </Group>
+
+            {/* Mobile Menu Toggle (Hidden on desktop) */}
+            <Box visibleFrom='xs' hiddenFrom='sm'>
+              <Button
+                variant='subtle'
+                color='yellow'
+                radius='md'
+                leftSection={<IconMenu2 size={18} />}
+                onClick={toggle}
+                className={classes.mobileMenu}
+              >
+                Menu
+              </Button>
+            </Box>
+          </Group>
+        </Container>
+      </Box>
+
+      {/* Mobile Drawer Menu */}
+      <Drawer
+        opened={opened}
+        onClose={close}
+        position='right'
+        title={
+          <Text c='yellow' fw={700}>
+            Menu
+          </Text>
+        }
+        overlayProps={{ blur: 3 }}
+        zIndex={1001}
+      >
+        <Stack gap='md'>{navItems}</Stack>
+      </Drawer>
+    </>
   )
 }
 
-export default Header
+export default HeaderComponent

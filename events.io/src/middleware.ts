@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextResponse } from 'next/server'
-import { type NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
-// import User from '@/models/models'
-import connectDB from '@/lib/mongoose'
 
-// Define route access rules
 const routeRules = {
-  public: ['/login', '/register', '/forgot-password', '/'],
-  static: ['/favicon.ico', '/_next/static', '/_next/image'],
+  public: [
+    '/auth/login',
+    '/auth/register',
+    '/auth/forgot-password',
+    '/auth/reset-password',
+    '/'
+  ],
+  static: ['/favicon.ico', '/_next/static', '/_next/image', '/api/auth/check'],
   organizerOnly: ['/dashboard/events/create', '/dashboard/events/[id]/edit'],
   adminOnly: ['/admin', '/admin/users']
 }
 
-// Utility to check if a path matches a route or pattern
 const matchesRoute = (pathname: string, routes: string[]) =>
   routes.some(route => {
     if (route.includes('[id]')) {
@@ -23,79 +24,90 @@ const matchesRoute = (pathname: string, routes: string[]) =>
     return pathname === route || pathname.startsWith(route)
   })
 
+interface TokenPayload {
+  userId: string
+  role?: string
+  [key: string]: any
+}
+
 export async function middleware (request: NextRequest) {
   const { pathname } = request.nextUrl
-  // await connectDB() // connect to mongodb
+
+  // Skip middleware for API routes to prevent conflicts with client-side auth
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
 
   // Skip static routes
   if (matchesRoute(pathname, routeRules.static)) {
     return NextResponse.next()
   }
 
-  // Get token from cookies
-  const token = request.cookies.get('auth-token')?.value
+  // Get auth-token from cookies
+  const authToken = request.cookies.get('auth-token')?.value
 
-  // Verify token and get user data
-  const userPayload = token ? await verifyToken(token) : null
-  const isAuthenticated = !!userPayload
+  // Verify token server-side (minimal validation)
+  let userPayload: TokenPayload | null = null
+  let isAuthenticated = false
 
-  // Fetch user from DB if authenticated (optional, for role check)
-  let user = null
-  // if (isAuthenticated && userPayload?.userId) {
-  //   user = await User.findById(userPayload.userId).select('role')
-  // }
-
-  // Public routes: redirect authenticated users to dashboard
-  if (matchesRoute(pathname, routeRules.public)) {
-    if (isAuthenticated) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
+  if (authToken) {
+    try {
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
+      const { payload } = await jwtVerify(authToken, secret)
+      userPayload = payload as TokenPayload
+      isAuthenticated = !!userPayload.userId
+    } catch (error: any) {
+      console.error('Token verification failed:', error.code || error.message)
+      // Don't clear cookies here - let API handle token refreshing
     }
-    return NextResponse.next()
+  }
+
+  // Create response
+  const response = NextResponse.next()
+
+  // Set headers for downstream use only (not for client-side access)
+  // These are safe to expose since they don't contain sensitive data
+  response.headers.set('x-is-authenticated', isAuthenticated.toString())
+  if (isAuthenticated && userPayload?.userId) {
+    response.headers.set('x-user-id', userPayload.userId)
+    response.headers.set('x-user-role', userPayload?.role || '')
+  }
+
+  // Public routes: allow access regardless of authentication
+  if (matchesRoute(pathname, routeRules.public)) {
+    return response
   }
 
   // If not authenticated and not a public route, redirect to login
   if (!isAuthenticated) {
-    const loginUrl = new URL('/login', request.url)
+    const loginUrl = new URL('/auth/login', request.url)
     loginUrl.searchParams.set('from', pathname)
     return NextResponse.redirect(loginUrl)
   }
 
-  // Role-based access control
-  const role = user?.role || userPayload?.role // Fallback to payload if no DB fetch
+  // Role-based access control (use token payload)
+  const role = userPayload?.role
+
   if (
     matchesRoute(pathname, routeRules.organizerOnly) &&
     role !== 'organizer' &&
     role !== 'admin'
   ) {
-    return NextResponse.redirect(new URL('/dashboard', request.url)) // Or 403 page
+    // Redirect to dashboard instead of returning 403 JSON for better UX
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
+
   if (matchesRoute(pathname, routeRules.adminOnly) && role !== 'admin') {
-    return NextResponse.redirect(new URL('/dashboard', request.url)) // Or 403 page
+    // Redirect to dashboard instead of returning 403 JSON for better UX
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
-  // Attach user data to request headers for API routes or pages
-  const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-user-id', userPayload?.userId || '')
-  requestHeaders.set('x-user-role', role || '')
-
-  return NextResponse.next({ request: { headers: requestHeaders } })
+  return response
 }
 
-async function verifyToken (token: string) {
-  try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
-    const { payload } = await jwtVerify(token, secret)
-    return payload as { userId: string; role?: string; [key: string]: any }
-  } catch (error) {
-    console.error('Token verification failed:', error)
-    return null
-  }
-}
-
-// Configure matcher
 export const config = {
   matcher: [
     // Apply to all routes except specific exclusions
-    '/((?!api/auth|_next/static|_next/image|favicon.ico).*)'
+    '/((?!_next/static|_next/image|favicon.ico).*)'
   ]
 }

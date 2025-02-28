@@ -1,5 +1,5 @@
 // src/models/models.ts
-import mongoose, { Schema, model, Model } from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 import {
   IUser,
   IEvent,
@@ -18,7 +18,7 @@ import {
   ITokenSchema
 } from '@/interface/interface'
 import { UserRole } from '@/enums/shared'
-import connectDB from '@/lib/mongoose'
+
 
 // User Schema
 const UserSchema = new Schema<IUser>(

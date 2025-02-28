@@ -1,3 +1,4 @@
+// 'use server'
 // import mongoose from 'mongoose'
 
 // const MONGODB_URI = process.env.MONGODB_URI
@@ -30,44 +31,19 @@
 // export default connectDB
 
 import mongoose from 'mongoose'
-declare global {
-  var mongoose: any
-}
 
-let cached = global.mongoose
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null }
-}
-
-async function connectDB () {
-  const MONGODB_URI = process.env.MONGODB_URI!
-
-  if (!MONGODB_URI) {
-    throw new Error(
-      'Please define the MONGODB_URI environment variable inside .env.local'
-    )
-  }
-
-  if (cached.conn) {
-    return cached.conn
-  }
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false
-    }
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then(mongoose => {
-      return mongoose
-    })
-  }
+const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) return // Already connected
   try {
-    cached.conn = await cached.promise
-  } catch (e) {
-    cached.promise = null
-    throw e
+    await mongoose.connect(process.env.MONGODB_URI!, {
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true
+    })
+    console.log('MongoDB connected successfully')
+  } catch (error) {
+    console.error('MongoDB connection error:', error)
+    throw new Error('Failed to connect to MongoDB')
   }
-
-  return cached.conn
 }
 
 export default connectDB

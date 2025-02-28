@@ -8,7 +8,7 @@ class EventService {
       user: IUser
       token: string
       refreshToken: string
-    }>('/auth/signup', userData)
+    }>('/auth/register', userData)
     return response.data
   }
   async signin (credentials: {
@@ -34,6 +34,19 @@ class EventService {
     return response.data
   }
 
+  async refreshToken () {
+    // No need to pass refreshToken in the body; it’s sent via cookies with withCredentials: true
+    const response = await api.post<{
+      token: string
+      refreshToken: string
+    }>('/auth/refresh', {}) // Empty body, relies on cookie
+    return response.data
+  }
+
+  async logout () {
+    const response = await api.post<{ message: string }>('/auth/logout')
+    return response.data
+  }
   async createEvent (eventData: Partial<IEvent>) {
     const response = await api.post<IEvent>('/events/create', eventData)
     return response.data
