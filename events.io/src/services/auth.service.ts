@@ -28,10 +28,10 @@ interface TokenResponse {
 }
 
 // Custom config with our additional properties
-interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
-  _retry?: boolean
-  skipAuthRefresh?: boolean
-}
+// interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
+//   _retry?: boolean
+//   skipAuthRefresh?: boolean
+// }
 
 // For use in interceptors
 interface InternalExtendedAxiosRequestConfig

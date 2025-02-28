@@ -12,9 +12,7 @@ export default function LandingComponent () {
     <Box className={styles.mainLandingWrapper}>
       <Header />
       <Box className='min-h-screen md:min-h-[100vh] flex flex-col'>
-        <Container className='max-w-[1208px]'>
-          <LandingMain />
-        </Container>
+        <LandingMain />
         <Footer />
       </Box>
     </Box>

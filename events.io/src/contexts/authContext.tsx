@@ -122,8 +122,6 @@ export function AuthProvider ({ children }: { children: React.ReactNode }) {
     }
   }, [fetchUserData])
 
-  // If not mounted yet (server-side), return the initial provider
-  // This prevents hydration mismatch errors
   if (!mounted) {
     return (
       <AuthContext.Provider value={initialAuthContext}>
