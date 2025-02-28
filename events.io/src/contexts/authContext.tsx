@@ -111,6 +111,17 @@ export function AuthProvider ({ children }: { children: React.ReactNode }) {
     }
   }, [fetchUserData])
 
+  useEffect(() => {
+    console.log('AuthProvider mounted, fetching user data...')
+    setMounted(true)
+
+    if (typeof window !== 'undefined') {
+      fetchUserData().then(result => {
+        console.log('Auth data fetched:', result)
+      })
+    }
+  }, [fetchUserData])
+
   // If not mounted yet (server-side), return the initial provider
   // This prevents hydration mismatch errors
   if (!mounted) {

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Notifications } from '@mantine/notifications'
 import './globals.css'
 import '@mantine/core/styles.css'
 
@@ -18,8 +17,7 @@ export const metadata: Metadata = {
   description: 'An event management app built by LtECH'
 }
 
-export default  function RootLayout ({ children }: { children: ReactNode }) {
-
+export default function RootLayout ({ children }: { children: ReactNode }) {
   return (
     <html lang='en' {...mantineHtmlProps}>
       <head>
@@ -34,11 +32,7 @@ export default  function RootLayout ({ children }: { children: ReactNode }) {
         <MantineProvider theme={theme}>
           <React.StrictMode>
             <QueryProvider>
-              <AuthProvider>
-                <Notifications position='top-right' zIndex={1000}>
-                  {children}
-                </Notifications>
-              </AuthProvider>
+              <AuthProvider>{children}</AuthProvider>
             </QueryProvider>
           </React.StrictMode>
         </MantineProvider>
