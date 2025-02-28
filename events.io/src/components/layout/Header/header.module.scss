@@ -1,10 +1,18 @@
-/* components/Header.module.css */
 .header {
   transition: box-shadow 0.3s ease;
-}
+  position: sticky; // Default to sticky for mobile (xs)
+  top: 0;
+  z-index: 1000;
+  box-shadow: none;
 
-.header:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  // Media query for desktop (xl and up) to use fixed positioning
+  @media (min-width: 1280px) { // xl breakpoint in Mantine (1280px default)
+    position: fixed;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .container {
@@ -16,25 +24,25 @@
 .logo {
   cursor: pointer;
   transition: color 0.3s ease;
-}
 
-.logo:hover {
-  color: #ffcc00; /* Slightly lighter yellow for hover */
+  &:hover {
+    color: #ffcc00; /* Slightly lighter yellow for hover */
+  }
 }
 
 .navLink {
   transition: background-color 0.3s ease, color 0.3s ease;
-}
 
-.navLink:hover {
-  background-color: #ffcc00 !important; /* Lighter yellow on hover */
-  color: #1a1a1a !important; /* Dark text for contrast */
+  &:hover {
+    background-color: #ffcc00 !important; /* Lighter yellow on hover */
+    color: #1a1a1a !important; /* Dark text for contrast */
+  }
 }
 
 .mobileMenu {
   transition: background-color 0.3s ease;
-}
 
-.mobileMenu:hover {
-  background-color: #ffcc00 !important; /* Lighter yellow on hover */
+  &:hover {
+    background-color: #ffcc00 !important; /* Lighter yellow on hover */
+  }
 }

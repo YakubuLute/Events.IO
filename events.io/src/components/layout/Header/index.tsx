@@ -2,31 +2,27 @@
 'use client'
 
 import React, { useMemo } from 'react'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import {
-  Header, // Corrected from MantineHeader to Header
+  Box,
   Container,
   Group,
   Button,
   Text,
-  Box
+  Drawer,
+  Stack
 } from '@mantine/core'
-import {
-  IconMenu2,
-  IconBrandFacebook,
-  IconBrandTwitter,
-  IconBrandInstagram
-} from '@tabler/icons-react'
+import { IconMenu2 } from '@tabler/icons-react'
 import { useAuth } from '@/contexts/authContext'
-import { useDisclosure } from '@mantine/hooks' // Imported from @mantine/hooks
-import classes from './Header.module.css' // Optional CSS module for custom styling
+import { useDisclosure } from '@mantine/hooks'
+import classes from './header.module.scss'
 
 const HeaderComponent = () => {
-  const router = useRouter()
+  // const router = useRouter()
   const { user, logout } = useAuth()
-  const [opened, { toggle, close }] = useDisclosure(false) // Using useDisclosure from @mantine/hooks
+  const [opened, { toggle, close }] = useDisclosure()
 
-  // Memoize navigation items to prevent unnecessary re-renders
+  // Memoizing navigation items to prevent unnecessary re-renders
   const navItems = useMemo(() => {
     if (user) {
       return (
@@ -85,20 +81,9 @@ const HeaderComponent = () => {
 
   return (
     <>
-      <Header // Corrected to Header (from @mantine/core)
-        height={60}
-        bg='dark'
-        className={classes.header}
-        sx={{
-          position: { xs: 'sticky', xl: 'fixed' },
-          top: 0,
-          zIndex: 1000,
-          boxShadow: 'none'
-        }}
-      >
+      <Box h={60} bg='dark' className={classes.header}>
         <Container size='lg' className={classes.container}>
           <Group justify='space-between' align='center' h='100%'>
-            {/* Logo/Brand (Text-based, matching Organic Design template) */}
             <Text
               component='a'
               href='/'
@@ -130,7 +115,7 @@ const HeaderComponent = () => {
             </Box>
           </Group>
         </Container>
-      </Header>
+      </Box>
 
       {/* Mobile Drawer Menu */}
       <Drawer
@@ -151,4 +136,4 @@ const HeaderComponent = () => {
   )
 }
 
-export default HeaderComponent // Renamed to avoid naming conflicts (optional, but recommended)
+export default HeaderComponent
