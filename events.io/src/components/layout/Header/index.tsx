@@ -56,7 +56,7 @@ const HeaderComponent = () => {
         <>
           <Button
             component='a'
-            href='/login'
+            href='/auth/login'
             variant='subtle'
             color='yellow'
             radius='md'
@@ -66,7 +66,7 @@ const HeaderComponent = () => {
           </Button>
           <Button
             component='a'
-            href='/register'
+            href='/auth/register'
             variant='filled'
             color='yellow'
             radius='md'

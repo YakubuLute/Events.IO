@@ -2,11 +2,16 @@
   transition: box-shadow 0.3s ease;
   position: sticky; // Default to sticky for mobile (xs)
   top: 0;
+  display: flex;
+  flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   z-index: 1000;
   box-shadow: none;
+  width: 100%;
 
   // Media query for desktop (xl and up) to use fixed positioning
-  @media (min-width: 1280px) { // xl breakpoint in Mantine (1280px default)
+  @media (min-width: 1280px) { 
     position: fixed;
   }
 
