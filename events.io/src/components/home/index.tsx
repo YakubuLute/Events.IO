@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Box, Container } from '@mantine/core'
+import { Box } from '@mantine/core'
 import Header from '@/components/layout/Header/'
 import styles from './landing.module.scss'
 import LandingMain from './main'
