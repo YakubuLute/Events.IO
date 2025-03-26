@@ -10,7 +10,6 @@ import {
   Group, 
   Avatar, 
   Paper, 
-  Grid, 
   Card, 
   Image, 
   Button,
@@ -30,10 +29,11 @@ import {
 } from '@tabler/icons-react'
 import styles from './event-detail.module.scss'
 import { IEvent } from '../../../interface/interface'
+import PageLoader from '@/components/shared/page-loader'
 
 // Mock data for development
 const mockEvent: IEvent = {
-  _id: '1' as any,
+  _id: '1' as string,
   title: 'Tech Conference 2025',
   description: 'Join us for the biggest tech conference of the year. Learn from industry experts, network with peers, and discover the latest innovations in technology.',
   category: ['Technology', 'Conference', 'Networking'],
@@ -55,7 +55,7 @@ const mockEvent: IEvent = {
   } as any,
   ticketTypes: [
     {
-      _id: '1' as any,
+      _id: '1' as string,
       name: 'Regular',
       price: 99.99,
       quantity: 500,
@@ -77,7 +77,7 @@ const mockEvent: IEvent = {
     timezone: 'America/New_York',
     sessions: [
       {
-        _id: '1' as any,
+        _id: '1' as string,
         title: 'Opening Keynote',
         description: 'Welcome address and keynote speech',
         startTime: new Date('2025-06-15T09:30:00'),
@@ -103,12 +103,12 @@ const mockEvent: IEvent = {
   status: 'published',
   visibility: 'public',
   capacity: 600,
-  attendees: [] as any[],
+  attendees: [] as string[],
   attendeeCount: 175,
   checkInStats: {
     totalCheckedIn: 0
   },
-  checkInList: [] as any[],
+  checkInList: [] as string[],
   totalRevenue: 15000,
   createdAt: new Date('2024-01-15'),
   updatedAt: new Date('2024-02-20'),
@@ -192,7 +192,7 @@ export default function EventDetails() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <PageLoader />;
   }
 
   if (!event) {

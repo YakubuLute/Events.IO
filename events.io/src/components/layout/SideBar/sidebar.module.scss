@@ -1,9 +1,14 @@
 .sidebar {
   background-color: #f9f9f9;
-  width: 370px;
-  height: 100%;
+  width: 300px;
+  height: calc(100vh - 60px); /* Subtract header height */
   padding: 20px;
-  border-radius: 8px;
+  border-right: 1px solid #eaeaea;
+  position: fixed;
+  top: 60px; /* Position below header */
+  left: 0;
+  overflow-y: auto;
+  z-index: 100;
 }
 
 .title {
@@ -135,11 +140,20 @@
 }
 
 .content {
-  flex: 1;
   padding: 20px;
+  margin-left: 300px; /* Same as sidebar width */
+  min-height: calc(100vh - 60px); /* Subtract header height */
+  width: calc(100% - 300px);
 }
 
 .layout {
   display: flex;
+  min-height: calc(100vh - 60px); /* Subtract header height */
+  margin-top: 60px; /* Add header height as margin */
+  width: 100%;
+}
+
+.layoutContainer {
   min-height: 100vh;
+  width: 100%;
 }

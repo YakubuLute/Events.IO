@@ -1,24 +1,55 @@
+// components/Header.tsx
 'use client'
 
 import React from 'react'
-import { Button, Group } from '@mantine/core'
-import Link from 'next/link'
+import { Box, Container, Button, Text, Avatar } from '@mantine/core'
+import { useAuth } from '@/contexts/authContext'
 import classes from './header.module.scss'
 
-export default function Header() {
+const HeaderComponent = () => {
+  const { user } = useAuth()
+
   return (
-    <header className={classes.header}>
-      <div className={classes.container}>
-        <Link href="/" className={classes.logo}>
-          Events.IO
-        </Link>
-        
-        <Group gap="md">
-          <Button variant="outline" component={Link} href="/login">
-            Login
-          </Button>
-        </Group>
-      </div>
-    </header>
+    <Box className={classes.header}>
+      <Container size='lg' className={classes.container}>
+        <div className={classes.innerContainer}>
+          <Text
+            component='a'
+            href='/'
+            className={classes.logo}
+            fw={700}
+            size='xl'
+          >
+            Events.IO
+          </Text>
+
+          {user ? (
+            <Avatar
+              src={user.photoURL || null}
+              alt={user.displayName || 'User'}
+              color="blue"
+              radius="xl"
+              className={classes.avatar}
+              component='a'
+              href='/dashboard'
+            >
+              {!user.photoURL && (user.displayName?.[0] || 'U')}
+            </Avatar>
+          ) : (
+            <Button
+              component='a'
+              href='/auth/login'
+              variant='filled'
+              radius='sm'
+              className={classes.loginButton}
+            >
+              Login
+            </Button>
+          )}
+        </div>
+      </Container>
+    </Box>
   )
 }
+
+export default HeaderComponent
