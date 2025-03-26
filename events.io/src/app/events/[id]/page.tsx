@@ -29,6 +29,7 @@ import {
 } from '@tabler/icons-react'
 import styles from './event-detail.module.scss'
 import { IEvent } from '../../../interface/interface'
+import { IVideo } from '../../../interface/video-interface'
 import PageLoader from '@/components/shared/page-loader'
 import { mockEvent } from '@/data/event-data'
 import NotFound from '@/components/shared/not-found/not-found'
@@ -42,10 +43,20 @@ export default function EventDetails() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeTab, setActiveTab] = useState<string | null>('details');
 
+  // Define types for media items
+  type ImageItem = {
+    type: 'image';
+    url: string;
+  };
+
+  type VideoItem = IVideo;
+
+  type MediaItem = ImageItem | VideoItem;
+
   // Combine images and videos for the slider
-  const mediaItems = event ? [
-    ...(event.images || []).map(img => ({ type: 'image', url: img })),
-    ...(event.videos || []).map(video => ({ type: 'video', ...video }))
+  const mediaItems: MediaItem[] = event ? [
+    ...(event.images || []).map(img => ({ type: 'image', url: img } as ImageItem)),
+    ...(event.videos || [])
   ] : [];
 
   // Format date
@@ -80,6 +91,7 @@ export default function EventDetails() {
   useEffect(() => {
     //TODO: In a real app, fetch data from API
     // For now, use mock data
+    console.log("Mock data", mockEvent);
     setEvent(mockEvent);
     setLoading(false);
   }, [id]);
@@ -123,26 +135,19 @@ export default function EventDetails() {
                   alt={`Event image ${index + 1}`}
                   className={styles.slideImage}
                 />
-              ) : item.type === 'video' && item.type === 'youtube' ? (
-                <div className={styles.videoSlide}>
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.title || `Video ${index + 1}`}
-                    className={styles.slideImage}
-                  />
-                  <div className={styles.videoOverlay}>
-                    <IconBrandYoutube size={48} className={styles.videoIcon} />
-                  </div>
-                </div>
               ) : (
                 <div className={styles.videoSlide}>
                   <Image
-                    src={item.thumbnail}
-                    alt={item.title || `Video ${index + 1}`}
+                    src={'thumbnail' in item ? item.thumbnail : ''}
+                    alt={'title' in item ? item.title : `Video ${index + 1}`}
                     className={styles.slideImage}
                   />
                   <div className={styles.videoOverlay}>
-                    <IconPlayerPlay size={48} className={styles.videoIcon} />
+                    {item.type === 'youtube' ? (
+                      <IconBrandYoutube size={48} className={styles.videoIcon} />
+                    ) : (
+                      <IconPlayerPlay size={48} className={styles.videoIcon} />
+                    )}
                   </div>
                 </div>
               )}

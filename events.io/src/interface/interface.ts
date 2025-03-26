@@ -67,7 +67,7 @@ export interface ITokenSchema extends Document {
 
 // Event interface
 export interface IEvent extends Document {
-  videos: string[]
+  videos: IVideo[]
   _id: Schema.Types.ObjectId
   title: string
   description: string
@@ -94,6 +94,14 @@ export interface IEvent extends Document {
   cancellation?: ICancellation
   settings: IEventSettings
   reviews?: IReview[]
+}
+
+// Video interface
+export interface IVideo {
+  type: string
+  url: string
+  thumbnail: string
+  title: string
 }
 
 // Ticket type interface
