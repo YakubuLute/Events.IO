@@ -1,0 +1,131 @@
+@import '../../../scss/variables';
+
+.eventCard {
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    
+    .eventImage {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.imageContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.eventImage {
+  transition: transform 0.5s ease;
+  object-fit: cover;
+  width: 100%;
+}
+
+.statusBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+}
+
+.dateChip {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: $white;
+  border-radius: 8px;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  min-width: 40px;
+  text-align: center;
+}
+
+.dateDay {
+  color: $primary-color;
+  line-height: 1;
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.dateMonth {
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1;
+  font-size: 12px;
+}
+
+.eventTitle {
+  margin-top: 16px;
+  color: $dark;
+  transition: color 0.2s ease;
+  
+  .eventCard:hover & {
+    color: $primary-color;
+  }
+}
+
+.eventDescription {
+  margin-top: 8px;
+  flex-grow: 1;
+}
+
+.eventDetails {
+  margin-top: 8px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.price {
+  color: $primary-color;
+}
+
+// Empty state styles
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 12px;
+  box-shadow: $box-shadow;
+}
+
+.emptyIcon {
+  color: $light-secondary-color;
+  margin-bottom: 24px;
+}
+
+.emptyTitle {
+  color: $dark;
+  margin-bottom: 12px;
+}
+
+.emptyText {
+  color: $grayTextColor;
+  max-width: 400px;
+  margin: 0 auto 24px;
+}
+
+// Events grid
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
