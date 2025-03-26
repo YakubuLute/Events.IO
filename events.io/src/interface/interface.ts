@@ -41,7 +41,7 @@ export interface IUser extends Document {
   firstName?: string
   lastName?: string
   address?: string
-  
+
   street?: string
   apartment?: string
   city?: string
@@ -67,6 +67,7 @@ export interface ITokenSchema extends Document {
 
 // Event interface
 export interface IEvent extends Document {
+  videos: string[]
   _id: Schema.Types.ObjectId
   title: string
   description: string
