@@ -67,7 +67,7 @@ export const EventCard: FC<EventCardProps> = ({ event }) => {
       <Card.Section>
         <div className={styles.imageContainer}>
           <Image
-            src={ "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"|| event.bannerImage || event.images[0]}
+            src={ "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" ?? (event.bannerImage || event.images[0])}
             height={200}
             alt={event.title}
             className={styles.eventImage}
