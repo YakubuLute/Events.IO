@@ -2,7 +2,7 @@
 'use client'
 
 import React from 'react'
-import { Box, Container, Group, Button, Text, Avatar } from '@mantine/core'
+import { Box, Container, Button, Text, Avatar } from '@mantine/core'
 import { useAuth } from '@/contexts/authContext'
 import classes from './header.module.scss'
 
@@ -12,7 +12,7 @@ const HeaderComponent = () => {
   return (
     <Box className={classes.header}>
       <Container size='lg' className={classes.container}>
-        <Group justify='space-between' align='center' h='100%' w='100%'>
+        <div className={classes.innerContainer}>
           <Text
             component='a'
             href='/'
@@ -46,7 +46,7 @@ const HeaderComponent = () => {
               Login
             </Button>
           )}
-        </Group>
+        </div>
       </Container>
     </Box>
   )

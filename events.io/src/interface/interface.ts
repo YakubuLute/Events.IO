@@ -18,6 +18,7 @@ export interface TokenPayload {
 // User interface
 export interface IUser extends Document {
   id?: Schema.Types.ObjectId
+  
   name: string
   email: string
   passwordHash: string
@@ -35,6 +36,12 @@ export interface IUser extends Document {
   verifyToken?: string
   verificationTokenExpiration?: Date
   phoneNumber: string
+  photoURL?: string
+  displayName?: string
+  firstName?: string
+  lastName?: string
+  address?: string
+  
   street?: string
   apartment?: string
   city?: string
