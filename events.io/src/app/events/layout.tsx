@@ -3,6 +3,5 @@ export default function EventsLayout ({
 }: {
   children: React.ReactNode
 }) {
-  console.log('Events layout rendering...')
   return <>{children}</>
 }

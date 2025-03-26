@@ -1,6 +1,6 @@
 'use client'
 
-import classes from './landing-main.module.scss'
+// import classes from './landing-main.module.scss'
 import { EventsCard } from './EventsCard'
 import { IEvent } from '../../../interface/interface'
 
@@ -171,10 +171,6 @@ const mockEvents: MockEvent[] = [
 export default function LandingPage() {
   return (
     <>
-      {/* 
-        Use type assertion to tell TypeScript that our mock events 
-        are compatible with what EventsCard expects 
-      */}
       <EventsCard events={mockEvents as unknown as IEvent[]} />
     </>
   )

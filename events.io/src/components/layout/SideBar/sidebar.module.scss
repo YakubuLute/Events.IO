@@ -1,0 +1,114 @@
+.sidebar {
+  background-color: #f9f9f9;
+  width: 370px;
+  height: 100%;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.searchContainer {
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  
+  &::placeholder {
+    color: #999;
+  }
+}
+
+.filterSection {
+  margin-bottom: 15px;
+}
+
+.filterLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.selectInput {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #666;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.locationRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.halfWidth {
+  width: 50%;
+}
+
+.eventTypeButton {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  background-color: #f0f4ff;
+  border: none;
+  border-radius: 8px;
+  color: #0047AB;
+  font-weight: 500;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: #e0ebff;
+  }
+}
+
+.clearButton {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  color: #555;
+  font-weight: 500;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: #e5e5e5;
+  }
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}

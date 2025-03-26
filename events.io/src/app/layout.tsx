@@ -11,6 +11,7 @@ import {
 import { theme } from '../../theme'
 import QueryProvider from '@/contexts/queryProvider'
 import { AuthProvider } from '@/contexts/authContext'
+import SideBar from '@/components/layout/SideBar/SideBar'
 
 export const metadata: Metadata = {
   title: 'Events.IO - Discover Unforgettable Events',
@@ -38,7 +39,11 @@ export default function RootLayout ({ children }: { children: ReactNode }) {
         <MantineProvider theme={theme}>
           <React.StrictMode>
             <QueryProvider>
-              <AuthProvider>{children}</AuthProvider>
+              <AuthProvider>
+              <SideBar>
+                {children}
+                </SideBar>
+                </AuthProvider>
             </QueryProvider>
           </React.StrictMode>
         </MantineProvider>
