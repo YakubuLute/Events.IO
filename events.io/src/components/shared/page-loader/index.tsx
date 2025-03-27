@@ -13,9 +13,9 @@ const PageLoader = () => {
       flexDirection="column"
       gap={2}
     >
-      <AppleSpinner width={20} height={20} color="#0C27BE" />
+      <AppleSpinner width={70} height={70} color="#0C27BE" />
       <Typography fontSize={12} fontWeight={700}>
-        Loading your personal details..please wait
+        Loading. Please wait...
       </Typography>
     </Box>
   );

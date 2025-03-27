@@ -18,6 +18,7 @@ export interface TokenPayload {
 // User interface
 export interface IUser extends Document {
   id?: Schema.Types.ObjectId
+  
   name: string
   email: string
   passwordHash: string
@@ -35,6 +36,12 @@ export interface IUser extends Document {
   verifyToken?: string
   verificationTokenExpiration?: Date
   phoneNumber: string
+  photoURL?: string
+  displayName?: string
+  firstName?: string
+  lastName?: string
+  address?: string
+
   street?: string
   apartment?: string
   city?: string
@@ -60,6 +67,7 @@ export interface ITokenSchema extends Document {
 
 // Event interface
 export interface IEvent extends Document {
+  videos: IVideo[]
   _id: Schema.Types.ObjectId
   title: string
   description: string
@@ -86,6 +94,14 @@ export interface IEvent extends Document {
   cancellation?: ICancellation
   settings: IEventSettings
   reviews?: IReview[]
+}
+
+// Video interface
+export interface IVideo {
+  type: string
+  url: string
+  thumbnail: string
+  title: string
 }
 
 // Ticket type interface

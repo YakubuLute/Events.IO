@@ -38,7 +38,9 @@ export default function RootLayout ({ children }: { children: ReactNode }) {
         <MantineProvider theme={theme}>
           <React.StrictMode>
             <QueryProvider>
-              <AuthProvider>{children}</AuthProvider>
+              <AuthProvider>
+                {children}
+              </AuthProvider>
             </QueryProvider>
           </React.StrictMode>
         </MantineProvider>
