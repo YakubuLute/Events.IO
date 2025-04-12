@@ -38,7 +38,7 @@ export default function DashboardEventCard({ event }) {
     <Card withBorder radius="md" p="md" className={classes.card}>
       <Card.Section>
         <Image
-          src={event.bannerImage || '[https://images.unsplash.com/photo-1501281668745-f7f57925c3b4'}](https://images.unsplash.com/photo-1501281668745-f7f57925c3b4'})
+          src={event.bannerImage || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4'}
           height={180}
           alt={event.title}
         />
