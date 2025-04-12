@@ -1,29 +1,26 @@
 // src/components/dashboard/DashboardEventCard.tsx
-import { Card, Image, Text, Badge, Group, Button, ActionIcon, Menu, createStyles } from '@mantine/core'
+import { Card, Image, Text, Badge, Group, Button, ActionIcon, Menu } from '@mantine/core'
 import { IconDots, IconEdit, IconTrash, IconEye, IconCopy } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 
-const useStyles = createStyles((theme) => ({
+// Define styles as objects instead of using createStyles
+const styles = {
   card: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-    marginBottom: theme.spacing.md,
+    marginBottom: '1rem',
   },
   section: {
-    borderBottom: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
-    paddingBottom: theme.spacing.md,
+    borderBottom: '1px solid #e9ecef',
+    paddingBottom: '1rem',
   },
   label: {
     textTransform: 'uppercase',
-    fontSize: theme.fontSizes.xs,
+    fontSize: '0.75rem',
     fontWeight: 700,
   },
-}))
+}
 
 export default function DashboardEventCard({ event }) {
-  const { classes } = useStyles()
   const router = useRouter()
   
   const statusColor = {
@@ -35,7 +32,7 @@ export default function DashboardEventCard({ event }) {
   }
   
   return (
-    <Card withBorder radius="md" p="md" className={classes.card}>
+    <Card withBorder radius="md" p="md" style={styles.card}>
       <Card.Section>
         <Image
           src={event.bannerImage || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4'}
@@ -44,8 +41,8 @@ export default function DashboardEventCard({ event }) {
         />
       </Card.Section>
 
-      <Card.Section className={classes.section} mt="md" pb="md">
-        <Group position="apart">
+      <Card.Section style={styles.section} mt="md" pb="md">
+        <Group justify="space-between">
           <Text fw={700} size="lg">{event.title}</Text>
           <Menu withinPortal position="bottom-end" shadow="sm">
             <Menu.Target>
@@ -66,8 +63,8 @@ export default function DashboardEventCard({ event }) {
         </Text>
       </Card.Section>
 
-      <Card.Section className={classes.section} pb="md">
-        <Text className={classes.label} color="dimmed">
+      <Card.Section style={styles.section} pb="md">
+        <Text style={styles.label} c="dimmed">
           Event Details
         </Text>
         <Group spacing={8} mt={5}>
@@ -79,7 +76,7 @@ export default function DashboardEventCard({ event }) {
         </Group>
       </Card.Section>
 
-      <Group mt="md" position="apart">
+      <Group mt="md" justify="space-between">
         <div>
           <Text className={classes.label} color="dimmed">
             Attendees

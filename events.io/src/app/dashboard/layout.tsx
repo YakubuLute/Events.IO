@@ -1,7 +1,7 @@
 // src/app/dashboard/layout.tsx
 'use client'
 import { useState } from 'react'
-import { AppShell, Navbar, Header, Footer, MediaQuery, Burger, useMantineTheme, Group, Avatar, Text, UnstyledButton, Box, ThemeIcon, Divider } from '@mantine/core'
+import { AppShell, Burger, useMantineTheme, Group, Avatar, Text, UnstyledButton, Box, ThemeIcon, Divider } from '@mantine/core'
 import { IconCalendarEvent, IconUser, IconSettings, IconLogout, IconTicket, IconChartBar, IconPlus } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/authContext'
@@ -23,108 +23,101 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <AppShell
-      styles={{
-        main: {
-          background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-        },
+      header={{ height: 70 }}
+      navbar={{
+        width: 300,
+        breakpoint: 'sm',
+        collapsed: { mobile: !opened }
       }}
-      navbarOffsetBreakpoint="sm"
-      navbar={
-        <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 250, lg: 300 }}>
-          <Navbar.Section mt="xs">
-            <Group position="apart">
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar src={user?.photoURL} radius="xl" size={40} />
-                <Box ml="md">
-                  <Text fw={700} size="sm" sx={{ textTransform: 'uppercase' }} color="dimmed">
-                    {user?.role || 'User'}
-                  </Text>
-                  <Text fw={500} size="md">
-                    {user?.name || 'User Name'}
-                  </Text>
-                </Box>
+      padding="md"
+    >
+      <AppShell.Header p="md">
+        <div style={{ display: 'flex', alignItems: 'center', height: '100%', justifyContent: 'space-between' }}>
+          <Burger
+            opened={opened}
+            onClick={() => setOpened((o) => !o)}
+            size="sm"
+            hiddenFrom="sm"
+            color={theme.colors.gray[6]}
+          />
+
+          <Text fw={900} size="lg" c="blue.7">Events.IO</Text>
+          
+          <Group>
+            {/* Notification bell and other header elements can go here */}
+          </Group>
+        </div>
+      </AppShell.Header>
+
+      <AppShell.Navbar p="md">
+        <AppShell.Section mt="xs">
+          <Group justify="space-between">
+            <Box style={{ display: 'flex', alignItems: 'center' }}>
+              <Avatar src={user?.photoURL} radius="xl" size={40} />
+              <Box ml="md">
+                <Text fw={700} size="sm" style={{ textTransform: 'uppercase' }} c="dimmed">
+                  {user?.role || 'User'}
+                </Text>
+                <Text fw={500} size="md">
+                  {user?.name || 'User Name'}
+                </Text>
               </Box>
-            </Group>
-          </Navbar.Section>
+            </Box>
+          </Group>
+        </AppShell.Section>
 
-          <Divider my="lg" />
+        <Divider my="lg" />
 
-          <Navbar.Section grow>
-            {navItems.map((item) => (
-              <UnstyledButton
-                key={item.label}
-                sx={(theme) => ({
-                  display: 'block',
-                  width: '100%',
-                  padding: theme.spacing.xs,
-                  borderRadius: theme.radius.sm,
-                  color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-                  '&:hover': {
-                    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                  },
-                  marginBottom: 8,
-                })}
-                onClick={() => router.push(item.path)}
-              >
-                <Group>
-                  <ThemeIcon color={item.color} variant="light">
-                    {item.icon}
-                  </ThemeIcon>
-                  <Text size="sm">{item.label}</Text>
-                </Group>
-              </UnstyledButton>
-            ))}
-          </Navbar.Section>
-
-          <Divider my="lg" />
-
-          <Navbar.Section>
+        <AppShell.Section grow>
+          {navItems.map((item) => (
             <UnstyledButton
-              sx={(theme) => ({
+              key={item.label}
+              style={{
                 display: 'block',
                 width: '100%',
-                padding: theme.spacing.xs,
-                borderRadius: theme.radius.sm,
-                color: theme.colors.red[6],
-                '&:hover': {
-                  backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                },
-              })}
-              onClick={() => logout()}
+                padding: '8px',
+                borderRadius: '4px',
+                color: theme.colors.dark[9],
+                marginBottom: 8,
+              }}
+              onClick={() => router.push(item.path)}
             >
               <Group>
-                <ThemeIcon color="red" variant="light">
-                  <IconLogout size={18} />
+                <ThemeIcon color={item.color} variant="light">
+                  {item.icon}
                 </ThemeIcon>
-                <Text size="sm">Logout</Text>
+                <Text size="sm">{item.label}</Text>
               </Group>
             </UnstyledButton>
-          </Navbar.Section>
-        </Navbar>
-      }
-      header={
-        <Header height={70} p="md">
-          <div style={{ display: 'flex', alignItems: 'center', height: '100%', justifyContent: 'space-between' }}>
-            <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-              <Burger
-                opened={opened}
-                onClick={() => setOpened((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
-            </MediaQuery>
+          ))}
+        </AppShell.Section>
 
-            <Text fw={900} size="lg" color="blue.7">Events.IO</Text>
-            
+        <Divider my="lg" />
+
+        <AppShell.Section>
+          <UnstyledButton
+            style={{
+              display: 'block',
+              width: '100%',
+              padding: '8px',
+              borderRadius: '4px',
+              color: theme.colors.red[6],
+            }}
+            onClick={() => logout()}
+          >
             <Group>
-              {/* Notification bell and other header elements can go here */}
+              <ThemeIcon color="red" variant="light">
+                <IconLogout size={18} />
+              </ThemeIcon>
+              <Text size="sm">Logout</Text>
             </Group>
-          </div>
-        </Header>
-      }
-    >
-      {children}
+          </UnstyledButton>
+        </AppShell.Section>
+      </AppShell.Navbar>
+
+      <AppShell.Main>
+        {children}
+      </AppShell.Main>
     </AppShell>
   )
 }

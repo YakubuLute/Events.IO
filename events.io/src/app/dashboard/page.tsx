@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Grid, Card, Text, Group, Badge, Button, SimpleGrid, RingProgress, Title, Paper, useMantineTheme } from '@mantine/core'
-import { IconCalendarEvent, IconTicket, IconUsers, IconCurrencyDollar, IconArrowUpRight } from '@tabler/icons-react'
+import { useState } from 'react'
+import { Grid, Text, Button, SimpleGrid, RingProgress, Title, Paper, useMantineTheme } from '@mantine/core'
+import { IconCalendarEvent, IconUsers, IconCurrencyDollar } from '@tabler/icons-react'
 // import { useCurrentUser, useUserEvents } from '@/hooks/hooks'
 // import { IEvent } from '@/interface/interface'
 import DashboardEventCard from '@/components/dashboard/DashboardEventCard'
@@ -80,9 +80,9 @@ const dummyEvents = [
 export default function DashboardPage() {
   const theme = useMantineTheme()
   // const { data: user, isLoading: userLoading } = useCurrentUser()
-  const [stats, setStats] = useState(dummyStats)
-  const [events, setEvents] = useState(dummyEvents)
-  const [loading, setLoading] = useState(false)
+  const [stats] = useState(dummyStats)
+  const [events] = useState(dummyEvents)
+  const [loading] = useState(false)
   
   // Simulating a user for now
   const user = {
@@ -100,7 +100,7 @@ export default function DashboardPage() {
       <Title order={2} mb="md">Dashboard</Title>
       <Text color="dimmed" mb="xl">Welcome back, {user?.name || 'User'}! Here's an overview of your events.</Text>
       
-      <SimpleGrid cols={4} breakpoints={[{ maxWidth: 'sm', cols: 1 }, { maxWidth: 'md', cols: 2 }]} mb="xl">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} mb="xl">
         <DashboardStats 
           title="Total Events" 
           value={stats.totalEvents} 
@@ -143,7 +143,7 @@ export default function DashboardPage() {
           
           <Paper p="md" radius="md" withBorder mt="md">
             <Title order={3} mb="md">Ticket Sales</Title>
-            <Group position="center">
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <RingProgress
                 size={150}
                 thickness={16}
@@ -153,13 +153,13 @@ export default function DashboardPage() {
                   { value: 15, color: theme.colors.orange[6] },
                 ]}
                 label={
-                  <Text size="xs" align="center" px="xs" sx={{ pointerEvents: 'none' }}>
-                    <Text size="xl" align="center" fw={700}>80%</Text>
-                    <Text size="sm" align="center">Sold</Text>
-                  </Text>
+                  <div style={{ pointerEvents: 'none', padding: '0 8px', textAlign: 'center' }}>
+                    <Text size="xl" fw={700} ta="center">80%</Text>
+                    <Text size="sm" ta="center">Sold</Text>
+                  </div>
                 }
               />
-            </Group>
+            </div>
             <SimpleGrid cols={3} mt="md">
               <div>
                 <Text size="xs" color="dimmed">VIP</Text>
