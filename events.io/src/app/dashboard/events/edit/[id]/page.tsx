@@ -147,7 +147,7 @@ export default function CreateEventPage() {
                   ]}
                   searchable
                   creatable
-                  getCreateLabel={(query) => `+ Create ${query}`}
+                  getCreateLabel={(query: string) => `+ Create ${query}`}
                   {...form.getInputProps('tags')}
                   mb="md"
                 />
@@ -181,14 +181,13 @@ export default function CreateEventPage() {
                 <div style={{ marginBottom: '1rem' }}>
                   <Text fw={500} mb={5}>Start Date <span style={{ color: 'red' }}>*</span></Text>
                   <DatePicker
-                
                     value={form.values.startDate ? new Date(form.values.startDate) : null}
                     onChange={(date) => {
                       form.setFieldValue('startDate', date ? date.toISOString() : '')
                     }}
-                  
+                 
                     allowDeselect={false}
-                   
+                    popoverProps={{ withinPortal: true }}
                   />
                 </div>
 
@@ -197,13 +196,15 @@ export default function CreateEventPage() {
                 <div style={{ marginBottom: '1rem' }}>
                   <Text fw={500} mb={5}>End Date <span style={{ color: 'red' }}>*</span></Text>
                   <DatePicker
+                  
                     value={form.values.endDate ? new Date(form.values.endDate) : null}
                     onChange={(date) => {
                       form.setFieldValue('endDate', date ? date.toISOString() : '')
                     }}
                     minDate={form.values.startDate ? new Date(form.values.startDate) : undefined}
+                 
                     allowDeselect={false}
-                
+                    
                   />
                 </div>
               </Grid.Col>
