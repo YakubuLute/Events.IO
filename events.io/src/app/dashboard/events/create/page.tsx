@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useForm } from '@mantine/form'
 import { TextInput, Textarea, Button, Group, Paper, Title, Select, MultiSelect, NumberInput, Divider, Grid, FileInput, Text, Stepper } from '@mantine/core'
+import { DatePicker } from '@mantine/dates'
 import { IconUpload, IconCalendar } from '@tabler/icons-react'
 import { useCreateEvent } from '@/hooks/hooks'
 import { showNotification } from '@/components/shared/notification/mantine-notification'
@@ -71,8 +72,8 @@ export default function CreateEventPage() {
       category: values.category,
       tags: values.tags,
       schedule: {
-        startDate: values.startDate ? new Date(values.startDate) : null,
-        endDate: values.endDate ? new Date(values.endDate) : null,
+        startDate: values.startDate ? new Date(values.startDate) : new Date(),
+        endDate: values.endDate ? new Date(values.endDate) : new Date(),
         timezone: values.timezone,
       },
       venue: {
@@ -177,34 +178,38 @@ export default function CreateEventPage() {
             
             <Grid>
               <Grid.Col span={6}>
-                <TextInput
-                  type="date"
-                  label="Start Date"
-                  placeholder="Select start date"
-                  leftSection={<IconCalendar size={16} />}
-                  required
-                  mb="md"
-                  value={form.values.startDate || ''}
-                  onChange={(event) => {
-                    // Store as string to avoid type errors
-                    form.setFieldValue('startDate', event.currentTarget.value)
-                  }}
-                />
+                <div style={{ marginBottom: '1rem' }}>
+                  <Text fw={500} mb={5}>Start Date <span style={{ color: 'red' }}>*</span></Text>
+                  <DatePicker
+                    placeholder="Select start date"
+                    leftSection={<IconCalendar size={16} />}
+                    value={form.values.startDate ? new Date(form.values.startDate) : null}
+                    onChange={(date) => {
+                      form.setFieldValue('startDate', date ? date.toISOString() : '')
+                    }}
+                    clearable={false}
+                    allowDeselect={false}
+                    popoverProps={{ withinPortal: true }}
+                  />
+                </div>
+
               </Grid.Col>
               <Grid.Col span={6}>
-                <TextInput
-                  type="date"
-                  label="End Date"
-                  placeholder="Select end date"
-                  leftSection={<IconCalendar size={16} />}
-                  required
-                  mb="md"
-                  value={form.values.endDate || ''}
-                  onChange={(event) => {
-                    // Store as string to avoid type errors
-                    form.setFieldValue('endDate', event.currentTarget.value)
-                  }}
-                />
+                <div style={{ marginBottom: '1rem' }}>
+                  <Text fw={500} mb={5}>End Date <span style={{ color: 'red' }}>*</span></Text>
+                  <DatePicker
+                    placeholder="Select end date"
+                    leftSection={<IconCalendar size={16} />}
+                    value={form.values.endDate ? new Date(form.values.endDate) : null}
+                    onChange={(date) => {
+                      form.setFieldValue('endDate', date ? date.toISOString() : '')
+                    }}
+                    minDate={form.values.startDate ? new Date(form.values.startDate) : undefined}
+                    clearable={false}
+                    allowDeselect={false}
+                    popoverProps={{ withinPortal: true }}
+                  />
+                </div>
               </Grid.Col>
             </Grid>
             
@@ -305,7 +310,7 @@ export default function CreateEventPage() {
               label="Banner Image"
               placeholder="Upload banner image"
               accept="image/png,image/jpeg"
-              icon={<IconUpload size={14} />}
+              leftSection={<IconUpload size={14} />}
               {...form.getInputProps('bannerImage')}
               mb="md"
             />
@@ -315,7 +320,7 @@ export default function CreateEventPage() {
               placeholder="Upload event images"
               accept="image/png,image/jpeg"
               multiple
-              icon={<IconUpload size={14} />}
+              leftSection={<IconUpload size={14} />}
               {...form.getInputProps('images')}
               mb="md"
             />

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import '@mantine/core/styles.css'
+import '@mantine/dates/styles.css'
 
 import React, { ReactNode } from 'react'
 import {
@@ -8,6 +9,7 @@ import {
   MantineProvider,
   mantineHtmlProps
 } from '@mantine/core'
+import { DatesProvider } from '@mantine/dates'
 import { theme } from '../../theme'
 import QueryProvider from '@/contexts/queryProvider'
 import { AuthProvider } from '@/contexts/authContext'
@@ -38,14 +40,16 @@ export default function RootLayout ({ children }: { children: ReactNode }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <React.StrictMode>
-            <QueryProvider>
-              <AuthProvider>
-              <Notifications />
-                {children}
-              </AuthProvider>
-            </QueryProvider>
-          </React.StrictMode>
+          <DatesProvider settings={{ locale: 'en', timezone: 'UTC' }}>
+            <React.StrictMode>
+              <QueryProvider>
+                <AuthProvider>
+                <Notifications />
+                  {children}
+                </AuthProvider>
+              </QueryProvider>
+            </React.StrictMode>
+          </DatesProvider>
         </MantineProvider>
       </body>
     </html>
