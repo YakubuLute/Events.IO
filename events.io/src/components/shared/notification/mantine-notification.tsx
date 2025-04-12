@@ -1,6 +1,6 @@
 import React from 'react';
-import { Notification, NotificationProps } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
+import { Notification, NotificationProps, rem, MantineTheme } from '@mantine/core';
+import { notifications, NotificationProps as MantineNotificationProps } from '@mantine/notifications';
 import { IconX, IconCheck, IconInfoCircle, IconAlertTriangle } from '@tabler/icons-react';
 
 export type NotificationType = 'success' | 'error' | 'info' | 'warning';
@@ -25,6 +25,16 @@ const getIconAndColor = (type: NotificationType): { icon: React.ReactNode; color
   }
 };
 
+// Custom animation for notifications
+const slideAnimation = {
+  in: { opacity: 0, transform: 'translateY(-20px)' },
+  out: { opacity: 0, transform: 'translateY(20px)' },
+  transitionProperty: 'transform, opacity',
+  common: { transformOrigin: 'top center' },
+  transitionDuration: 500, // Slowing down the animation (in ms)
+  transitionTimingFunction: 'ease',
+};
+
 export const showNotification = ({ type, title, message, autoClose = 5000 }: ShowNotificationProps) => {
   const { icon, color } = getIconAndColor(type);
   
@@ -34,6 +44,33 @@ export const showNotification = ({ type, title, message, autoClose = 5000 }: Sho
     icon,
     color,
     autoClose,
+    withBorder: true,
+    radius: 'md',
+    className: 'enhanced-notification',
+    style: { 
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+      padding: '16px 20px 16px 24px',
+      position: 'relative',
+    },
+    classNames: {
+      root: 'notification-root',
+    },
+    styles: (theme: MantineTheme) => ({
+      root: {
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: rem(6),
+          backgroundColor: theme.colors[color][6],
+          borderTopLeftRadius: theme.radius.md,
+          borderBottomLeftRadius: theme.radius.md,
+        },
+      },
+    }),
+    transition: slideAnimation,
   });
 };
 
@@ -66,12 +103,43 @@ export const MantineNotification: React.FC<MantineNotificationProps> = ({
 
   return (
     <Notification
-      icon={icon}
+      icon={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>}
       color={color}
-      title={title || getDefaultTitle(type)}
+      withBorder
+      radius="md"
+      title={
+        <div style={{ fontWeight: 600, fontSize: rem(15) }}>
+          {title || getDefaultTitle(type)}
+        </div>
+      }
+      styles={(theme: MantineTheme) => ({
+        root: {
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: rem(6),
+            backgroundColor: theme.colors[color][6],
+            borderTopLeftRadius: theme.radius.md,
+            borderBottomLeftRadius: theme.radius.md,
+          },
+          padding: '16px 20px 16px 24px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.2)',
+          },
+        },
+      })}
       {...props}
     >
-      {message}
+      <div style={{ fontSize: rem(14), lineHeight: 1.5 }}>
+        {message}
+      </div>
     </Notification>
   );
 };

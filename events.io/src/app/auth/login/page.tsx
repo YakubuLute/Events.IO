@@ -27,9 +27,9 @@ const hoverPaperStyles = `
   .hover-paper {
     transition: transform 200ms ease, box-shadow 200ms ease;
   }
-  .hover-paper:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  .hover-paper {
+    transform: translateY(-1px);
+    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.175);
   }
 `;
 
@@ -92,10 +92,6 @@ export default function LoginPage () {
           fw={900} 
           c={theme.colors.blue[7]} 
           size="h2"
-          style={{
-            fontFamily: `'Poppins', ${theme.fontFamily}`,
-            letterSpacing: '-0.5px'
-          }}
         >
           Events.IO
         </Title>
