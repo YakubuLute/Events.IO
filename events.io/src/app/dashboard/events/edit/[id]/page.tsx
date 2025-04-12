@@ -1,4 +1,4 @@
-// src/app/dashboard/events/create/page.tsx
+
 'use client'
 import { useState } from 'react'
 import { useForm } from '@mantine/form'
@@ -187,7 +187,7 @@ export default function CreateEventPage() {
                     }}
                  
                     allowDeselect={false}
-                    popoverProps={{ withinPortal: true }}
+                  
                   />
                 </div>
 
