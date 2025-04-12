@@ -2,9 +2,8 @@
 'use client'
 import { useState } from 'react'
 import { useForm } from '@mantine/form'
-import { TextInput, Textarea, Button, Group, Paper, Title, Select, MultiSelect, NumberInput, Divider, Grid, FileInput, Text, Box, Stepper } from '@mantine/core'
-import { DatePickerInput, TimeInput } from '@mantine/dates'
-import { IconUpload, IconCalendar, IconClock } from '@tabler/icons-react'
+import { TextInput, Textarea, Button, Group, Paper, Title, Select, MultiSelect, NumberInput, Divider, Grid, FileInput, Text, Stepper } from '@mantine/core'
+import { IconUpload, IconCalendar } from '@tabler/icons-react'
 import { useCreateEvent } from '@/hooks/hooks'
 import { showNotification } from '@/components/shared/notification/mantine-notification'
 
@@ -19,8 +18,8 @@ export default function CreateEventPage() {
       description: '',
       category: [],
       tags: [],
-      startDate: null,
-      endDate: null,
+      startDate: '',
+      endDate: '',
       timezone: 'UTC',
       venueName: '',
       venueAddress: '',
@@ -72,8 +71,8 @@ export default function CreateEventPage() {
       category: values.category,
       tags: values.tags,
       schedule: {
-        startDate: values.startDate,
-        endDate: values.endDate,
+        startDate: values.startDate ? new Date(values.startDate) : null,
+        endDate: values.endDate ? new Date(values.endDate) : null,
         timezone: values.timezone,
       },
       venue: {
@@ -166,7 +165,7 @@ export default function CreateEventPage() {
               mb="md"
             />
             
-            <Group position="right" mt="xl">
+            <Group justify="flex-end" mt="xl">
               <Button onClick={nextStep}>Next Step</Button>
             </Group>
           </Paper>
@@ -178,25 +177,33 @@ export default function CreateEventPage() {
             
             <Grid>
               <Grid.Col span={6}>
-                <DatePickerInput
+                <TextInput
+                  type="date"
                   label="Start Date"
                   placeholder="Select start date"
-                  icon={<IconCalendar size={16} />}
+                  leftSection={<IconCalendar size={16} />}
                   required
-                  clearable={false}
-                  {...form.getInputProps('startDate')}
                   mb="md"
+                  value={form.values.startDate || ''}
+                  onChange={(event) => {
+                    // Store as string to avoid type errors
+                    form.setFieldValue('startDate', event.currentTarget.value)
+                  }}
                 />
               </Grid.Col>
               <Grid.Col span={6}>
-                <DatePickerInput
+                <TextInput
+                  type="date"
                   label="End Date"
                   placeholder="Select end date"
-                  icon={<IconCalendar size={16} />}
+                  leftSection={<IconCalendar size={16} />}
                   required
-                  clearable={false}
-                  {...form.getInputProps('endDate')}
                   mb="md"
+                  value={form.values.endDate || ''}
+                  onChange={(event) => {
+                    // Store as string to avoid type errors
+                    form.setFieldValue('endDate', event.currentTarget.value)
+                  }}
                 />
               </Grid.Col>
             </Grid>
@@ -269,7 +276,7 @@ export default function CreateEventPage() {
               mb="md"
             />
             
-            <Group position="right" mt="xl">
+            <Group justify="flex-end" mt="xl">
               <Button variant="default" onClick={prevStep}>Back</Button>
               <Button onClick={nextStep}>Next Step</Button>
             </Group>
@@ -283,7 +290,7 @@ export default function CreateEventPage() {
             {/* Ticket type form fields would go here */}
             <Text>Ticket configuration would go here</Text>
             
-            <Group position="right" mt="xl">
+            <Group justify="flex-end" mt="xl">
               <Button variant="default" onClick={prevStep}>Back</Button>
               <Button onClick={nextStep}>Next Step</Button>
             </Group>
@@ -313,7 +320,7 @@ export default function CreateEventPage() {
               mb="md"
             />
             
-            <Group position="right" mt="xl">
+            <Group justify="flex-end" mt="xl">
               <Button variant="default" onClick={prevStep}>Back</Button>
               <Button color="green" onClick={() => handleSubmit(form.values)} loading={isPending}>
                 Create

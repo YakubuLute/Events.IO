@@ -1,11 +1,10 @@
 // src/components/dashboard/DashboardStats.tsx
-import { Paper, Text, Group, ThemeIcon, createStyles } from '@mantine/core'
+import { Paper, Text, Group, ThemeIcon } from '@mantine/core'
 
-const useStyles = createStyles((theme) => ({
+// Define styles as objects for Mantine v7
+const styles = {
   root: {
-    padding: theme.spacing.xl,
-    borderRadius: theme.radius.md,
-    boxShadow: theme.shadows.xs,
+    padding: '1.5rem',
   },
   value: {
     fontSize: 24,
@@ -14,32 +13,30 @@ const useStyles = createStyles((theme) => ({
   },
   title: {
     fontWeight: 700,
-    textTransform: 'uppercase',
-    fontSize: theme.fontSizes.xs,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[6],
+    textTransform: 'uppercase' as const,
+    fontSize: '0.75rem',
+    color: '#868e96',
     lineHeight: 1.2,
   },
   icon: {
-    borderRadius: theme.radius.md,
+    borderRadius: '0.5rem',
   },
-}))
+}
 
 export default function DashboardStats({ title, value, icon, color }) {
-  const { classes } = useStyles()
-  
   return (
-    <Paper withBorder p="md" radius="md" className={classes.root}>
-      <Group position="apart">
+    <Paper withBorder p="md" radius="md" style={styles.root}>
+      <Group justify="space-between">
         <div>
-          <Text color="dimmed" className={classes.title}>
+          <Text c="dimmed" style={styles.title}>
             {title}
           </Text>
-          <Text className={classes.value}>{value}</Text>
+          <Text style={styles.value}>{value}</Text>
         </div>
         <ThemeIcon
           color={color}
           variant="light"
-          className={classes.icon}
+          style={styles.icon}
           size={45}
           radius="md"
         >

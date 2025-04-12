@@ -14,7 +14,7 @@ const styles = {
     paddingBottom: '1rem',
   },
   label: {
-    textTransform: 'uppercase',
+    textTransform: 'uppercase' as const, // Type assertion to fix TypeScript error
     fontSize: '0.75rem',
     fontWeight: 700,
   },
@@ -78,13 +78,13 @@ export default function DashboardEventCard({ event }) {
 
       <Group mt="md" justify="space-between">
         <div>
-          <Text className={classes.label} color="dimmed">
+          <Text style={styles.label} c="dimmed">
             Attendees
           </Text>
           <Text fw={700}>{event.attendeeCount}</Text>
         </div>
         <div>
-          <Text className={classes.label} color="dimmed">
+          <Text style={styles.label} c="dimmed">
             Revenue
           </Text>
           <Text fw={700}>${event.totalRevenue}</Text>

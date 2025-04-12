@@ -1,19 +1,11 @@
 // src/components/dashboard/UpcomingEvents.tsx
-import { Paper, Text, Timeline, Title, createStyles } from '@mantine/core'
+import { Paper, Text, Timeline, Title } from '@mantine/core'
 import { IconCalendarEvent } from '@tabler/icons-react'
 import { format } from 'date-fns'
 
-const useStyles = createStyles((theme) => ({
-  item: {
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-    },
-  },
-}))
+// No styles needed for this component in Mantine v7
 
 export default function UpcomingEvents({ events }) {
-  const { classes } = useStyles()
-  
   return (
     <Paper p="md" radius="md" withBorder>
       <Title order={3} mb="md">Upcoming Events</Title>
@@ -25,7 +17,7 @@ export default function UpcomingEvents({ events }) {
             bullet={<IconCalendarEvent size={12} />}
             title={event.title}
           >
-            <Text color="dimmed" size="sm">
+            <Text c="dimmed" size="sm">
               {format(new Date(event.schedule.startDate), 'MMM dd, yyyy')}
             </Text>
             <Text size="xs" mt={4}>
