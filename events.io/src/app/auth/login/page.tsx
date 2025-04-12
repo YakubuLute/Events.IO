@@ -29,7 +29,7 @@ const hoverPaperStyles = `
   }
   .hover-paper {
     transform: translateY(-1px);
-    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.175);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
   }
 `;
 
@@ -129,7 +129,7 @@ export default function LoginPage () {
               leftSection={<IconAt size={16} stroke={1.5} />}
               styles={(theme) => ({
                 input: {
-                  '&:focus-within': {
+                  '&:focusWithin': {
                     borderColor: theme.colors.blue[5]
                   }
                 }

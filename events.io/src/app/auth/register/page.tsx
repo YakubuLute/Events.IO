@@ -26,9 +26,9 @@ const hoverPaperStyles = `
   .hover-paper {
     transition: transform 200ms ease, box-shadow 200ms ease;
   }
-  .hover-paper:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  .hover-paper {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
   }
 `;
 
