@@ -26,6 +26,7 @@
     "axios": "^1.7.9",
     "bcryptjs": "^3.0.2",
     "countries-list": "^3.1.1",
+      "embla-carousel-react": "^8.5.2",
     "crypto": "^1.0.1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
