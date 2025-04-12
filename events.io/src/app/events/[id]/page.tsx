@@ -28,8 +28,8 @@ import {
   IconPlayerPlay
 } from '@tabler/icons-react'
 import styles from './event-detail.module.scss'
-import { IEvent } from '../../../interface/interface'
-import { IVideo } from '../../../interface/video-interface'
+import { IEvent, IVideo } from '../../../interface/interface'
+
 import PageLoader from '@/components/shared/page-loader'
 import { mockEvent } from '@/data/event-data'
 import NotFound from '@/components/shared/not-found/not-found'
@@ -298,7 +298,9 @@ export default function EventDetails() {
               <div className={styles.sessionsList}>
                 {event.schedule.sessions.map((session, index) => (
                   <Card key={index} withBorder className={styles.sessionCard}>
-                    <Group position="apart" mb="xs">
+                    <Group
+                    //  position="apart" 
+                    mb="xs">
                       <Text fw={700}>{session.title}</Text>
                       <Badge color="blue">
                         {formatTime(session.startTime)} - {formatTime(session.endTime)}
@@ -338,7 +340,9 @@ export default function EventDetails() {
             <div className={styles.ticketsList}>
               {event.ticketTypes.map((ticket, index) => (
                 <Card key={index} withBorder className={styles.ticketCard}>
-                  <Group position="apart">
+                  <Group 
+                    // position="apart"
+                    mb="xs">
                     <div>
                       <Text fw={700} size="lg">{ticket.name}</Text>
                       <Text size="sm">{ticket.description}</Text>

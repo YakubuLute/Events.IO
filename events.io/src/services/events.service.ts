@@ -21,7 +21,7 @@ class EventService {
       user: IUser
       token: string
       refreshToken: string
-    }>('/auth/signin', credentials)
+    }>('/auth/login', credentials)
     return response.data
   }
 

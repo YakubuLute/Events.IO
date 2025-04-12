@@ -3,3 +3,6 @@
 UI
 **/events.io_
 local.backup
+.env
+.env.development
+

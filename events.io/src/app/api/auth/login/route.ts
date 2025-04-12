@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { compare } from 'bcryptjs'
 import { SignJWT } from 'jose'
 import { z } from 'zod'
-import { User } from '@/models/models'
+import  User  from '@/models/models'
 import { IUser } from '@/interface/interface'
 import  connectDB from '@/lib/mongoose'
 
