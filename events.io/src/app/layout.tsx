@@ -11,6 +11,8 @@ import {
 import { theme } from '../../theme'
 import QueryProvider from '@/contexts/queryProvider'
 import { AuthProvider } from '@/contexts/authContext'
+import '@mantine/notifications/styles.css';
+import { Notifications } from '@mantine/notifications'
 
 export const metadata: Metadata = {
   title: 'Events.IO - Discover Unforgettable Events',
@@ -39,6 +41,7 @@ export default function RootLayout ({ children }: { children: ReactNode }) {
           <React.StrictMode>
             <QueryProvider>
               <AuthProvider>
+              <Notifications />
                 {children}
               </AuthProvider>
             </QueryProvider>

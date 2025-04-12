@@ -58,6 +58,7 @@ export default function LoginPage () {
 
   const { mutate: signin, isPending } = useUserSignin({
     onSuccess: () => {
+      alert("Success");
       notifications.show({
         title: 'Success',
         message: 'Logged in successfully!',
@@ -65,12 +66,15 @@ export default function LoginPage () {
       })
       // Redirect: window.location.href = '/dashboard';
     },
-    onError: error => {
+    onError: (error: Error & { response?: { data?: { error?: string } } }) => {
+      alert("Login error");
+      const errorMessage = error.response?.data?.error || error.message || 'Login failed';
       notifications.show({
         title: 'Error',
-        message: error.message || 'Login failed',
+        message: errorMessage,
         color: 'red'
       })
+      console.error('Login error:', error);
     }
   })
 
@@ -193,7 +197,7 @@ export default function LoginPage () {
               leftSection={<IconLock size={16} stroke={1.5} />}
               styles={(theme) => ({
                 input: {
-                  '&:focus-within': {
+                  '&:focusWithin': {
                     borderColor: theme.colors.blue[5]
                   }
                 }

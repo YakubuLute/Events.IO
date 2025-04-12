@@ -228,7 +228,7 @@ export default function RegistrationPage () {
               checked={form.values.terms}
               onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
               error={form.errors.terms}
-              styles={(theme) => ({
+              styles={() => ({
                 input: { cursor: 'pointer' },
                 label: { cursor: 'pointer' }
               })}
