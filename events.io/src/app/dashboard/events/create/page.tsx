@@ -147,7 +147,7 @@ export default function CreateEventPage() {
                   ]}
                   searchable
                   creatable
-                  getCreateLabel={(query) => `+ Create ${query}`}
+                  getCreateLabel={(query:string) => `+ Create ${query}`}
                   {...form.getInputProps('tags')}
                   mb="md"
                 />
