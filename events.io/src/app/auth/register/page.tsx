@@ -16,7 +16,7 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useUserSignup } from '@/hooks/hooks'
-import { notifications } from '@mantine/notifications'
+import { showNotification } from '@/components/shared/notification/mantine-notification'
 import { countryCodes } from '@/utils/countryCodeList'
 import { RegisterFormValues } from '@/interface/interface'
 import { IconAt, IconLock, IconPhone, IconWorld, IconUser } from '@tabler/icons-react'
@@ -58,20 +58,18 @@ export default function RegistrationPage () {
 
   const { mutate: signup, isPending } = useUserSignup({
     onSuccess: data => {
-      notifications.show({
-        title: 'Success',
-        message: `Account created for ${data.user.name}!`,
-        color: 'green'
+      showNotification({
+        type: 'success',
+        message: `Account created for ${data.user.name}!`
       })
       form.reset()
       window.location.href = '/auth/login'
     },
     onError: error => {
       console.log('Error registering account:', error)
-      notifications.show({
-        title: 'Error',
-        message: error.message || 'Failed to create account',
-        color: 'red'
+      showNotification({
+        type: 'error',
+        message: error.message || 'Failed to create account'
       })
     }
   })

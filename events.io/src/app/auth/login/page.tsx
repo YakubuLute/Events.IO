@@ -17,7 +17,7 @@ import {
 } from '@mantine/core'
 import { useForm, UseFormReturnType } from '@mantine/form'
 import { useUserSignin } from '@/hooks/hooks'
-import { notifications } from '@mantine/notifications'
+import { showNotification } from '@/components/shared/notification/mantine-notification'
 import { countryCodes } from '@/utils/countryCodeList'
 import { LoginFormValues } from '@/interface/interface'
 import { IconAt, IconLock, IconPhone, IconWorld } from '@tabler/icons-react'
@@ -58,21 +58,17 @@ export default function LoginPage () {
 
   const { mutate: signin, isPending } = useUserSignin({
     onSuccess: () => {
-      alert("Success");
-      notifications.show({
-        title: 'Success',
-        message: 'Logged in successfully!',
-        color: 'green'
+      showNotification({
+        type: 'success',
+        message: 'Logged in successfully!'
       })
       // Redirect: window.location.href = '/dashboard';
     },
     onError: (error: Error & { response?: { data?: { error?: string } } }) => {
-      alert("Login error");
       const errorMessage = error.response?.data?.error || error.message || 'Login failed';
-      notifications.show({
-        title: 'Error',
-        message: errorMessage,
-        color: 'red'
+      showNotification({
+        type: 'error',
+        message: errorMessage
       })
       console.error('Login error:', error);
     }
