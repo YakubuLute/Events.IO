@@ -8,15 +8,33 @@ import {
   PasswordInput,
   Select,
   Title,
-  Group
+  Group,
+  Text,
+  Divider,
+  Box,
+  Anchor,
+  useMantineTheme
 } from '@mantine/core'
 import { useForm, UseFormReturnType } from '@mantine/form'
 import { useUserSignin } from '@/hooks/hooks'
 import { notifications } from '@mantine/notifications'
 import { countryCodes } from '@/utils/countryCodeList'
 import { LoginFormValues } from '@/interface/interface'
+import { IconAt, IconLock, IconPhone, IconWorld } from '@tabler/icons-react'
+
+// Add global styles for the hover effect
+const hoverPaperStyles = `
+  .hover-paper {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .hover-paper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  }
+`;
 
 export default function LoginPage () {
+  const theme = useMantineTheme();
   const form: UseFormReturnType<LoginFormValues> = useForm<LoginFormValues>({
     initialValues: {
       email: '',
@@ -66,69 +84,149 @@ export default function LoginPage () {
   }
 
   return (
-    <Container size={420} my={40}>
-      <Title size='lg' ta='center'>
-        Login to Events.IO
-      </Title>
-      <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
+    <Container size={460} my={40}>
+      <style>{hoverPaperStyles}</style>
+      <Box mb={30} ta="center">
+        <Title 
+          order={1} 
+          fw={900} 
+          c={theme.colors.blue[7]} 
+          size="h2"
+          style={{
+            fontFamily: `'Poppins', ${theme.fontFamily}`,
+            letterSpacing: '-0.5px'
+          }}
+        >
+          Events.IO
+        </Title>
+        <Text c="dimmed" size="sm" mt={5}>
+          Sign in to your account to continue
+        </Text>
+      </Box>
+
+      <Paper 
+        withBorder 
+        shadow="lg" 
+        p={35} 
+        radius="md" 
+        bg="white"
+        style={{
+          borderTop: `4px solid ${theme.colors.blue[5]}`,
+          transition: 'transform 200ms ease, box-shadow 200ms ease'
+        }}
+        className="hover-paper"
+      >
+        <Title order={3} ta="center" mb={25} fw={600}>
+          Welcome Back
+        </Title>
+        
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Stack>
+          <Stack style={{ gap: '16px' }}>
             <TextInput
-              label='Email (optional)'
-              placeholder='name@domain.com'
+              label="Email"
+              placeholder="your.email@example.com"
               value={form.values.email}
-              onChange={event =>
-                form.setFieldValue('email', event.currentTarget.value)
-              }
+              onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
               error={form.errors.email}
-              radius='md'
+              radius="md"
+              size="md"
+              leftSection={<IconAt size={16} stroke={1.5} />}
+              styles={(theme) => ({
+                input: {
+                  '&:focus-within': {
+                    borderColor: theme.colors.blue[5]
+                  }
+                }
+              })}
             />
-            <Group justify='space-between' align='center'>
+            
+            <Divider label="Or use phone number" labelPosition="center" my="xs" />
+            
+            <Group grow align="flex-start" style={{ gap: '8px' }}>
               <Select
-                flex={1}
-                label='Country Code'
-                placeholder='Select country code'
+                label="Country"
+                placeholder="+1"
                 data={countryCodes}
                 value={form.values.countryCode}
-                onChange={value =>
-                  form.setFieldValue('countryCode', value || '')
-                }
+                onChange={(value) => form.setFieldValue('countryCode', value || '')}
                 error={form.errors.countryCode}
-                radius='md'
+                radius="md"
+                size="md"
                 searchable
+                leftSection={<IconWorld size={16} stroke={1.5} />}
+                styles={(theme) => ({
+                  input: {
+                    '&:focus-within': {
+                      borderColor: theme.colors.blue[5]
+                    }
+                  }
+                })}
               />
               <TextInput
-                label='Phone Number (optional)'
-                placeholder='1234567890'
+                label="Phone Number"
+                placeholder="1234567890"
                 value={form.values.phoneNumber}
-                onChange={event =>
-                  form.setFieldValue('phoneNumber', event.currentTarget.value)
-                }
+                onChange={(event) => form.setFieldValue('phoneNumber', event.currentTarget.value)}
                 error={form.errors.phoneNumber}
-                radius='md'
+                radius="md"
+                size="md"
+                leftSection={<IconPhone size={16} stroke={1.5} />}
+                styles={(theme) => ({
+                  input: {
+                    '&:focus-within': {
+                      borderColor: theme.colors.blue[5]
+                    }
+                  }
+                })}
               />
             </Group>
+            
             <PasswordInput
               required
-              label='Password'
-              placeholder='Your password'
+              label="Password"
+              placeholder="Your secure password"
               value={form.values.password}
-              onChange={event =>
-                form.setFieldValue('password', event.currentTarget.value)
-              }
+              onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
               error={form.errors.password}
-              radius='md'
+              radius="md"
+              size="md"
+              leftSection={<IconLock size={16} stroke={1.5} />}
+              styles={(theme) => ({
+                input: {
+                  '&:focus-within': {
+                    borderColor: theme.colors.blue[5]
+                  }
+                }
+              })}
             />
+            
+            <Group justify="space-between" mt="xs">
+              <Anchor component="button" type="button" c="dimmed" size="sm" fw={500}>
+                Forgot password?
+              </Anchor>
+            </Group>
           </Stack>
+          
           <Button
             fullWidth
-            type='submit'
-            mt='xl'
-            radius='xl'
+            type="submit"
+            mt={25}
+            mb={10}
+            radius="md"
+            size="md"
             disabled={isPending}
+            gradient={{ from: 'blue.7', to: 'cyan.5', deg: 45 }}
+            variant="gradient"
           >
-            {isPending ? 'Logging in...' : 'Login'}
+            {isPending ? 'Signing in...' : 'Sign in'}
           </Button>
+          
+          <Text ta="center" size="sm" mt={15} c="dimmed">
+            Don&apos;t have an account?{' '}
+            <Anchor href="/auth/register" fw={500} c="blue.5">
+              Create account
+            </Anchor>
+          </Text>
         </form>
       </Paper>
     </Container>
