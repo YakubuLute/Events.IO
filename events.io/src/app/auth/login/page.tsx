@@ -84,7 +84,7 @@ export default function LoginPage () {
   }
 
   return (
-    <Container size={460} my={40}>
+    <Container size={460} my={30}>
       <style>{hoverPaperStyles}</style>
       <Box mb={30} ta="center">
         <Title 
@@ -136,7 +136,7 @@ export default function LoginPage () {
               })}
             />
             
-            <Divider label="Or use phone number" labelPosition="center" my="xs" />
+            <Divider label="Or use phone number" labelPosition="center" />
             
             <Group grow align="flex-start" style={{ gap: '8px' }}>
               <Select
@@ -148,11 +148,12 @@ export default function LoginPage () {
                 error={form.errors.countryCode}
                 radius="md"
                 size="md"
+                className='w-[35%]'
                 searchable
                 leftSection={<IconWorld size={16} stroke={1.5} />}
                 styles={(theme) => ({
                   input: {
-                    '&:focus-within': {
+                    '&:focusWithin': {
                       borderColor: theme.colors.blue[5]
                     }
                   }
@@ -166,10 +167,11 @@ export default function LoginPage () {
                 error={form.errors.phoneNumber}
                 radius="md"
                 size="md"
+                className='flex-1'
                 leftSection={<IconPhone size={16} stroke={1.5} />}
                 styles={(theme) => ({
                   input: {
-                    '&:focus-within': {
+                    '&:focusWithin': {
                       borderColor: theme.colors.blue[5]
                     }
                   }

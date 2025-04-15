@@ -86,9 +86,9 @@ export default function RegistrationPage () {
   }
 
   return (
-    <Container size={460} my={40}>
+    <Container size={460} my={30}>
       <style>{hoverPaperStyles}</style>
-      <Box mb={30} ta="center">
+      <Box mb={10} ta="center">
         <Title 
           order={1} 
           fw={900} 
@@ -118,7 +118,7 @@ export default function RegistrationPage () {
         }}
         className="hover-paper"
       >
-        <Title order={3} ta="center" mb={25} fw={600}>
+        <Title order={3} ta="center" mb={5} fw={600}>
           Create Account
         </Title>
         
@@ -192,6 +192,7 @@ export default function RegistrationPage () {
                 error={form.errors.phoneNumber}
                 radius="md"
                 size="md"
+                  className='flex-1'
                 leftSection={<IconPhone size={16} stroke={1.5} />}
                 styles={(theme) => ({
                   input: {

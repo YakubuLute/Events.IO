@@ -8,7 +8,7 @@ import { DatePicker } from '@mantine/dates'
 import { IconUpload } from '@tabler/icons-react'
 import { useCreateEvent } from '@/hooks/hooks'
 import { showNotification } from '@/components/shared/notification/mantine-notification'
-import { IEvent, IEventPayload } from '@/interface/interface'
+import {  IEventPayload } from '@/interface/interface'
 
 export default function CreateEventPage() {
   const [active, setActive] = useState(0)
