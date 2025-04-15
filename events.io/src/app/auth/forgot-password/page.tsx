@@ -15,6 +15,7 @@ import { useForm } from '@mantine/form'
 import { showNotification } from '@/components/shared/notification/mantine-notification'
 import { IconAt, IconArrowLeft } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
+import { useForgotPassword } from '@/hooks/hooks'
 
 // global styles for the hover effect
 const hoverPaperStyles = `
@@ -44,20 +45,39 @@ export default function ForgotPasswordPage() {
     },
   });
 
+  const { isPending, mutate: forgotPassword } = useForgotPassword({
+    onSuccess: (data) => {
+      showNotification({
+        type: 'success',
+        message: data.message || 'Password reset instructions sent to your email',
+      });
+      
+      // In development, show the OTP and token for testing purposes
+      if (data._dev_only_otp && data._dev_only_token) {
+        console.log('Development mode - Reset password OTP:', data._dev_only_otp);
+        console.log('Development mode - Reset password token:', data._dev_only_token);
+        
+        showNotification({
+          type: 'info',
+          message: `DEV MODE: OTP is ${data._dev_only_otp}`,
+        });
+      }
+      
+      // Redirect to login page after a delay
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 3000);
+    },
+    onError: (error) => {
+      showNotification({
+        type: 'error',
+        message: error.message || 'Failed to send reset instructions',
+      });
+    },
+  });
+
   const handleSubmit = (values: ForgotPasswordFormValues) => {
-   
-    console.log('Sending password reset email to:', values.email);
-    
-    // Show success notification
-    showNotification({
-      type: 'success',
-      message: 'Password reset instructions sent to your email',
-    });
-    
-    // Optionally redirect to login page after a delay
-    setTimeout(() => {
-      router.push('/auth/login');
-    }, 3000);
+    forgotPassword(values.email);
   };
 
   return (
@@ -123,6 +143,7 @@ export default function ForgotPasswordPage() {
               radius="md" 
               size="md"
               fullWidth
+              loading={isPending}
               color={theme.colors.blue[7]}
             >
               Send Reset Instructions
