@@ -131,11 +131,11 @@ export default function DashboardPage() {
         <Grid.Col span={8}>
           <Paper p="md" radius="md" withBorder mb="md">
             <Title order={3} mb="md">Your Events</Title>
-            {events.slice(0, 2).map((event) => (
-              <div className='w-full grid grid-cols-2 gap-4' key={event._id}>
-                <DashboardEventCard event={event} />
-              </div>
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {events.slice(0, 2).map((event) => (
+                <DashboardEventCard key={event._id} event={event} />
+              ))}
+            </div>
             <Button variant="subtle" color="blue" mt="md" fullWidth>View All Events</Button>
           </Paper>
         </Grid.Col>

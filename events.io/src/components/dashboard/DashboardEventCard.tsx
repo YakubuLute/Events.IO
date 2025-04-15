@@ -48,15 +48,15 @@ export default function DashboardEventCard({ event }: { event: IEvent }) {
           <Text fw={700} size="lg">{event.title}</Text>
           <Menu withinPortal position="bottom-end" shadow="sm">
             <Menu.Target>
-              <ActionIcon>
+              <Button variant="light" size="xs">
                 <IconDots size={16} />
-              </ActionIcon>
+              </Button>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item icon={<IconEye size={16} />}>View Event</Menu.Item>
-              <Menu.Item icon={<IconEdit size={16} />}>Edit Event</Menu.Item>
-              <Menu.Item icon={<IconCopy size={16} />}>Duplicate</Menu.Item>
-              <Menu.Item color="red" icon={<IconTrash size={16} />}>Delete Event</Menu.Item>
+              <Menu.Item leftSection={<IconEye size={16} />}>View Event</Menu.Item>
+              <Menu.Item leftSection={<IconEdit size={16} />}>Edit Event</Menu.Item>
+              <Menu.Item leftSection={<IconCopy size={16} />}>Duplicate</Menu.Item>
+              <Menu.Item  color="red" leftSection={<IconTrash size={16} />}>Delete Event</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         </Group>
