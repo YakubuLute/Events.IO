@@ -91,14 +91,14 @@ export default function CreateEventPage() {
       // Handle image uploads
     }
     
-    createEvent(eventData)
+    createEvent(eventData as any)
   }
   
   return (
     <div>
       <Title order={2} mb="xl">Create New Event</Title>
       
-      <Stepper active={active} onStepClick={setActive} breakpoint="sm" mb="xl">
+      <Stepper active={active} onStepClick={setActive} mb="xl">
         <Stepper.Step label="Basic Info" description="Event details">
           <Paper p="xl" radius="md" withBorder>
             <Title order={3} mb="md">Event Details</Title>
