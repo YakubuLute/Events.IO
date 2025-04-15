@@ -49,24 +49,28 @@ export default function ForgotPasswordPage() {
     onSuccess: (data) => {
       showNotification({
         type: 'success',
-        message: data.message || 'Password reset instructions sent to your email',
+        message: 'Password reset link generated successfully',
       });
       
-      // In development, show the OTP and token for testing purposes
-      if (data._dev_only_otp && data._dev_only_token) {
-        console.log('Development mode - Reset password OTP:', data._dev_only_otp);
+      // In development, show the token for testing purposes
+      if (data._dev_only_token) {
         console.log('Development mode - Reset password token:', data._dev_only_token);
         
+        // Redirect to reset password page with token and email
+        router.push(`/auth/reset-password?token=${data._dev_only_token}&email=${form.values.email}`);
+      } else {
+        // In production, we would send an email with the reset link
+        // For now, just show a message
         showNotification({
           type: 'info',
-          message: `DEV MODE: OTP is ${data._dev_only_otp}`,
+          message: 'In production, an email would be sent with the reset link',
         });
+        
+        // Simulate redirect after delay (in production, user would click link in email)
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 3000);
       }
-      
-      // Redirect to login page after a delay
-      setTimeout(() => {
-        router.push('/auth/login');
-      }, 3000);
     },
     onError: (error) => {
       showNotification({
