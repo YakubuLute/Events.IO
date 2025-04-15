@@ -3,6 +3,7 @@ import { Card, Image, Text, Badge, Group, Button, ActionIcon, Menu } from '@mant
 import { IconDots, IconEdit, IconTrash, IconEye, IconCopy } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
+import { IEvent } from '@/interface/interface'
 
 // Define styles as objects instead of using createStyles
 const styles = {
@@ -20,7 +21,7 @@ const styles = {
   },
 }
 
-export default function DashboardEventCard({ event }) {
+export default function DashboardEventCard({ event }: { event: IEvent }) {
   const router = useRouter()
   
   const statusColor = {
@@ -32,12 +33,13 @@ export default function DashboardEventCard({ event }) {
   }
   
   return (
-    <Card withBorder radius="md" p="md" style={styles.card}>
+    <Card withBorder radius="md" p={30} style={styles.card}>
       <Card.Section>
         <Image
           src={event.bannerImage || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4'}
           height={180}
           alt={event.title}
+          className='rounded-lg'
         />
       </Card.Section>
 
@@ -67,7 +69,7 @@ export default function DashboardEventCard({ event }) {
         <Text style={styles.label} c="dimmed">
           Event Details
         </Text>
-        <Group spacing={8} mt={5}>
+        <Group  mt={5}>
           <Badge color={statusColor[event.status] || 'gray'}>
             {event.status}
           </Badge>
