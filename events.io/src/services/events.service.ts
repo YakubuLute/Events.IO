@@ -47,6 +47,16 @@ class EventService {
     const response = await api.post<{ message: string }>('/auth/logout')
     return response.data
   }
+
+  async forgotPassword (email: string) {
+    const response = await api.post<{ success: boolean; message: string; _dev_only_otp?: number; _dev_only_token?: string }>('/auth/forgot-password', { email })
+    return response.data
+  }
+
+  async resetPassword (resetData: { email: string; otp?: number; token?: string; newPassword: string }) {
+    const response = await api.post<{ success: boolean; message: string }>('/auth/reset-password', resetData)
+    return response.data
+  }
   async createEvent (eventData: Partial<IEvent>) {
     const response = await api.post<IEvent>('/events/create', eventData)
     return response.data

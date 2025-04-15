@@ -210,3 +210,38 @@ export const useVerifyEmailOtp = ({
   })
   return { isPending, mutate }
 }
+
+// Forgot Password Hook
+export const useForgotPassword = ({
+  onSuccess,
+  onError
+}: {
+  onSuccess?: (data: { success: boolean; message: string; _dev_only_otp?: number; _dev_only_token?: string }) => void
+  onError?: (error: Error) => void
+}) => {
+  const { isPending, mutate } = useMutation({
+    mutationKey: ['forgotPassword'],
+    mutationFn: async (email: string) => await service.forgotPassword(email),
+    onSuccess,
+    onError
+  })
+  return { isPending, mutate }
+}
+
+// Reset Password Hook
+export const useResetPassword = ({
+  onSuccess,
+  onError
+}: {
+  onSuccess?: (data: { success: boolean; message: string }) => void
+  onError?: (error: Error) => void
+}) => {
+  const { isPending, mutate } = useMutation({
+    mutationKey: ['resetPassword'],
+    mutationFn: async (resetData: { email: string; otp?: number; token?: string; newPassword: string }) =>
+      await service.resetPassword(resetData),
+    onSuccess,
+    onError
+  })
+  return { isPending, mutate }
+}

@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 'use client'
 import { useState } from 'react'
 import { useForm } from '@mantine/form'
 import { TextInput, Textarea, Button, Group, Paper, Title, Select, MultiSelect, NumberInput, Divider, Grid, FileInput, Text, Stepper } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
-import { IconUpload, IconCalendar } from '@tabler/icons-react'
+import { IconUpload } from '@tabler/icons-react'
 import { useCreateEvent } from '@/hooks/hooks'
 import { showNotification } from '@/components/shared/notification/mantine-notification'
+import {  IEventPayload } from '@/interface/interface'
 
 export default function CreateEventPage() {
   const [active, setActive] = useState(0)
@@ -64,7 +66,7 @@ export default function CreateEventPage() {
     }
   })
   
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: IEventPayload) => {
     // Transform form values to event data structure
     const eventData = {
       title: values.title,
@@ -89,14 +91,14 @@ export default function CreateEventPage() {
       // Handle image uploads
     }
     
-    createEvent(eventData)
+    createEvent(eventData as any)
   }
   
   return (
     <div>
       <Title order={2} mb="xl">Create New Event</Title>
       
-      <Stepper active={active} onStepClick={setActive} breakpoint="sm" mb="xl">
+      <Stepper active={active} onStepClick={setActive} mb="xl">
         <Stepper.Step label="Basic Info" description="Event details">
           <Paper p="xl" radius="md" withBorder>
             <Title order={3} mb="md">Event Details</Title>

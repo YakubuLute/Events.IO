@@ -86,9 +86,9 @@ export default function RegistrationPage () {
   }
 
   return (
-    <Container size={460} my={40}>
+    <Container size={490} my={30}>
       <style>{hoverPaperStyles}</style>
-      <Box mb={30} ta="center">
+      <Box mb={10} ta="center">
         <Title 
           order={1} 
           fw={900} 
@@ -118,7 +118,7 @@ export default function RegistrationPage () {
         }}
         className="hover-paper"
       >
-        <Title order={3} ta="center" mb={25} fw={600}>
+        <Title order={3} ta="center" mb={5} fw={600}>
           Create Account
         </Title>
         
@@ -162,7 +162,7 @@ export default function RegistrationPage () {
               })}
             />
 
-            <Group grow align="flex-start" style={{ gap: '8px' }}>
+            <div className="flex flex-col sm:flex-row gap-2 w-full mb-3">
               <Select
                 required
                 label="Country Code"
@@ -174,12 +174,17 @@ export default function RegistrationPage () {
                 radius="md"
                 size="md"
                 searchable
+                className="w-full sm:w-[35%]"
                 leftSection={<IconWorld size={16} stroke={1.5} />}
                 styles={(theme) => ({
                   input: {
                     '&:focusWithin': {
                       borderColor: theme.colors.blue[5]
-                    }
+                    },
+                    width: '100%'
+                  },
+                  root: {
+                    width: '100%'
                   }
                 })}
               />
@@ -192,16 +197,21 @@ export default function RegistrationPage () {
                 error={form.errors.phoneNumber}
                 radius="md"
                 size="md"
+                className="w-full"
                 leftSection={<IconPhone size={16} stroke={1.5} />}
                 styles={(theme) => ({
                   input: {
                     '&:focusWithin': {
                       borderColor: theme.colors.blue[5]
-                    }
+                    },
+                    width: '100%'
+                  },
+                  root: {
+                    width: '100%'
                   }
                 })}
               />
-            </Group>
+            </div>
             <PasswordInput
               required
               label="Password"

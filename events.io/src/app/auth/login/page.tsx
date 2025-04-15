@@ -21,6 +21,7 @@ import { showNotification } from '@/components/shared/notification/mantine-notif
 import { countryCodes } from '@/utils/countryCodeList'
 import { LoginFormValues } from '@/interface/interface'
 import { IconAt, IconLock, IconPhone, IconWorld } from '@tabler/icons-react'
+import { useRouter } from 'next/navigation'
 
 // Add global styles for the hover effect
 const hoverPaperStyles = `
@@ -83,8 +84,9 @@ export default function LoginPage () {
     })
   }
 
+  const router = useRouter();
   return (
-    <Container size={460} my={40}>
+    <Container size={490} my={30}>
       <style>{hoverPaperStyles}</style>
       <Box mb={30} ta="center">
         <Title 
@@ -136,7 +138,7 @@ export default function LoginPage () {
               })}
             />
             
-            <Divider label="Or use phone number" labelPosition="center" my="xs" />
+            <Divider label="Or use phone number" labelPosition="center" />
             
             <Group grow align="flex-start" style={{ gap: '8px' }}>
               <Select
@@ -148,11 +150,12 @@ export default function LoginPage () {
                 error={form.errors.countryCode}
                 radius="md"
                 size="md"
+                className='w-[35%]'
                 searchable
                 leftSection={<IconWorld size={16} stroke={1.5} />}
                 styles={(theme) => ({
                   input: {
-                    '&:focus-within': {
+                    '&:focusWithin': {
                       borderColor: theme.colors.blue[5]
                     }
                   }
@@ -166,10 +169,11 @@ export default function LoginPage () {
                 error={form.errors.phoneNumber}
                 radius="md"
                 size="md"
+                className='flex-1'
                 leftSection={<IconPhone size={16} stroke={1.5} />}
                 styles={(theme) => ({
                   input: {
-                    '&:focus-within': {
+                    '&:focusWithin': {
                       borderColor: theme.colors.blue[5]
                     }
                   }
@@ -197,7 +201,7 @@ export default function LoginPage () {
             />
             
             <Group justify="space-between" mt="xs">
-              <Anchor component="button" type="button" c="dimmed" size="sm" fw={500}>
+              <Anchor component="button" type="button" c="dimmed" size="sm" fw={500} onClick={() => router.push('/auth/forgot-password')}>
                 Forgot password?
               </Anchor>
             </Group>
