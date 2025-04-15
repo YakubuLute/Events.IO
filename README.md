@@ -88,3 +88,17 @@ MIT
 
 # registeration page screen 
 ![alt text](image-1.png)
+
+# forgot password page screen 
+![alt text](image-3.png)
+
+# reset password page screen 
+![alt text](image-4.png)
+
+# Landing page
+![alt text](image-5.png)
+
+# Event Details
+![alt text](image-6.png)
+
+![alt text](image-7.png)
