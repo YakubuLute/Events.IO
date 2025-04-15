@@ -1,5 +1,35 @@
 import { Document, Schema } from 'mongoose'
 
+// Form ticket type interface - simplified version of ITicketType for form use
+export interface FormTicketType {
+  name: string
+  price: number
+  quantity: number
+  description: string
+  ticketStatus: 'available' | 'unavailable'
+}
+
+// Event form data interface - this represents the structure of the form values
+export interface IEventPayload {
+  title: string
+  description: string
+  category: string[]
+  tags: string[]
+  startDate: string
+  endDate: string
+  timezone: string
+  venueName: string
+  venueAddress: string
+  venueCity: string
+  venueCountry: string
+  venuePostalCode: string
+  capacity: number
+  visibility: 'public' | 'private' | 'unlisted'
+  ticketTypes: FormTicketType[]
+  bannerImage: File | null
+  images: File[] | null
+}
+
 // Custom error interface
 export interface CustomError extends Error {
   code?: number
@@ -94,6 +124,12 @@ export interface IEvent extends Document {
   cancellation?: ICancellation
   settings: IEventSettings
   reviews?: IReview[]
+}
+
+export interface IEventPayload extends IEvent {
+  schedule: ISchedule
+  ticketTypes: FormTicketType[]
+  venue: IVenue
 }
 
 // Video interface

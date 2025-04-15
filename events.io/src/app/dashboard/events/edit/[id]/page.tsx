@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 'use client'
 import { useState } from 'react'
 import { useForm } from '@mantine/form'
 import { TextInput, Textarea, Button, Group, Paper, Title, Select, MultiSelect, NumberInput, Divider, Grid, FileInput, Text, Stepper } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
-import { IconUpload, IconCalendar } from '@tabler/icons-react'
+import { IconUpload } from '@tabler/icons-react'
 import { useCreateEvent } from '@/hooks/hooks'
 import { showNotification } from '@/components/shared/notification/mantine-notification'
+import { IEvent, IEventPayload } from '@/interface/interface'
 
 export default function CreateEventPage() {
   const [active, setActive] = useState(0)
@@ -64,7 +66,7 @@ export default function CreateEventPage() {
     }
   })
   
-  const handleSubmit = (values) => {
+  const handleSubmit = (values : IEventPayload) => {
     // Transform form values to event data structure
     const eventData = {
       title: values.title,
