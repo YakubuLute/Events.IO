@@ -126,7 +126,8 @@ export interface IEvent extends Document {
   reviews?: IReview[]
 }
 
-export interface IEventPayload extends IEvent {
+// Event payload for API responses - extends IEvent with specific field overrides
+export interface IEventResponse extends Omit<IEvent, 'ticketTypes'> {
   schedule: ISchedule
   ticketTypes: FormTicketType[]
   venue: IVenue

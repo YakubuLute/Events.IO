@@ -66,7 +66,7 @@ export default function CreateEventPage() {
     }
   })
   
-  const handleSubmit = (values : IEventPayload) => {
+  const handleSubmit = (values: IEventPayload) => {
     // Transform form values to event data structure
     const eventData = {
       title: values.title,
