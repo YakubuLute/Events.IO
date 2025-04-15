@@ -18,5 +18,5 @@ export const theme = createTheme({
     ]
   },
   primaryColor: 'purple',
-  fontFamily: "'Varela Round', sans-serif",
+  fontFamily: "'Work Sans', sans-serif",
 })

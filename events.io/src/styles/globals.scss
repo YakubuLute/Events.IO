@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&display=swap');
 
 @import 'variables.globals';
 @import '@/scss/main.scss';
@@ -7,7 +7,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Work Sans', sans-serif;
 }
 
 html,
@@ -18,7 +18,7 @@ body {
   width: 100vw;
   // overflow-x: hidden;
   color: var(--text);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Work Sans', sans-serif;
   scroll-behavior: smooth;
 }
 

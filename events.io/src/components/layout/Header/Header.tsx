@@ -19,6 +19,7 @@ const HeaderComponent = () => {
             className={classes.logo}
             fw={700}
             size='xl'
+            style={{ fontFamily: 'Work Sans, sans-serif', cursor:'pointer' }}
           >
             Events.IO
           </Text>
